@@ -1,0 +1,53 @@
+{
+    "category": "plugins",
+    "display": "DocSpring - Get PDF Submission",
+    "fields": {
+        "AAa": {
+            "caption": "Submission ID",
+            "doc": "Starts with 'sub_' prefix. This is returned from the \"Create PDF Submission\" action.",
+            "editor": "DynamicValue",
+            "name": "submissionId",
+            "rank": 0,
+            "value": "text"
+        }
+    },
+    "return_value": {
+        "AAb": {
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
+        },
+        "AAc": {
+            "caption": "ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
+        },
+        "AAd": {
+            "caption": "Submission State",
+            "name": "state",
+            "rank": 2,
+            "value": "text"
+        },
+        "AAe": {
+            "caption": "PDF File",
+            "name": "file",
+            "rank": 3,
+            "value": "file"
+        },
+        "AAf": {
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 4,
+            "value": "text"
+        },
+        "AAi": {
+            "caption": "Permanent PDF File",
+            "name": "permanentFile",
+            "rank": 5,
+            "value": "file"
+        }
+    },
+    "type": "server_side"
+}

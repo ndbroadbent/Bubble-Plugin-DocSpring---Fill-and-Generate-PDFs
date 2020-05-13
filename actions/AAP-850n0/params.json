@@ -1,0 +1,85 @@
+{
+    "category": "plugins",
+    "display": "DocSpring - Create PDF Submission",
+    "fields": {
+        "AAQ": {
+            "caption": "Template ID",
+            "doc": "Starts with 'tpl_' prefix, and can be obtained from your DocSpring account.",
+            "editor": "DynamicValue",
+            "name": "templateId",
+            "rank": 0,
+            "value": "text"
+        },
+        "AAR": {
+            "caption": "Data",
+            "doc": "These are the variables which can be forwarded to DocSpring to be filled in your template. Example: Adding a text field into your template with the name 'firstName' and setting the value of 'firstName' in this action to 'John' will result in 'John' being added to your submission.",
+            "editor": "key_value_list",
+            "name": "data",
+            "rank": 1,
+            "value": "text"
+        },
+        "AAS": {
+            "caption": "Enable Booleans",
+            "default_val": false,
+            "doc": "If enabled, any fields with the exact value of \"true\" or \"false\" will be parsed as booleans (true and false) instead of as text.",
+            "editor": "Checkbox",
+            "name": "parseAsBoolean",
+            "rank": 2
+        },
+        "AAg": {
+            "caption": "Test Mode",
+            "default_val": false,
+            "doc": "Test PDFs are free, but they include watermarks. Set Test Mode to false to remove the watermarks (and make sure you are using a live API token. Test API tokens can only be used to generate test PDFs.)",
+            "editor": "Checkbox",
+            "name": "test",
+            "rank": 3
+        },
+        "AAj": {
+            "caption": "Metadata",
+            "doc": "Send some metadata for the PDF submission. Metadata cannot be used to fill out fields, but it will be sent with any webhooks, and you can see it in the web interface when you view a submission.",
+            "editor": "key_value_list",
+            "name": "metadata",
+            "rank": 4,
+            "value": "text"
+        }
+    },
+    "return_value": {
+        "AAT": {
+            "caption": "Submission ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
+        },
+        "AAU": {
+            "caption": "Submission State",
+            "name": "state",
+            "rank": 2,
+            "value": "text"
+        },
+        "AAV": {
+            "caption": "PDF File",
+            "name": "file",
+            "rank": 3,
+            "value": "file"
+        },
+        "AAW": {
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
+        },
+        "AAX": {
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 4,
+            "value": "text"
+        },
+        "AAh": {
+            "caption": "Permanent PDF File",
+            "name": "permanentFile",
+            "rank": 5,
+            "value": "file"
+        }
+    },
+    "type": "server_side"
+}

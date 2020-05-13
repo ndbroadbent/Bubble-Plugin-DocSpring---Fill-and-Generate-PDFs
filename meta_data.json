@@ -1,0 +1,16 @@
+{
+    "categories": {
+        "0": "productivity",
+        "1": "technical",
+        "2": "small business",
+        "3": "compliance",
+        "4": "ecommerce"
+    },
+    "demo_page": "https://docspring-demo.bubbleapps.io/version-test",
+    "description": "Use DocSpring.com to easily fill in PDF forms, or generate PDF documents from dynamic HTML/Liquid/CSS templates. Great for filling out tax and insurance forms, or generating invoices and contracts.",
+    "image": "//s3.amazonaws.com/appforest_uf/f1573478981354x490943152057405440/appIcon-512.png",
+    "license": "open_source",
+    "link": "https://docspring.com",
+    "name": "DocSpring - Fill and Generate PDFs",
+    "plugin_instructions": "This plugin provides an API integration for DocSpring. Sign up for a free trial at: https://docspring.com\n\n1. Create an API token in DocSpring. Set your API Token ID and Secret in the Plugins tab.\n2. Create a template in DocSpring. (Setting all field types to \"text\" may help you avoid any unnecessary errors.)\n3. Enable \"Allow Additional Properties in JSON Data\" in your template's Settings.\n4. Use the \"DocSpring - Create PDF Submission\" action in Workflows > Plugins to generate a PDF.\n5. The \"PDF File\" property will be available as a \"Result of Step X\" property. This is the download URL of the file.\n\nIMPORTANT: \"PDF File\" is a *temporary* URL that is only valid for 60 minutes. Please make sure that you use Bubble's \":saved to S3\" option so that Bubble will download the PDF and store it (see our demo app for an example.) If you don't use \"PDF File:saved to S3\", then you won't be able to access your PDF after 60 minutes.\n\n- You can change the name of the PDF file by setting the \"pdf_filename\" key under the metadata option. (You don't need to include .pdf at the end.) See our API documentation for more information: https://docspring.com/docs/api/generate_pdf.html\n\n\nFeedback\n------------------------------------\n\nPlease let us know about any bugs and issues at: bubble@docspring.com\n\n\nFurther Assistance\n------------------------------------\n\nIf you need help building your Bubble app, you can reach out to Copilot (https://withcopilot.com). They are Bubble experts who worked on the original \"PDF Filler\" plugin for DocSpring. Send an email to: plugins@withcopilot.com"
+}

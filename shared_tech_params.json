@@ -1,0 +1,15 @@
+{
+    "dependencies": {
+        "use_jquery": true
+    },
+    "shared_keys": {
+        "AAC": {
+            "caption": "Token ID",
+            "type": "secure"
+        },
+        "AAD": {
+            "caption": "Token Secret",
+            "type": "secure"
+        }
+    }
+}
