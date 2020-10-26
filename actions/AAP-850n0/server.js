@@ -1,4 +1,11 @@
 function(properties, context) {
+  if (!context.keys["Token ID"] || !context.keys["Token Secret"]) {
+      throw new Error("Please go to Plugins => 'DocSpring - Fill and Generate PDFs', " + 
+                      "then fill in the 'Token ID' and 'Token Secret' fields with your " + 
+                     "API token ID and secret. You can create a new API token here: " +
+                     "https://app.docspring.com/api_tokens");
+  }
+
   var auth = {
     user: context.keys["Token ID"].replace(/\s/g, "").replace("Bearer", ""),
     pass: context.keys["Token Secret"].replace(/\s/g, "").replace("Bearer", "")
