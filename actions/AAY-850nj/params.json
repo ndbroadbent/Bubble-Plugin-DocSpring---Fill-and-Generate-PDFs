@@ -47,6 +47,42 @@
             "name": "permanentFile",
             "rank": 5,
             "value": "file"
+        },
+        "AAn": {
+            "caption": "Date time of the submission being processed",
+            "name": "processedAt",
+            "rank": 6,
+            "value": "text"
+        },
+        "AAo": {
+            "caption": "MD5 Hash of the pdf file",
+            "name": "pdfHash",
+            "rank": 7,
+            "value": "text"
+        },
+        "AAp": {
+            "caption": "ID of template used",
+            "name": "templateId",
+            "rank": 8,
+            "value": "text"
+        },
+        "AAq": {
+            "caption": "Is the submission a test submission",
+            "name": "isTest",
+            "rank": 9,
+            "value": "boolean"
+        },
+        "AAr": {
+            "caption": "Expiry date of the submission",
+            "name": "expiresAt",
+            "rank": 10,
+            "value": "text"
+        },
+        "AAs": {
+            "caption": "Password used to encrypt the PDF",
+            "name": "password",
+            "rank": 11,
+            "value": "text"
         }
     },
     "type": "server_side"

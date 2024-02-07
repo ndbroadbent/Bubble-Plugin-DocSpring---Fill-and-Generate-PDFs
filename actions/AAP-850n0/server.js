@@ -1,9 +1,9 @@
-function(properties, context) {
+async function(properties, context) {
   if (!context.keys["Token ID"] || !context.keys["Token Secret"]) {
-      throw new Error("Please go to Plugins => 'DocSpring - Fill and Generate PDFs', " + 
-                      "then fill in the 'Token ID' and 'Token Secret' fields with your " + 
-                     "API token ID and secret. You can create a new API token here: " +
-                     "https://app.docspring.com/api_tokens");
+    throw new Error("Please go to Plugins => 'DocSpring - Fill and Generate PDFs', " + 
+                    "then fill in the 'Token ID' and 'Token Secret' fields with your " + 
+                   "API token ID and secret. You can create a new API token here: " +
+                   "https://app.docspring.com/api_tokens");
   }
 
   var auth = {
@@ -17,26 +17,10 @@ function(properties, context) {
     auth: auth,
     json: {
       test: properties.test,
-      data: {},
-      metadata: {},
+      data: {}
     }
   };
-  
-  properties.metadata.forEach(item => {
-    if (!item.key) return;
-    var value;
-    if (
-      properties.parseAsBoolean &&
-      (item.value === "true" || item.value === "false")
-    ) {
-      value = item.value === "true";
-    } else {
-      value = item.value;
-    }
-    createSubmissionOptions.json.metadata[item.key] = value;
-  })
-    
-    
+
   properties.data.forEach(item => {
     var value;
     if (
@@ -78,7 +62,7 @@ function(properties, context) {
 
   console.log(`Creating submission for template ${properties.templateId}...`);
   // The request library automatically parses the JSON from the response.
-  var createResponse = context.request(createSubmissionOptions);
+  var createResponse = await context.v3.request(createSubmissionOptions);
 
   if (
     !createResponse ||
@@ -92,28 +76,28 @@ function(properties, context) {
     );
     return {
       success: false,
-      errorMessage: "Could not create submission."
+      errorMessage: "Could not create submission.",
+      response: JSON.stringify(createResponse.body)
     };
   }
   var submission = createResponse.body.submission;
+  var getSubmissionURL = `https://api.docspring.com/api/v1/submissions/${submission.id}`;
 
   var getSubmissionOptions = {
     method: "GET",
-    uri: `https://api.docspring.com/api/v1/submissions/${submission.id}`,
+    uri: getSubmissionURL,
     auth: auth
   };
-
+    
   var retryCount = 0;
   while (submission.state === "pending") {
     console.log(
       `Waiting 1s before polling for submission status (${submission.id})...`
     );
-    context.async(callback => {
-      setTimeout(() => {
-        callback(null, null);
-      }, 1000);
-    });
-    var getResponse = context.request(getSubmissionOptions);
+
+	await new Promise(resolve => setTimeout(resolve, 1000));
+
+    var getResponse = await context.v3.request(getSubmissionOptions);
     if (!getResponse || !getResponse.body) {
       console.log(
         "Error fetching submission! Response:",
@@ -122,7 +106,7 @@ function(properties, context) {
       );
       return {
         success: false,
-        errorMessage: `Could not fetch submission with id: ${submission.id}`
+        errorMessage: `Could not fetch submission with id: ${submission.id}. URL: ${getSubmissionURL}`
       };
     }
     // The request library doesn't automatically parse the JSON from this response,
@@ -144,7 +128,8 @@ function(properties, context) {
     state: submission.state,
     file: submission.download_url,
     permanentFile: submission.permanent_download_url,
-    errorMessage: null
+    errorMessage: null,
+    response: JSON.stringify(submission)
   };
 
   console.log("Returning result:", result);

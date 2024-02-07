@@ -79,6 +79,12 @@
             "name": "permanentFile",
             "rank": 5,
             "value": "file"
+        },
+        "AAl": {
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 6,
+            "value": "text"
         }
     },
     "type": "server_side"

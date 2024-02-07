@@ -1,9 +1,9 @@
-function(properties, context) {
+async function(properties, context) {
   if (!context.keys["Token ID"] || !context.keys["Token Secret"]) {
-      throw new Error("Please go to Plugins => 'DocSpring - Fill and Generate PDFs', " + 
-                      "then fill in the 'Token ID' and 'Token Secret' fields with your " + 
-                      "API token ID and secret. You can create a new API token here: " +
-                      "https://app.docspring.com/api_tokens");
+    throw new Error("Please go to Plugins => 'DocSpring - Fill and Generate PDFs', " + 
+                    "then fill in the 'Token ID' and 'Token Secret' fields with your " + 
+                   "API token ID and secret. You can create a new API token here: " +
+                   "https://app.docspring.com/api_tokens");
   }
 
   var auth = {
@@ -17,21 +17,26 @@ function(properties, context) {
     auth: auth
   };
 
-  var getResponse = context.request(getSubmissionOptions);
-  if (!getResponse || !getResponse.body) {
-    console.log(
+    
+  var getResponse = await context.v3.request(getSubmissionOptions);
+
+  if (
+    !getResponse ||
+    !getResponse.body
+  ) {
+	console.log(
       "Error fetching submission! Response:",
       getResponse.statusCode,
       getResponse.body
     );
     return {
       success: false,
-      errorMessage: `Could not fetch submission with id: ${submission.id}`
+      errorMessage: `Could not fetch submission with id: ${properties.submissionId}`
     };
   }
   // The request library doesn't automatically parse the JSON from this response,
   // so we have to do it manually.
-  submission = JSON.parse(getResponse.body);
+  var submission = JSON.parse(getResponse.body);
 
   console.log("Returning submission:", submission);
   return {
@@ -40,6 +45,13 @@ function(properties, context) {
     state: submission.state,
     file: submission.download_url,
     permanentFile: submission.permanent_download_url,
-    errorMessage: null
+    errorMessage: null,
+    processedAt: submission.processed_at,
+    pdfHash: submission.pdf_hash,
+    templateId: submission.template_id,
+    isTest: submission.test,
+    expiresAt: submission.expires_at,
+    password: submission.password,
+    
   };
 }
