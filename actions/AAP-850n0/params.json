@@ -30,9 +30,11 @@
             "caption": "Test Mode",
             "default_val": false,
             "doc": "Test PDFs are free, but they include watermarks. Set Test Mode to false to remove the watermarks (and make sure you are using a live API token. Test API tokens can only be used to generate test PDFs.)",
-            "editor": "Checkbox",
+            "editor": "DynamicValue",
             "name": "test",
-            "rank": 3
+            "optional": true,
+            "rank": 3,
+            "value": "boolean"
         },
         "AAj": {
             "caption": "Metadata",

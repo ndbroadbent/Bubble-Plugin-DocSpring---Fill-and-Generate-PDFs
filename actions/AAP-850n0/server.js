@@ -10,16 +10,41 @@ async function(properties, context) {
     user: context.keys["Token ID"].replace(/\s/g, "").replace("Bearer", ""),
     pass: context.keys["Token Secret"].replace(/\s/g, "").replace("Bearer", "")
   };
+    
+  const validateMetadata = (metadata) => {
+    if (!Array.isArray(metadata)) return metadata;
+    return metadata.reduce((obj, { key, value }) => ({ ...obj, [key]: value }), {});
+  };
+
+  function get_api_region_url(region) {
+    try {
+      const url = new URL(region);
+      if (url.protocol === "http:" || url.protocol === "https:") {
+        return region;
+      }
+    } catch {
+      if (region === "EU") {
+        return `https://api-eu.docspring.com/api/v1`;
+      } else {
+        return `https://api.docspring.com/api/v1`;
+      }
+    }
+  }
+
+  var api_base_url = get_api_region_url(context.keys["Region"]);
+
 
   var createSubmissionOptions = {
     method: "POST",
-    uri: `https://api.docspring.com/api/v1/templates/${properties.templateId}/submissions`,
+    uri: `${api_base_url}/templates/${properties.templateId}/submissions`,
     auth: auth,
     json: {
       test: properties.test,
-      data: {}
-    }
+      metadata: validateMetadata(properties.metadata),
+      data: {},
+    },
   };
+
 
   properties.data.forEach(item => {
     var value;
@@ -81,7 +106,7 @@ async function(properties, context) {
     };
   }
   var submission = createResponse.body.submission;
-  var getSubmissionURL = `https://api.docspring.com/api/v1/submissions/${submission.id}`;
+  var getSubmissionURL = `${api_base_url}/submissions/${submission.id}`;
 
   var getSubmissionOptions = {
     method: "GET",

@@ -11,10 +11,28 @@ async function(properties, context) {
     pass: context.keys["Token Secret"].replace(/\s/g, "").replace("Bearer", "")
   };
 
+  function get_api_region_url(region) {
+    try {
+      const url = new URL(region);
+      if (url.protocol === "http:" || url.protocol === "https:") {
+        return region;
+      }
+    } catch {
+      if (region === "EU") {
+        return `https://api-eu.docspring.com/api/v1`;
+      } else {
+        return `https://api.docspring.com/api/v1`;
+      }
+    }
+  }
+
+  var api_base_url = get_api_region_url(context.keys["Region"]);
+
+
   var getSubmissionOptions = {
     method: "GET",
-    uri: `https://api.docspring.com/api/v1/submissions/${properties.submissionId}`,
-    auth: auth
+    uri: `${api_base_url}/submissions/${properties.submissionId}`,
+    auth: auth,
   };
 
     

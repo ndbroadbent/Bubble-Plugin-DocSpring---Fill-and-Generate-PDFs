@@ -11,6 +11,10 @@
         "AAD": {
             "caption": "Token Secret",
             "type": "secure"
+        },
+        "ABh": {
+            "caption": "Region",
+            "type": "secure"
         }
     }
 }
