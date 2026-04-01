@@ -9,6 +9,7 @@
     "data_tracked": false,
     "demo_page": "https://docspring-demo.bubbleapps.io/version-test",
     "description": "Use DocSpring.com to easily fill in PDF forms, or generate PDF documents from dynamic HTML/Liquid/CSS templates. Great for filling out tax and insurance forms, or generating invoices and contracts.",
+    "designed_for": "both",
     "image": "//s3.amazonaws.com/appforest_uf/f1573478981354x490943152057405440/appIcon-512.png",
     "license": "open_source",
     "link": "https://docspring.com",
