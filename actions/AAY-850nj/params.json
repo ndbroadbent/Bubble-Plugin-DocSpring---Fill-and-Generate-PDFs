@@ -83,6 +83,18 @@
             "name": "password",
             "rank": 11,
             "value": "text"
+        },
+        "ABr": {
+            "caption": "Region Info",
+            "name": "regionInfo",
+            "rank": 12,
+            "value": "text"
+        },
+        "ABs": {
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 13,
+            "value": "text"
         }
     },
     "type": "server_side"

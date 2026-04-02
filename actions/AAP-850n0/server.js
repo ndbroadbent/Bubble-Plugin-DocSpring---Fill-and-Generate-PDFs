@@ -8,11 +8,15 @@ async function(properties, context) {
     );
   }
 
-  // Strip whitespace and "Bearer" prefix from credentials, since users
-  // sometimes paste the full Authorization header value by mistake.
-  var auth = {
-    user: context.keys["Token ID"].replace(/\s/g, "").replace("Bearer", ""),
-    pass: context.keys["Token Secret"].replace(/\s/g, "").replace("Bearer", "")
+  const MAX_POLL_ATTEMPTS = 45;
+  const POLL_INTERVAL_MS = 1000;
+  const US_URL = "https://api.docspring.com/api/v1";
+  const EU_URL = "https://api-eu.docspring.com/api/v1";
+  const AU_URL = "https://api-au.docspring.com/api/v1";
+
+  const auth = {
+    user: context.keys["Token ID"].replace(/\s/g, "").replace(/Bearer/i, ""),
+    pass: context.keys["Token Secret"].replace(/\s/g, "").replace(/Bearer/i, "")
   };
 
   const validateMetadata = (metadata) => {
@@ -20,17 +24,16 @@ async function(properties, context) {
     return metadata.reduce((obj, { key, value }) => ({ ...obj, [key]: value }), {});
   };
 
-  // Resolve the user's Region plugin setting to an API base URL.
-  // Accepts "US" (default), "EU", "AU", or a full http(s) URL for
-  // custom/self-hosted endpoints. Invalid values fall back to US
-  // with a warning message.
-  function resolveApiRegion(input) {
+  const parseResponseBody = (body) => {
+    if (typeof body === "string") {
+      return JSON.parse(body);
+    }
+    return body;
+  };
+
+  const resolveApiRegion = (input) => {
     const raw = String(input || "").trim();
     const normalized = raw.toUpperCase();
-
-    const US_URL = "https://api.docspring.com/api/v1";
-    const EU_URL = "https://api-eu.docspring.com/api/v1";
-    const AU_URL = "https://api-au.docspring.com/api/v1";
 
     if (!raw || normalized === "US") {
       return {
@@ -64,7 +67,6 @@ async function(properties, context) {
 
       if (url.protocol === "http:" || url.protocol === "https:") {
         return {
-          unusedKey: "somedata",
           apiBaseUrl: raw.replace(/\/+$/, ""),
           region: "CUSTOM",
           usedFallback: false,
@@ -90,75 +92,93 @@ async function(properties, context) {
           `http(s) API URL. Defaulted to US server.`
       };
     }
-  }
+  };
 
   const regionInfo = resolveApiRegion(context.keys["Region"]);
-  var api_base_url = regionInfo.apiBaseUrl;
+  const serializedRegionInfo = JSON.stringify(regionInfo);
+  const apiBaseUrl = regionInfo.apiBaseUrl;
 
   if (regionInfo.warningMessage) {
     console.warn(regionInfo.warningMessage);
   }
 
-  var createSubmissionOptions = {
+  const createSubmissionOptions = {
     method: "POST",
-    uri: `${api_base_url}/templates/${properties.templateId}/submissions`,
+    uri: `${apiBaseUrl}/templates/${properties.templateId}/submissions`,
     auth: auth,
     json: {
       test: properties.test,
       metadata: validateMetadata(properties.metadata),
-      data: {},
-    },
+      data: {}
+    }
   };
 
-  properties.data.forEach(item => {
-    var value;
-    if (
-      properties.parseAsBoolean &&
-      (item.value === "true" || item.value === "false")
-    ) {
-      value = item.value === "true";
-    } else {
-      value = item.value;
-    }
+  const dataItems = Array.isArray(properties.data) ? properties.data : [];
 
-    if (!item.key) {
+  dataItems.forEach((item) => {
+    if (!item || !item.key) {
       return;
     }
 
-    var keyParts = item.key.split("/");
-    var cursor = createSubmissionOptions.json.data;
+    const value =
+      properties.parseAsBoolean &&
+      (item.value === "true" || item.value === "false")
+        ? item.value === "true"
+        : item.value;
 
-    keyParts.forEach(function(keyPart, i) {
+    const keyParts = item.key.split("/");
+    let cursor = createSubmissionOptions.json.data;
+
+    keyParts.forEach((keyPart, i) => {
       if (i === 0) {
         return;
       }
 
-      var previousKeyPart = keyParts[i - 1];
-      if (/^[0-9]+$/.test(keyPart)) {
-        cursor[previousKeyPart] = cursor[previousKeyPart] || [];
-      } else {
-        cursor[previousKeyPart] = cursor[previousKeyPart] || {};
+      const previousKeyPart = keyParts[i - 1];
+      const shouldBeArray = /^[0-9]+$/.test(keyPart);
+      const existingValue = cursor[previousKeyPart];
+
+      if (existingValue == null) {
+        cursor[previousKeyPart] = shouldBeArray ? [] : {};
+      } else if (shouldBeArray && !Array.isArray(existingValue)) {
+        throw new Error(
+          `Invalid data path "${item.key}": expected array at "${previousKeyPart}".`
+        );
+      } else if (
+        !shouldBeArray &&
+        (typeof existingValue !== "object" || Array.isArray(existingValue))
+      ) {
+        throw new Error(
+          `Invalid data path "${item.key}": expected object at "${previousKeyPart}".`
+        );
       }
+
       cursor = cursor[previousKeyPart];
     });
 
-    var lastKeyPart = keyParts[keyParts.length - 1];
+    const lastKeyPart = keyParts[keyParts.length - 1];
     if (Array.isArray(cursor)) {
-      cursor[parseInt(lastKeyPart, 10)] = value;
+      cursor[Number.parseInt(lastKeyPart, 10)] = value;
     } else {
       cursor[lastKeyPart] = value;
     }
   });
 
-  console.log(`Creating submission for template ${properties.templateId}...`);
+  const createResponse = await context.v3.request(createSubmissionOptions);
 
-  var createResponse = await context.v3.request(createSubmissionOptions);
+  let createBody;
+  try {
+    createBody = parseResponseBody(createResponse && createResponse.body);
+  } catch (error) {
+    return {
+      success: false,
+      errorMessage: `Could not parse create submission response: ${error.message}`,
+      regionInfo: serializedRegionInfo,
+      response: JSON.stringify(createResponse && createResponse.body)
+    };
+  }
 
-  if (
-    !createResponse ||
-    !createResponse.body ||
-    !createResponse.body.submission
-  ) {
+  if (!createBody || !createBody.submission) {
     console.log(
       "Error creating submission! Response:",
       createResponse && createResponse.statusCode,
@@ -168,29 +188,29 @@ async function(properties, context) {
     return {
       success: false,
       errorMessage: "Could not create submission.",
-      apiBaseUrl: api_base_url,
+      regionInfo: serializedRegionInfo,
       response: JSON.stringify(createResponse && createResponse.body)
     };
   }
 
-  var submission = createResponse.body.submission;
-  var getSubmissionURL = `${api_base_url}/submissions/${submission.id}`;
+  let submission = createBody.submission;
+  const getSubmissionUrl = `${apiBaseUrl}/submissions/${submission.id}`;
 
-  var getSubmissionOptions = {
+  const getSubmissionOptions = {
     method: "GET",
-    uri: getSubmissionURL,
+    uri: getSubmissionUrl,
     auth: auth
   };
 
-  var retryCount = 0;
+  let retryCount = 0;
   while (submission.state === "pending") {
     console.log(
       `Waiting 1s before polling for submission status (${submission.id})...`
     );
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL_MS));
 
-    var getResponse = await context.v3.request(getSubmissionOptions);
+    const getResponse = await context.v3.request(getSubmissionOptions);
     if (!getResponse || !getResponse.body) {
       console.log(
         "Error fetching submission! Response:",
@@ -199,36 +219,45 @@ async function(properties, context) {
       );
       return {
         success: false,
-        errorMessage: `Could not fetch submission with id: ${submission.id}. URL: ${getSubmissionURL}`,
-        apiBaseUrl: api_base_url
+        errorMessage: `Could not fetch submission when polling with id: ${submission.id}. URL: ${getSubmissionUrl}`,
+        regionInfo: serializedRegionInfo,
+        response: JSON.stringify(getResponse && getResponse.body)
       };
     }
 
-    // The Bubble request library returns a raw string body for GET requests
-    // (unlike POST with the `json` option), so we parse it manually.
-    submission = JSON.parse(getResponse.body);
-
-    retryCount = retryCount + 1;
-    if (retryCount > 45) {
+    let parsedBody;
+    try {
+      parsedBody = parseResponseBody(getResponse.body);
+    } catch (error) {
       return {
         success: false,
-        errorMessage: "Timeout: Submission was not processed after 45 seconds.",
-        apiBaseUrl: api_base_url
+        errorMessage: `Could not parse submission polling response: ${error.message}`,
+        regionInfo: serializedRegionInfo,
+        response: JSON.stringify(getResponse && getResponse.body)
+      };
+    }
+
+    submission = parsedBody.submission || parsedBody;
+
+    retryCount += 1;
+    if (retryCount > MAX_POLL_ATTEMPTS) {
+      return {
+        success: false,
+        errorMessage: `Timeout: Submission was not processed after ${MAX_POLL_ATTEMPTS} seconds.`,
+        regionInfo: serializedRegionInfo,
+        response: JSON.stringify(submission)
       };
     }
   }
 
-  var result = {
+  return {
     success: submission.state === "processed",
     id: submission.id,
     state: submission.state,
     file: submission.download_url,
     permanentFile: submission.permanent_download_url,
     errorMessage: null,
-    apiBaseUrl: api_base_url,
-    response: JSON.stringify(submission)
+    response: JSON.stringify(submission),
+    regionInfo: serializedRegionInfo
   };
-
-  console.log("Returning result:", result);
-  return result;
 }

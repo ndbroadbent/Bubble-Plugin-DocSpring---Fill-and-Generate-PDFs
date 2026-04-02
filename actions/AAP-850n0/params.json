@@ -87,6 +87,12 @@
             "name": "response",
             "rank": 6,
             "value": "text"
+        },
+        "ABq": {
+            "caption": "Region Info",
+            "name": "regionInfo",
+            "rank": 7,
+            "value": "text"
         }
     },
     "type": "server_side"
