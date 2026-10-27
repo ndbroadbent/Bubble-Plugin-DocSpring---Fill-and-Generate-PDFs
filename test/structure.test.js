@@ -127,6 +127,20 @@ test("each server.js reads exactly the fields its params.json declares", () => {
   });
 });
 
+test("a field the code requires isn't marked optional", () => {
+  actionDirs().forEach((dir) => {
+    const source = readServerJs(dir);
+    const required = new Set(
+      [...source.matchAll(/(?:requiredText|pathId|pathIdProblem)\(properties\.([A-Za-z0-9_]+)/g)].map((match) => match[1])
+    );
+    Object.values(readParams(dir).fields || {}).forEach((field) => {
+      if (required.has(field.name)) {
+        assert.ok(!field.optional, `${dir}: the code requires "${field.caption}", but params.json marks it optional`);
+      }
+    });
+  });
+});
+
 test("the shared settings keys are unchanged", () => {
   const shared = JSON.parse(fs.readFileSync(path.join(ROOT, "shared_tech_params.json"), "utf8"));
   assert.deepEqual(

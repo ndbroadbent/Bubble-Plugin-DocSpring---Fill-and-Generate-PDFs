@@ -15,7 +15,6 @@
             "doc": "Which part of the version number to increase: patch (1.0.1), minor (1.1.0) or major (2.0.0).",
             "editor": "Dropdown",
             "name": "versionType",
-            "optional": true,
             "options": "patch,minor,major",
             "rank": 1
         },
