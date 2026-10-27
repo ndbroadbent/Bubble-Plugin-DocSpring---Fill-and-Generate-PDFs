@@ -16,6 +16,9 @@
 - Create PDF Submission can also set the template version, make page images, set a PDF password, set when the
   submission expires, override field settings (JSON) and choose whether the PDF stays editable.
 - Errors show API v2's error code, message and details, then the record's ID and the request ID.
+- Actions that wait for a file check after 1, 2 and 4 seconds, then every 8 seconds, for up to 45 seconds (1.7.0
+  checked every second). When DocSpring's rate limit says to wait (a 429 with Retry-After), they wait that long if
+  there's time, or return the record's ID as when the file isn't ready in time.
 - Region: blank or US, EU, or your server's URL (a URL ending in `/api/v1` now uses `/api/v2`). The AU region has
   closed.
 - New actions: Generate PDFs in a Batch, Get Submission Batch, Check Data, Find Submissions, Generate Submission

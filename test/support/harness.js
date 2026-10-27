@@ -60,7 +60,7 @@ function loadAction(dir, sleeps) {
   return new Function("setTimeout", "console", `return (${source});`)(fakeSetTimeout, quietConsole);
 }
 
-// responses: a list of { method, uri, status, body } (or { throws }) in the
+// responses: a list of { method, uri, status, body, headers } (or { throws }) in the
 // order the action should make its requests. Asserts each request's method
 // and URI, and that every response was used.
 async function runAction(dir, properties, options) {
@@ -78,7 +78,7 @@ async function runAction(dir, properties, options) {
         if (expected.method) assert.equal(requestOptions.method, expected.method, "request method");
         if (expected.uri) assert.equal(requestOptions.uri, expected.uri, "request URI");
         if (expected.throws) throw expected.throws;
-        return { statusCode: expected.status, body: expected.body, headers: {} };
+        return { statusCode: expected.status, body: expected.body, headers: expected.headers || {} };
       }
     }
   };

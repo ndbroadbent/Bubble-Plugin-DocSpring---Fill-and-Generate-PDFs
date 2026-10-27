@@ -45,6 +45,22 @@ test("Generate PDFs in a Batch posts the batch with wait=false and polls until i
   assert.deepEqual(result.files, ["https://downloads.example.com/sub_123.pdf", "https://downloads.example.com/sub_123.pdf"]);
 });
 
+test("Generate PDFs in a Batch stops on a 429 it can't wait for, naming the batch", async () => {
+  const { result, sleeps } = await runAction("generate-pdfs-in-a-batch", { submissions: '[{"data": {}}]', templateId: "tpl_123", wait: true }, {
+    responses: [
+      { method: "POST", status: 201, body: batch({ state: "pending", processed_at: null, pending_count: 2 }) },
+      { method: "GET", uri: `${US}/submissions/batches/sbb_123`, status: 429, headers: { "retry-after": "50" }, body: v2Error("rate_limited", "Slow down") }
+    ]
+  });
+  assert.deepEqual(sleeps, [1000]);
+  assert.equal(result.success, false);
+  assert.equal(result.id, "sbb_123");
+  assert.equal(
+    result.errorMessage,
+    "The batch wasn't ready in time. Get it later with Get Submission Batch (sbb_123), or create a webhook for the submission_batch.processed event."
+  );
+});
+
 test("Generate PDFs in a Batch reports a failed batch, and needs a JSON list", async () => {
   const failed = batch({
     state: "error",

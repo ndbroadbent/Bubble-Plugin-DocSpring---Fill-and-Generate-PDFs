@@ -23,7 +23,7 @@ test("creates a submission with wait=false, polls until it's processed, and retu
   });
 
   assert.deepEqual(calls[0].json, { data: { first_name: "Jane" }, test: true, metadata: { user_id: "42" } });
-  assert.deepEqual(sleeps, [1000, 1000]);
+  assert.deepEqual(sleeps, [1000, 2000]);
   assert.equal(result.success, true);
   assert.equal(result.id, "sub_123");
   assert.equal(result.state, "processed");
@@ -199,18 +199,76 @@ test("a submission that fails while polling is a failure", async () => {
   assert.equal(result.errorMessage, "The PDF couldn't be generated (state: image_download_failed): Couldn't download logo\nSubmission: sub_123");
 });
 
-test("gives up after 45 polls with a message saying how to get the PDF later", async () => {
-  const responses = [{ method: "POST", uri: CREATE_URI, status: 201, body: pending() }];
-  for (let i = 0; i < 45; i += 1) responses.push({ method: "GET", uri: GET_URI, status: 200, body: pending() });
+const NOT_READY =
+  "The PDF wasn't ready in time. Get it later with Get PDF Submission (sub_123), or create a webhook for the submission.processed event.";
+const rateLimited = (seconds) => ({
+  method: "GET",
+  uri: GET_URI,
+  status: 429,
+  headers: seconds === undefined ? {} : { "retry-after": String(seconds) },
+  body: v2Error("rate_limited", "API rate limit exceeded. Retry after the delay in the Retry-After header.")
+});
+const pendingPolls = (count) => Array.from({ length: count }, () => ({ method: "GET", uri: GET_URI, status: 200, body: pending() }));
+const create = { method: "POST", uri: CREATE_URI, status: 201, body: pending() };
+
+test("polls 1, 2, 4, then 8 seconds apart, and gives up after 45 seconds with a message saying how to get the PDF later", async () => {
+  const responses = [create].concat(pendingPolls(8));
   const { result, sleeps } = await runAction(ACTION, { templateId: "tpl_123" }, { responses: responses });
-  assert.equal(sleeps.length, 45);
+  assert.deepEqual(sleeps, [1000, 2000, 4000, 8000, 8000, 8000, 8000, 6000]);
+  assert.equal(sleeps.reduce((sum, ms) => sum + ms, 0), 45000);
   assert.equal(result.success, false);
   assert.equal(result.id, "sub_123");
   assert.equal(result.state, "pending");
-  assert.equal(
-    result.errorMessage,
-    "The PDF wasn't ready in time. Get it later with Get PDF Submission (sub_123), or create a webhook for the submission.processed event."
-  );
+  assert.equal(result.errorMessage, NOT_READY);
+});
+
+test("a 429 while polling waits for Retry-After, then polls again", async () => {
+  const { result, sleeps } = await runAction(ACTION, { templateId: "tpl_123" }, {
+    responses: [create, rateLimited(12), { method: "GET", uri: GET_URI, status: 200, body: submission() }]
+  });
+  assert.deepEqual(sleeps, [1000, 12000]);
+  assert.equal(result.success, true);
+  assert.equal(result.file, "https://downloads.example.com/sub_123.pdf");
+});
+
+test("a 429 whose Retry-After doesn't fit in the time left stops with the not-ready message", async () => {
+  const first = await runAction(ACTION, { templateId: "tpl_123" }, { responses: [create, rateLimited(60)] });
+  assert.deepEqual(first.sleeps, [1000]);
+  assert.equal(first.result.success, false);
+  assert.equal(first.result.id, "sub_123");
+  assert.equal(first.result.state, "pending");
+  assert.equal(first.result.errorMessage, NOT_READY);
+
+  // After 39 seconds of waiting, 6 are left: Retry-After 7 doesn't fit, 6 does.
+  const late = await runAction(ACTION, { templateId: "tpl_123" }, { responses: [create].concat(pendingPolls(6), [rateLimited(7)]) });
+  assert.deepEqual(late.sleeps, [1000, 2000, 4000, 8000, 8000, 8000, 8000]);
+  assert.equal(late.result.errorMessage, NOT_READY);
+  const fits = await runAction(ACTION, { templateId: "tpl_123" }, {
+    responses: [create].concat(pendingPolls(6), [rateLimited(6), { method: "GET", uri: GET_URI, status: 200, body: submission() }])
+  });
+  assert.deepEqual(fits.sleeps, [1000, 2000, 4000, 8000, 8000, 8000, 8000, 6000]);
+  assert.equal(fits.result.success, true);
+});
+
+test("a 429 without Retry-After waits the next interval", async () => {
+  const { result, sleeps } = await runAction(ACTION, { templateId: "tpl_123" }, {
+    responses: [create, rateLimited(undefined), rateLimited(0), { method: "GET", uri: GET_URI, status: 200, body: submission() }]
+  });
+  assert.deepEqual(sleeps, [1000, 2000, 1000]);
+  assert.equal(result.success, true);
+});
+
+test("Retry-After is read from a request library that rejects on HTTP errors", async () => {
+  const error = Object.assign(new Error("429"), {
+    statusCode: 429,
+    error: rateLimited(5).body,
+    response: { headers: { "Retry-After": "5" } }
+  });
+  const { result, sleeps } = await runAction(ACTION, { templateId: "tpl_123" }, {
+    responses: [create, { method: "GET", throws: error }, { method: "GET", uri: GET_URI, status: 200, body: submission() }]
+  });
+  assert.deepEqual(sleeps, [1000, 5000]);
+  assert.equal(result.success, true);
 });
 
 test("a polling response that isn't a submission is an error", async () => {

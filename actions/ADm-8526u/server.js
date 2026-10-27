@@ -6,8 +6,10 @@ async function(properties, context) {
   const PLUGIN_VERSION = "2.0.0";
   const PREVIOUS_PLUGIN_VERSION = "1.7.0";
   const USER_AGENT = "docspring-bubble/" + PLUGIN_VERSION;
-  const MAX_POLL_ATTEMPTS = 45;
-  const POLL_INTERVAL_MS = 1000;
+  // Polling waits 1, 2, 4, then 8 seconds between requests, up to 45 seconds
+  // of waiting in all (so actions fit in Bubble's time limit).
+  const POLL_WAITS_MS = [1000, 2000, 4000, 8000];
+  const MAX_POLL_WAIT_MS = 45000;
   const REGION_URLS = {
     US: "https://api.docspring.com/api/v2",
     EU: "https://api-eu.docspring.com/api/v2"
@@ -378,12 +380,14 @@ async function(properties, context) {
       if (error && error.statusCode) {
         response = {
           statusCode: error.statusCode,
+          headers: error.response && error.response.headers,
           body: error.error !== undefined ? error.error : error.response && error.response.body
         };
       } else {
         return {
           ok: false,
           status: null,
+          headers: {},
           body: null,
           errorMessage: [`Could not reach DocSpring at ${uri}: ${error && error.message}`]
             .concat(recordLines(opts.records))
@@ -393,30 +397,67 @@ async function(properties, context) {
     }
 
     const status = response && response.statusCode;
+    const headers = (response && response.headers) || {};
     const body = parseResponseBody(response && response.body);
     if (status >= 200 && status < 300) {
-      return { ok: true, status: status, body: body, errorMessage: null };
+      return { ok: true, status: status, headers: headers, body: body, errorMessage: null };
     }
-    return { ok: false, status: status, body: body, errorMessage: formatApiError(status, body, opts.records) };
+    return {
+      ok: false,
+      status: status,
+      headers: headers,
+      body: body,
+      errorMessage: formatApiError(status, body, opts.records)
+    };
   };
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  // Gets path once a second until isDone(body), for up to MAX_POLL_ATTEMPTS
-  // seconds. Returns the last apiRequest result, with done: false on timeout.
-  const pollUntil = async (path, isDone) => {
-    let last = null;
-    for (let attempt = 1; attempt <= MAX_POLL_ATTEMPTS; attempt += 1) {
-      await sleep(POLL_INTERVAL_MS);
-      last = await apiRequest("GET", path);
-      if (last.ok && (!last.body || typeof last.body !== "object")) {
-        last.ok = false;
-        last.errorMessage = `DocSpring sent an unexpected response to GET ${path}: ${toJson(last.body)}`;
+  // A 429's Retry-After header in milliseconds, or null when it has none in
+  // seconds.
+  const retryAfterMs = (headers) => {
+    const name = Object.keys(headers || {}).find((key) => key.toLowerCase() === "retry-after");
+    const value = name === undefined ? "" : String(headers[name]).trim();
+    return /^\d+$/.test(value) ? Number(value) * 1000 : null;
+  };
+
+  // Gets path until isDone(body), waiting 1, 2, 4, 8, 8, ... seconds between
+  // requests, until MAX_POLL_WAIT_MS of waiting (the last wait is cut to fit).
+  // A 429 waits for its Retry-After instead (at least a second), and stops
+  // polling when that doesn't fit in the time left. Returns the last
+  // apiRequest result with done: true, an error result with done: false, or,
+  // when time runs out, done: false with the latest record (record, the one
+  // being waited for, until a poll gets a newer one).
+  const pollUntil = async (path, isDone, record) => {
+    let latest = { ok: true, status: null, headers: {}, body: record, errorMessage: null };
+    let waited = 0;
+    let wait = Math.min(POLL_WAITS_MS[0], MAX_POLL_WAIT_MS);
+    for (let poll = 1; wait > 0; poll += 1) {
+      await sleep(wait);
+      waited += wait;
+      const left = MAX_POLL_WAIT_MS - waited;
+      const backoff = Math.min(POLL_WAITS_MS[Math.min(poll, POLL_WAITS_MS.length - 1)], left);
+      const result = await apiRequest("GET", path);
+      if (result.status === 429) {
+        const retryAfter = retryAfterMs(result.headers);
+        if (retryAfter === null) {
+          wait = backoff;
+        } else {
+          wait = Math.max(retryAfter, POLL_WAITS_MS[0]);
+          if (wait > left) break;
+        }
+        continue;
       }
-      if (!last.ok) return Object.assign(last, { done: false });
-      if (isDone(last.body)) return Object.assign(last, { done: true });
+      if (result.ok && (!result.body || typeof result.body !== "object")) {
+        result.ok = false;
+        result.errorMessage = `DocSpring sent an unexpected response to GET ${path}: ${toJson(result.body)}`;
+      }
+      if (!result.ok) return Object.assign(result, { done: false });
+      if (isDone(result.body)) return Object.assign(result, { done: true });
+      latest = result;
+      wait = backoff;
     }
-    return Object.assign(last, { done: false });
+    return Object.assign(latest, { done: false });
   };
 
   const fail = (errorMessage, response, extra) =>
@@ -454,7 +495,7 @@ async function(properties, context) {
   let submission = created.body || {};
   const isDone = (record) => Boolean(record.files && record.files.png && record.files.png.state !== "pending");
   if (wait && !isDone(submission)) {
-    const polled = await pollUntil(`/submissions/${submissionId}`, isDone);
+    const polled = await pollUntil(`/submissions/${submissionId}`, isDone, submission);
     if (!polled.ok) {
       return fail(polled.errorMessage, polled.body, { id: submission.id });
     }
