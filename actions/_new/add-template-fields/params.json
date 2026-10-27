@@ -1,0 +1,57 @@
+{
+    "category": "plugins",
+    "display": "DocSpring - Add Template Fields",
+    "fields": {
+        "NEW_1": {
+            "caption": "Template ID",
+            "doc": "Starts with 'tpl_'. Find it in your DocSpring account, or with Find Templates.",
+            "editor": "DynamicValue",
+            "name": "templateId",
+            "rank": 0,
+            "value": "text"
+        },
+        "NEW_2": {
+            "caption": "Fields (JSON)",
+            "doc": "A JSON list of fields to add, such as [{\"name\": \"first_name\", \"page\": 1, \"x\": 72, \"y\": 100, \"width\": 200, \"height\": 20}]. See the API docs for every setting.",
+            "editor": "DynamicValue",
+            "name": "fields",
+            "rank": 1,
+            "value": "text"
+        }
+    },
+    "return_value": {
+        "NEW_3": {
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
+        },
+        "NEW_4": {
+            "caption": "Field IDs",
+            "is_list": true,
+            "name": "ids",
+            "rank": 1,
+            "value": "number"
+        },
+        "NEW_5": {
+            "caption": "Field Names",
+            "is_list": true,
+            "name": "names",
+            "rank": 2,
+            "value": "text"
+        },
+        "NEW_6": {
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 3,
+            "value": "text"
+        },
+        "NEW_7": {
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 4,
+            "value": "text"
+        }
+    },
+    "type": "server_side"
+}

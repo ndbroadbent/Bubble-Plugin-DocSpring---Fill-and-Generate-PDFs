@@ -1,0 +1,57 @@
+{
+    "category": "plugins",
+    "display": "DocSpring - Remove Template Fields",
+    "fields": {
+        "NEW_1": {
+            "caption": "Template ID",
+            "doc": "Starts with 'tpl_'. Find it in your DocSpring account, or with Find Templates.",
+            "editor": "DynamicValue",
+            "name": "templateId",
+            "rank": 0,
+            "value": "text"
+        },
+        "NEW_2": {
+            "caption": "Field IDs",
+            "doc": "The IDs of the fields to remove (whole numbers), as a list or separated by commas, such as \"12, 13\".",
+            "editor": "DynamicValue",
+            "name": "fieldIds",
+            "rank": 1,
+            "value": "text"
+        }
+    },
+    "return_value": {
+        "NEW_3": {
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
+        },
+        "NEW_4": {
+            "caption": "Remaining Field IDs",
+            "is_list": true,
+            "name": "ids",
+            "rank": 1,
+            "value": "number"
+        },
+        "NEW_5": {
+            "caption": "Remaining Field Names",
+            "is_list": true,
+            "name": "names",
+            "rank": 2,
+            "value": "text"
+        },
+        "NEW_6": {
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 3,
+            "value": "text"
+        },
+        "NEW_7": {
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 4,
+            "value": "text"
+        }
+    },
+    "type": "server_side"
+}

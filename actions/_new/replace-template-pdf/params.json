@@ -1,0 +1,108 @@
+{
+    "category": "plugins",
+    "display": "DocSpring - Replace Template PDF",
+    "fields": {
+        "NEW_1": {
+            "caption": "Template ID",
+            "doc": "Starts with 'tpl_'. Find it in your DocSpring account, or with Find Templates.",
+            "editor": "DynamicValue",
+            "name": "templateId",
+            "rank": 0,
+            "value": "text"
+        },
+        "NEW_2": {
+            "caption": "Document",
+            "doc": "The new PDF, as a file or an https:// URL (up to 100 MB).",
+            "editor": "DynamicValue",
+            "name": "document",
+            "optional": true,
+            "rank": 1,
+            "value": "file"
+        },
+        "NEW_3": {
+            "caption": "Document (Base64)",
+            "doc": "Optional. The PDF encoded as base64 instead of Document (up to 7 MB).",
+            "editor": "DynamicValue",
+            "name": "documentBase64",
+            "optional": true,
+            "rank": 2,
+            "value": "text"
+        },
+        "NEW_4": {
+            "caption": "Filename",
+            "doc": "Optional. The PDF's file name.",
+            "editor": "DynamicValue",
+            "name": "filename",
+            "optional": true,
+            "rank": 3,
+            "value": "text"
+        },
+        "NEW_5": {
+            "caption": "Reimport Fields",
+            "default_val": false,
+            "doc": "Replace all of the template's fields with the fillable fields in the new PDF.",
+            "editor": "Checkbox",
+            "name": "reimportFields",
+            "rank": 4
+        },
+        "NEW_6": {
+            "caption": "Wait",
+            "default_val": true,
+            "doc": "Wait up to 45 seconds for the PDF to be processed. Turn it off to return straight away.",
+            "editor": "Checkbox",
+            "name": "wait",
+            "rank": 5
+        }
+    },
+    "return_value": {
+        "NEW_7": {
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
+        },
+        "NEW_8": {
+            "caption": "Template ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
+        },
+        "NEW_9": {
+            "caption": "Name",
+            "name": "name",
+            "rank": 2,
+            "value": "text"
+        },
+        "NEW_10": {
+            "caption": "Template Type",
+            "name": "templateType",
+            "rank": 3,
+            "value": "text"
+        },
+        "NEW_11": {
+            "caption": "Ready",
+            "name": "ready",
+            "rank": 4,
+            "value": "boolean"
+        },
+        "NEW_12": {
+            "caption": "PDF State",
+            "name": "documentState",
+            "rank": 5,
+            "value": "text"
+        },
+        "NEW_13": {
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 6,
+            "value": "text"
+        },
+        "NEW_14": {
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 7,
+            "value": "text"
+        }
+    },
+    "type": "server_side"
+}
