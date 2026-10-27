@@ -352,8 +352,8 @@ async function(properties, context) {
       .join("\n");
   };
 
-  // Calls API v2 and returns { ok, status, body, errorMessage }. Never throws
-  // for HTTP errors. options.records ([label, ID] pairs, such as
+  // Calls API v2 and returns { ok, status, headers, body, errorMessage }.
+  // Never throws for HTTP errors. options.records ([label, ID] pairs, such as
   // ["Submission", "sub_123"]) name the records an error message is about.
   const apiRequest = async (method, path, options) => {
     const opts = options || {};
