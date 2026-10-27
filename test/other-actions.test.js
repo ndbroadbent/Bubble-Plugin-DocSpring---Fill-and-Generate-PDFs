@@ -87,3 +87,24 @@ test("Make an API Call sends any API v2 request", async () => {
   await assert.rejects(runAction("make-an-api-call", { path: "/../v1/templates" }), /can't contain/);
   await assert.rejects(runAction("make-an-api-call", { path: "/templates", method: "PATCH" }), /Method must be/);
 });
+
+test("Make an API Call rejects dot segments that are percent-encoded or use backslashes", async () => {
+  const paths = [
+    "/templates/%2e%2e/x",
+    "/%2E./v1/templates",
+    "/.%2e/v1/templates",
+    "/templates/%2e",
+    "/templates%2f..%2fx",
+    "/%252e%252e/v1/templates",
+    "/templates\\..\\x",
+    "..\\v1\\templates",
+    "/%5c..%5cv1"
+  ];
+  for (const path of paths) {
+    await assert.rejects(runAction("make-an-api-call", { path: path }), /can't contain "\." or "\.\." segments/, path);
+  }
+  // Dots inside a segment are fine.
+  await runAction("make-an-api-call", { path: "/templates/a..b%2e" }, {
+    responses: [{ method: "GET", uri: `${US}/templates/a..b%2e`, status: 200, body: {} }]
+  });
+});

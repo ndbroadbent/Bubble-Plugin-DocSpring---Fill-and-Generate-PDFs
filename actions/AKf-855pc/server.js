@@ -524,8 +524,15 @@ async function(properties, context) {
   if (!path.startsWith("/")) {
     path = "/" + path;
   }
-  if (/(^|\/)\.\.?(\/|$)/.test(path)) {
-    throw new Error('Path can\'t contain "." or ".." segments.');
+  // Checked as a server may read it: percent-decoded (until nothing changes,
+  // so %252e counts too) and with backslashes as slashes.
+  let checkedPath = path;
+  for (let previous = null; checkedPath !== previous; ) {
+    previous = checkedPath;
+    checkedPath = checkedPath.replace(/%([0-9a-f]{2})/gi, (match, hex) => String.fromCharCode(parseInt(hex, 16)));
+  }
+  if (/(^|\/)\.\.?(\/|$)/.test(checkedPath.replace(/\\/g, "/"))) {
+    throw new Error('Path can\'t contain "." or ".." segments (also when percent-encoded, such as %2e%2e).');
   }
 
   const result = await apiRequest(method, path, {
