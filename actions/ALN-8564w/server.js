@@ -124,7 +124,21 @@ async function(properties, context) {
     return String(value).trim();
   };
 
-  const pathId = (value, name) => encodeURIComponent(requiredText(value, name));
+  // Why an ID can't go into a URL path (blank, or "." or ".." which would
+  // change the path), or null when it can.
+  const pathIdProblem = (value, name) => {
+    if (isBlank(value)) return `${name} is required.`;
+    const text = String(value).trim();
+    if (text === "." || text === "..") return `${name} can't be "${text}".`;
+    return null;
+  };
+
+  // An ID for a URL path, encoded. Throws when it's blank, "." or "..".
+  const pathId = (value, name) => {
+    const problem = pathIdProblem(value, name);
+    if (problem) throw new Error(problem);
+    return encodeURIComponent(String(value).trim());
+  };
 
   const toBoolean = (value, name) => {
     if (isBlank(value)) return undefined;
@@ -409,9 +423,10 @@ async function(properties, context) {
 
   // Delete Webhook: DELETE /webhooks/{id}. A webhook that's already gone (a
   // 404 from API v2) counts as deleted.
+  const webhookPath = `/webhooks/${pathId(properties.webhookId, "Webhook ID")}`;
   const webhookId = requiredText(properties.webhookId, "Webhook ID");
 
-  const result = await apiRequest("DELETE", `/webhooks/${encodeURIComponent(webhookId)}`);
+  const result = await apiRequest("DELETE", webhookPath);
   const alreadyDeleted = result.status === 404 && Boolean(result.body && result.body.error);
   if (!result.ok && !alreadyDeleted) {
     return fail(result.errorMessage, result.body);
