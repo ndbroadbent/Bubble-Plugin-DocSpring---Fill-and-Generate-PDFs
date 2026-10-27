@@ -6,10 +6,11 @@ async function(properties, context) {
   const PLUGIN_VERSION = "2.0.0";
   const PREVIOUS_PLUGIN_VERSION = "1.7.0";
   const USER_AGENT = "docspring-bubble/" + PLUGIN_VERSION;
-  // Polling waits 1, 2, 4, then 8 seconds between requests, up to 45 seconds
-  // of waiting in all (so actions fit in Bubble's time limit).
+  // Polling waits 1, 2, 4, then 8 seconds between requests. An action waits
+  // (for polling and rate limits) up to 45 seconds in all, so it fits in
+  // Bubble's time limit.
   const POLL_WAITS_MS = [1000, 2000, 4000, 8000];
-  const MAX_POLL_WAIT_MS = 45000;
+  const MAX_WAIT_MS = 45000;
   const REGION_URLS = {
     US: "https://api.docspring.com/api/v2",
     EU: "https://api-eu.docspring.com/api/v2"
@@ -413,6 +414,15 @@ async function(properties, context) {
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+  // The time this action has spent waiting, out of MAX_WAIT_MS.
+  let waitedMs = 0;
+  const waitFor = async (ms) => {
+    await sleep(ms);
+    waitedMs += ms;
+  };
+  // The wait before poll number index (from 0), cut to the time left.
+  const pollWaitMs = (index) => Math.min(POLL_WAITS_MS[Math.min(index, POLL_WAITS_MS.length - 1)], MAX_WAIT_MS - waitedMs);
+
   // A 429's Retry-After header in milliseconds, or null when it has none in
   // seconds.
   const retryAfterMs = (headers) => {
@@ -421,31 +431,45 @@ async function(properties, context) {
     return /^\d+$/.test(value) ? Number(value) * 1000 : null;
   };
 
+  // How long to wait after a 429: its Retry-After (at least a second), or
+  // fallbackMs when it has none. null when that doesn't fit in the time left.
+  const rateLimitWaitMs = (result, fallbackMs) => {
+    const retryAfter = retryAfterMs(result.headers);
+    const ms = retryAfter === null ? fallbackMs : Math.max(retryAfter, POLL_WAITS_MS[0]);
+    return ms > 0 && ms <= MAX_WAIT_MS - waitedMs ? ms : null;
+  };
+
+  // apiRequest, but a 429 waits (see rateLimitWaitMs; 1, 2, 4, 8 seconds
+  // without a Retry-After) and tries again while that fits in the time left.
+  // Safe for any request: DocSpring's rate limit answers before the request
+  // runs.
+  const apiRequestRetrying = async (method, path, options) => {
+    for (let attempt = 0; ; attempt += 1) {
+      const result = await apiRequest(method, path, options);
+      if (result.status !== 429) return result;
+      const ms = rateLimitWaitMs(result, pollWaitMs(attempt));
+      if (ms === null) return result;
+      await waitFor(ms);
+    }
+  };
+
   // Gets path until isDone(body), waiting 1, 2, 4, 8, 8, ... seconds between
-  // requests, until MAX_POLL_WAIT_MS of waiting (the last wait is cut to fit).
-  // A 429 waits for its Retry-After instead (at least a second), and stops
-  // polling when that doesn't fit in the time left. Returns the last
-  // apiRequest result with done: true, an error result with done: false, or,
-  // when time runs out, done: false with the latest record (record, the one
-  // being waited for, until a poll gets a newer one).
+  // requests, until the action has waited MAX_WAIT_MS (the last wait is cut
+  // to fit). A 429 waits for its Retry-After instead, and stops polling when
+  // that doesn't fit in the time left. Returns the last apiRequest result with
+  // done: true, an error result with done: false, or, when time runs out,
+  // done: false with the latest record (record, the one being waited for,
+  // until a poll gets a newer one).
   const pollUntil = async (path, isDone, record) => {
     let latest = { ok: true, status: null, headers: {}, body: record, errorMessage: null };
-    let waited = 0;
-    let wait = Math.min(POLL_WAITS_MS[0], MAX_POLL_WAIT_MS);
+    let wait = pollWaitMs(0);
     for (let poll = 1; wait > 0; poll += 1) {
-      await sleep(wait);
-      waited += wait;
-      const left = MAX_POLL_WAIT_MS - waited;
-      const backoff = Math.min(POLL_WAITS_MS[Math.min(poll, POLL_WAITS_MS.length - 1)], left);
+      await waitFor(wait);
       const result = await apiRequest("GET", path);
       if (result.status === 429) {
-        const retryAfter = retryAfterMs(result.headers);
-        if (retryAfter === null) {
-          wait = backoff;
-        } else {
-          wait = Math.max(retryAfter, POLL_WAITS_MS[0]);
-          if (wait > left) break;
-        }
+        const ms = rateLimitWaitMs(result, pollWaitMs(poll));
+        if (ms === null) break;
+        wait = ms;
         continue;
       }
       if (result.ok && (!result.body || typeof result.body !== "object")) {
@@ -455,7 +479,7 @@ async function(properties, context) {
       if (!result.ok) return Object.assign(result, { done: false });
       if (isDone(result.body)) return Object.assign(result, { done: true });
       latest = result;
-      wait = backoff;
+      wait = pollWaitMs(poll);
     }
     return Object.assign(latest, { done: false });
   };
@@ -565,14 +589,31 @@ async function(properties, context) {
     response: toJson(submission)
   });
 
+  // The submission and its signature requests exist, but the signing links
+  // for missing weren't made: running the action again would create them all
+  // again, so the message says to use Create Signing Link instead.
+  const linksNotMade = (missing, token) => {
+    const ids = missing.map((request) => request.id).join(", ");
+    const one = missing.length === 1;
+    return [
+      `The signature requests were created, but the signing ${one ? "link" : "links"} for ${ids} couldn't be made. ` +
+      `Make ${one ? "it" : "them"} with Create Signing Link instead of running this action again, which would ` +
+      "create a duplicate submission."
+    ]
+      .concat(token.status === 429 ? ["DocSpring's rate limit asked to wait longer than this action has time for."] : [])
+      .concat(token.errorMessage)
+      .join("\n");
+  };
+
   if (linkType !== "none") {
-    for (const request of requests) {
-      const token = await apiRequest("POST", `/signature_requests/${encodeURIComponent(request.id)}/tokens`, {
+    for (const [index, request] of requests.entries()) {
+      // A 429 waits for Retry-After and tries again when that fits in the time left.
+      const token = await apiRequestRetrying("POST", `/signature_requests/${encodeURIComponent(request.id)}/tokens`, {
         body: { type: linkType },
         records: [["Submission", submission.id], ["Signature request", request.id]]
       });
       if (!token.ok) {
-        return Object.assign(output(), { success: false, errorMessage: token.errorMessage });
+        return Object.assign(output(), { success: false, errorMessage: linksNotMade(requests.slice(index), token) });
       }
       request.signing_url = (token.body && token.body.signature_request_url) || null;
     }

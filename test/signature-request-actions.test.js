@@ -101,7 +101,9 @@ test("Create Signature Request names the submission when a link fails", async ()
   assert.equal(result.id, "sub_123");
   assert.equal(
     result.errorMessage,
-    "DocSpring API error 409 conflict: The signature request is completed\nSubmission: sub_123\nSignature request: srq_1\nRequest ID: req_123"
+    "The signature requests were created, but the signing links for srq_1, srq_2 couldn't be made. Make them with " +
+      "Create Signing Link instead of running this action again, which would create a duplicate submission.\n" +
+      "DocSpring API error 409 conflict: The signature request is completed\nSubmission: sub_123\nSignature request: srq_1\nRequest ID: req_123"
   );
 
   const unreachable = await runAction("create-signature-request", { templateId: "tpl_123", signerFields: "signature" }, {
@@ -110,9 +112,62 @@ test("Create Signature Request names the submission when a link fails", async ()
       { method: "POST", uri: `${US}/signature_requests/srq_1/tokens`, throws: new Error("socket hang up") }
     ]
   });
-  assert.equal(
+  assert.match(
     unreachable.result.errorMessage,
-    `Could not reach DocSpring at ${US}/signature_requests/srq_1/tokens: socket hang up\nSubmission: sub_123\nSignature request: srq_1`
+    new RegExp(`\\nCould not reach DocSpring at ${US}/signature_requests/srq_1/tokens: socket hang up\\nSubmission: sub_123\\nSignature request: srq_1$`)
+  );
+});
+
+const rateLimited = (uri, seconds) => ({
+  method: "POST",
+  uri: uri,
+  status: 429,
+  headers: { "retry-after": String(seconds) },
+  body: v2Error("rate_limited", "API rate limit exceeded")
+});
+const SRQ_1_TOKENS = `${US}/signature_requests/srq_1/tokens`;
+const SRQ_2_TOKENS = `${US}/signature_requests/srq_2/tokens`;
+
+test("Create Signature Request waits for Retry-After when a signing link is rate limited, then makes it", async () => {
+  const { result, sleeps } = await runAction("create-signature-request", { templateId: "tpl_123", signerFields: "signature" }, {
+    responses: [
+      { method: "POST", status: 201, body: waiting() },
+      { method: "POST", uri: SRQ_1_TOKENS, status: 201, body: token("tok_1", "https://sign/1") },
+      rateLimited(SRQ_2_TOKENS, 10),
+      { method: "POST", uri: SRQ_2_TOKENS, status: 201, body: token("tok_2", "https://sign/2") }
+    ]
+  });
+  assert.deepEqual(sleeps, [10000]);
+  assert.equal(result.success, true);
+  assert.equal(result.errorMessage, null);
+  assert.deepEqual(result.signingUrls, ["https://sign/1", "https://sign/2"]);
+});
+
+test("Create Signature Request stops when a rate limit doesn't fit the time left, saying the requests were created", async () => {
+  // 30 seconds for the first link leaves 15: the second link's 20 doesn't fit.
+  const { result, sleeps } = await runAction("create-signature-request", { templateId: "tpl_123", signerFields: "signature" }, {
+    responses: [
+      { method: "POST", status: 201, body: waiting() },
+      rateLimited(SRQ_1_TOKENS, 30),
+      { method: "POST", uri: SRQ_1_TOKENS, status: 201, body: token("tok_1", "https://sign/1") },
+      rateLimited(SRQ_2_TOKENS, 20)
+    ]
+  });
+  assert.deepEqual(sleeps, [30000]);
+  assert.equal(result.success, false);
+  assert.equal(result.id, "sub_123");
+  assert.deepEqual(result.signingUrls, ["https://sign/1", null]);
+  assert.equal(
+    result.errorMessage,
+    [
+      "The signature requests were created, but the signing link for srq_2 couldn't be made. Make it with " +
+        "Create Signing Link instead of running this action again, which would create a duplicate submission.",
+      "DocSpring's rate limit asked to wait longer than this action has time for.",
+      "DocSpring API error 429 rate_limited: API rate limit exceeded",
+      "Submission: sub_123",
+      "Signature request: srq_2",
+      "Request ID: req_123"
+    ].join("\n")
   );
 });
 
