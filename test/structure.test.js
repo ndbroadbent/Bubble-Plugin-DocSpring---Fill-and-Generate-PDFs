@@ -11,7 +11,8 @@ const EXISTING = {
   "AAP-850n0": {
     fields: {
       AAQ: "templateId", AAR: "data", AAS: "parseAsBoolean", AAg: "test", AAj: "metadata",
-      ALO: "version", ALP: "makePageImages", ALQ: "password", ALR: "expiresIn", ALS: "fieldOverrides"
+      ALO: "version", ALP: "makePageImages", ALQ: "password", ALR: "expiresIn", ALS: "fieldOverrides",
+      "PENDING-EDITABLE": "editable"
     },
     returns: {
       AAT: "id", AAU: "state", AAV: "file", AAW: "success", AAX: "errorMessage",
@@ -26,6 +27,17 @@ const EXISTING = {
       AAs: "password", ABr: "regionInfo", ABs: "response", ALU: "pageImages"
     }
   }
+};
+
+// Fields added here before Bubble has given them an ID, by action folder. When
+// Bubble assigns the ID, replace the placeholder in params.json and EXISTING,
+// and remove it here.
+const PLACEHOLDER_FIELD_IDS = { "AAP-850n0": ["PENDING-EDITABLE"] };
+
+// Why an ID in an action's params.json isn't one Bubble assigned, or null.
+const idProblem = (dir, section, id) => {
+  if (section === "fields" && (PLACEHOLDER_FIELD_IDS[dir] || []).includes(id)) return null;
+  return /^A[A-Za-z0-9]{2}$/.test(id) ? null : `${dir} has ID ${id} in ${section}`;
 };
 
 test("every action has server.js, client.js and params.json", () => {
@@ -82,11 +94,22 @@ test("every ID is one Bubble assigned, unique per file, and every new action is 
     const params = readParams(dir);
     const ids = Object.keys(params.fields || {}).concat(Object.keys(params.return_value || {}));
     assert.equal(new Set(ids).size, ids.length, `${dir} repeats an ID`);
-    ids.forEach((id) => assert.match(id, /^A[A-Za-z0-9]{2}$/, `${dir} has ID ${id}`));
+    ["fields", "return_value"].forEach((section) => {
+      Object.keys(params[section] || {}).forEach((id) => assert.equal(idProblem(dir, section, id), null));
+    });
     assert.doesNotMatch(params.display, /Scaffold/, `${dir} is still a scaffold`);
   });
   const mapped = Object.values(ACTION_FOLDERS).sort();
   assert.deepEqual(mapped, actionDirs().filter((dir) => !EXISTING[dir]));
+});
+
+test("the only ID that isn't Bubble's is the Editable field's placeholder", () => {
+  assert.equal(idProblem("AAP-850n0", "fields", "PENDING-EDITABLE"), null);
+  assert.equal(idProblem("AAP-850n0", "fields", "ALS"), null);
+  assert.ok(idProblem("AAP-850n0", "fields", "PENDING-OTHER"));
+  assert.ok(idProblem("AAP-850n0", "return_value", "PENDING-EDITABLE"));
+  assert.ok(idProblem("AAY-850nj", "fields", "PENDING-EDITABLE"));
+  assert.ok(idProblem("AAP-850n0", "fields", "editable"));
 });
 
 test("each server.js reads exactly the fields its params.json declares", () => {

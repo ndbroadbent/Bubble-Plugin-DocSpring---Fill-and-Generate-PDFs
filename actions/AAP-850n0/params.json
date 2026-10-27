@@ -87,6 +87,15 @@
             "optional": true,
             "rank": 9,
             "value": "text"
+        },
+        "PENDING-EDITABLE": {
+            "caption": "Editable",
+            "doc": "Optional. yes keeps the PDF's text and check box fields fillable, and no flattens every field. Blank: the template's setting.",
+            "editor": "DynamicValue",
+            "name": "editable",
+            "optional": true,
+            "rank": 10,
+            "value": "boolean"
         }
     },
     "return_value": {

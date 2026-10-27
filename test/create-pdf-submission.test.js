@@ -73,6 +73,18 @@ test("sends the new optional fields, typed, and leaves out blank ones", async ()
   });
 });
 
+test("sends Editable as a boolean, and leaves it out when blank", async () => {
+  const cases = [[true, true], ["yes", true], ["true", true], [false, false], ["no", false], [undefined, undefined], [null, undefined], ["", undefined]];
+  for (const [editable, sent] of cases) {
+    const { calls } = await runAction(ACTION, { templateId: "tpl_123", editable: editable }, {
+      responses: [{ method: "POST", uri: CREATE_URI, status: 201, body: submission() }]
+    });
+    assert.equal(calls[0].json.editable, sent, `Editable ${JSON.stringify(editable)}`);
+    assert.equal("editable" in calls[0].json, sent !== undefined, `Editable ${JSON.stringify(editable)}`);
+  }
+  await assert.rejects(runAction(ACTION, { templateId: "tpl_123", editable: "maybe" }), /Editable must be yes or no/);
+});
+
 test("rejects values that can't convert", async () => {
   await assert.rejects(runAction(ACTION, { templateId: "tpl_123", expiresIn: "an hour" }), /Expires In \(Seconds\) must be a whole number/);
   await assert.rejects(runAction(ACTION, { templateId: "tpl_123", fieldOverrides: "{nope" }), /Field Overrides \(JSON\) isn't valid JSON/);

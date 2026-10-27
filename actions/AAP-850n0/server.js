@@ -447,6 +447,8 @@ async function(properties, context) {
   }
   put(body, "expires_in", toInteger(properties.expiresIn, "Expires In (Seconds)"));
   put(body, "field_overrides", parseJsonInput(properties.fieldOverrides, "Field Overrides (JSON)", "object"));
+  // Blank leaves it to the template's setting.
+  put(body, "editable", toBoolean(properties.editable, "Editable"));
 
   const created = await apiRequest("POST", `/templates/${templateId}/submissions`, {
     query: { version: optionalText(properties.version), wait: false },
