@@ -88,7 +88,7 @@
             "rank": 9,
             "value": "text"
         },
-        "PENDING-EDITABLE": {
+        "ALV": {
             "caption": "Editable",
             "doc": "Optional. yes keeps the PDF's text and check box fields fillable, and no flattens every field. Blank: the template's setting.",
             "editor": "DynamicValue",

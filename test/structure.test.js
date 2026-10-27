@@ -12,7 +12,7 @@ const EXISTING = {
     fields: {
       AAQ: "templateId", AAR: "data", AAS: "parseAsBoolean", AAg: "test", AAj: "metadata",
       ALO: "version", ALP: "makePageImages", ALQ: "password", ALR: "expiresIn", ALS: "fieldOverrides",
-      "PENDING-EDITABLE": "editable"
+      ALV: "editable"
     },
     returns: {
       AAT: "id", AAU: "state", AAV: "file", AAW: "success", AAX: "errorMessage",
@@ -29,14 +29,8 @@ const EXISTING = {
   }
 };
 
-// Fields added here before Bubble has given them an ID, by action folder. When
-// Bubble assigns the ID, replace the placeholder in params.json and EXISTING,
-// and remove it here.
-const PLACEHOLDER_FIELD_IDS = { "AAP-850n0": ["PENDING-EDITABLE"] };
-
 // Why an ID in an action's params.json isn't one Bubble assigned, or null.
 const idProblem = (dir, section, id) => {
-  if (section === "fields" && (PLACEHOLDER_FIELD_IDS[dir] || []).includes(id)) return null;
   return /^A[A-Za-z0-9]{2}$/.test(id) ? null : `${dir} has ID ${id} in ${section}`;
 };
 
@@ -103,12 +97,9 @@ test("every ID is one Bubble assigned, unique per file, and every new action is 
   assert.deepEqual(mapped, actionDirs().filter((dir) => !EXISTING[dir]));
 });
 
-test("the only ID that isn't Bubble's is the Editable field's placeholder", () => {
-  assert.equal(idProblem("AAP-850n0", "fields", "PENDING-EDITABLE"), null);
-  assert.equal(idProblem("AAP-850n0", "fields", "ALS"), null);
-  assert.ok(idProblem("AAP-850n0", "fields", "PENDING-OTHER"));
-  assert.ok(idProblem("AAP-850n0", "return_value", "PENDING-EDITABLE"));
-  assert.ok(idProblem("AAY-850nj", "fields", "PENDING-EDITABLE"));
+test("an ID must look like one Bubble assigned", () => {
+  assert.equal(idProblem("AAP-850n0", "fields", "ALV"), null);
+  assert.ok(idProblem("AAP-850n0", "fields", "PENDING-EDITABLE"));
   assert.ok(idProblem("AAP-850n0", "fields", "editable"));
 });
 

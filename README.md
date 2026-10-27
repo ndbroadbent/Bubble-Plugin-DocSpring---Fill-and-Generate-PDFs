@@ -28,6 +28,4 @@ node --test
 The tests (Node 18 or later, no dependencies) run each action's `server.js` with a mocked `context.v3.request`, so
 they never call DocSpring. `test/structure.test.js` checks that the helper blocks match, that the existing actions keep
 their IDs, that every ID is one Bubble assigned, that each action reads only the fields its `params.json` declares, and
-that no field the code requires is marked optional. A field added here before Bubble has given it an ID waits under a
-placeholder key (Create PDF Submission's Editable field is `PENDING-EDITABLE`): after Bubble assigns the ID, replace the
-key in `params.json` and in `test/structure.test.js`.
+that no field the code requires is marked optional.
