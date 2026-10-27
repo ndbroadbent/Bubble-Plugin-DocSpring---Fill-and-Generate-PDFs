@@ -101,7 +101,18 @@ test("Create Signature Request names the submission when a link fails", async ()
   assert.equal(result.id, "sub_123");
   assert.equal(
     result.errorMessage,
-    "DocSpring API error 409 conflict: The signature request is completed\nRequest ID: req_123\nSubmission: sub_123\nSignature request: srq_1"
+    "DocSpring API error 409 conflict: The signature request is completed\nSubmission: sub_123\nSignature request: srq_1\nRequest ID: req_123"
+  );
+
+  const unreachable = await runAction("create-signature-request", { templateId: "tpl_123", signerFields: "signature" }, {
+    responses: [
+      { method: "POST", status: 201, body: waiting() },
+      { method: "POST", uri: `${US}/signature_requests/srq_1/tokens`, throws: new Error("socket hang up") }
+    ]
+  });
+  assert.equal(
+    unreachable.result.errorMessage,
+    `Could not reach DocSpring at ${US}/signature_requests/srq_1/tokens: socket hang up\nSubmission: sub_123\nSignature request: srq_1`
   );
 });
 

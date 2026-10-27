@@ -296,9 +296,18 @@ async function(properties, context) {
   const stateFailureMessage = (what, state, errorMessage, idLabel, id) =>
     `${what} (state: ${state}): ${errorMessage || "no error message"}\n${idLabel}: ${id}`;
 
-  // The lines after an API v2 error's message: its details, the IDs of any
-  // records it saved, and the request ID.
-  const errorDetailLines = (error) => {
+  // "Submission: sub_123" lines from [label, ID] pairs, skipping blank IDs and
+  // lines already in lines.
+  const recordLines = (records, lines) =>
+    (records || [])
+      .filter((record) => !isBlank(record[1]))
+      .map((record) => `${record[0]}: ${record[1]}`)
+      .filter((line) => !(lines || []).includes(line));
+
+  // The lines after an API v2 error's message: its details, the IDs of the
+  // records it saved or is about (with the caller's records), and the request
+  // ID, last.
+  const errorDetailLines = (error, records) => {
     const lines = [];
     (Array.isArray(error.details) ? error.details : []).forEach((detail) => {
       if (!detail) return;
@@ -308,37 +317,42 @@ async function(properties, context) {
     RECORD_IDS.forEach((entry) => {
       if (error[entry[0]]) lines.push(`${entry[1]}: ${error[entry[0]]}`);
     });
+    lines.push(...recordLines(records, lines));
     if (error.request_id) lines.push(`Request ID: ${error.request_id}`);
     return lines;
   };
 
-  const formatApiError = (status, body) => {
+  const formatApiError = (status, body, records) => {
     const error = body && typeof body === "object" && body.error && typeof body.error === "object" ? body.error : null;
     if (!error) {
       if (status === 404 && regionInfo.region === "CUSTOM") {
-        return (
+        return [
           "This DocSpring server doesn't have API v2 yet. Upgrade it to the latest " +
           `release, or use version ${PREVIOUS_PLUGIN_VERSION} of this plugin.`
-        );
+        ].concat(recordLines(records)).join("\n");
       }
       const text = typeof body === "string" ? body : toJson(body);
-      return `DocSpring API error ${status}${text ? ": " + text.slice(0, 500) : ""}`;
+      return [`DocSpring API error ${status}${text ? ": " + text.slice(0, 500) : ""}`]
+        .concat(recordLines(records))
+        .join("\n");
     }
     if (error.code === "polling_timeout") {
       const record = RECORD_IDS.find((entry) => error[entry[0]]);
       if (record) {
         const lines = [notReadyMessage(record[2], record[3], error[record[0]], record[4])];
+        lines.push(...recordLines(records, [`${record[1]}: ${error[record[0]]}`]));
         if (error.request_id) lines.push(`Request ID: ${error.request_id}`);
         return lines.join("\n");
       }
     }
     return [`DocSpring API error ${status} ${error.code}: ${error.message}`]
-      .concat(errorDetailLines(error))
+      .concat(errorDetailLines(error, records))
       .join("\n");
   };
 
   // Calls API v2 and returns { ok, status, body, errorMessage }. Never throws
-  // for HTTP errors.
+  // for HTTP errors. options.records ([label, ID] pairs, such as
+  // ["Submission", "sub_123"]) name the records an error message is about.
   const apiRequest = async (method, path, options) => {
     const opts = options || {};
     const query = new URLSearchParams();
@@ -371,7 +385,9 @@ async function(properties, context) {
           ok: false,
           status: null,
           body: null,
-          errorMessage: `Could not reach DocSpring at ${uri}: ${error && error.message}`
+          errorMessage: [`Could not reach DocSpring at ${uri}: ${error && error.message}`]
+            .concat(recordLines(opts.records))
+            .join("\n")
         };
       }
     }
@@ -381,7 +397,7 @@ async function(properties, context) {
     if (status >= 200 && status < 300) {
       return { ok: true, status: status, body: body, errorMessage: null };
     }
-    return { ok: false, status: status, body: body, errorMessage: formatApiError(status, body) };
+    return { ok: false, status: status, body: body, errorMessage: formatApiError(status, body, opts.records) };
   };
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -511,13 +527,11 @@ async function(properties, context) {
   if (linkType !== "none") {
     for (const request of requests) {
       const token = await apiRequest("POST", `/signature_requests/${encodeURIComponent(request.id)}/tokens`, {
-        body: { type: linkType }
+        body: { type: linkType },
+        records: [["Submission", submission.id], ["Signature request", request.id]]
       });
       if (!token.ok) {
-        return Object.assign(output(), {
-          success: false,
-          errorMessage: `${token.errorMessage}\nSubmission: ${submission.id}\nSignature request: ${request.id}`
-        });
+        return Object.assign(output(), { success: false, errorMessage: token.errorMessage });
       }
       request.signing_url = (token.body && token.body.signature_request_url) || null;
     }
