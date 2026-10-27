@@ -43,6 +43,31 @@
             "name": "metadata",
             "rank": 4,
             "value": "text"
+        },
+        "ALO": {
+            "caption": "",
+            "name": "",
+            "rank": 5
+        },
+        "ALP": {
+            "caption": "",
+            "name": "",
+            "rank": 6
+        },
+        "ALQ": {
+            "caption": "",
+            "name": "",
+            "rank": 7
+        },
+        "ALR": {
+            "caption": "",
+            "name": "",
+            "rank": 8
+        },
+        "ALS": {
+            "caption": "",
+            "name": "",
+            "rank": 9
         }
     },
     "return_value": {
@@ -93,6 +118,10 @@
             "name": "regionInfo",
             "rank": 7,
             "value": "text"
+        },
+        "ALT": {
+            "caption": "",
+            "name": ""
         }
     },
     "type": "server_side"

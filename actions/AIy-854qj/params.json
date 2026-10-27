@@ -1,0 +1,144 @@
+{
+    "category": "plugins",
+    "display": "DocSpring - Scaffold (copy)",
+    "fields": {
+        "AIi": {
+            "caption": "f1",
+            "editor": "Dropdown",
+            "name": "f1",
+            "options": "a,b",
+            "rank": 0
+        },
+        "AIj": {
+            "caption": "",
+            "name": "",
+            "rank": 1
+        },
+        "AIk": {
+            "caption": "",
+            "name": "",
+            "rank": 2
+        },
+        "AIl": {
+            "caption": "",
+            "name": "",
+            "rank": 3
+        },
+        "AIm": {
+            "caption": "",
+            "name": "",
+            "rank": 4
+        },
+        "AIn": {
+            "caption": "",
+            "name": "",
+            "rank": 5
+        },
+        "AIo": {
+            "caption": "",
+            "name": "",
+            "rank": 6
+        },
+        "AIp": {
+            "caption": "",
+            "name": "",
+            "rank": 7
+        },
+        "AIq": {
+            "caption": "",
+            "name": "",
+            "rank": 8
+        },
+        "AIr": {
+            "caption": "",
+            "name": "",
+            "rank": 9
+        },
+        "AIs": {
+            "caption": "",
+            "name": "",
+            "rank": 10
+        },
+        "AIt": {
+            "caption": "",
+            "name": "",
+            "rank": 11
+        },
+        "AIu": {
+            "caption": "",
+            "name": "",
+            "rank": 12
+        },
+        "AIv": {
+            "caption": "",
+            "name": "",
+            "rank": 13
+        },
+        "AIw": {
+            "caption": "",
+            "name": "",
+            "rank": 14
+        },
+        "AIx": {
+            "caption": "",
+            "name": "",
+            "rank": 15
+        }
+    },
+    "return_value": {
+        "ACK": {
+            "caption": "",
+            "is_list": true,
+            "name": "r1"
+        },
+        "ACL": {
+            "caption": "",
+            "name": ""
+        },
+        "ACM": {
+            "caption": "",
+            "name": ""
+        },
+        "ACN": {
+            "caption": "",
+            "name": ""
+        },
+        "ACO": {
+            "caption": "",
+            "name": ""
+        },
+        "ACP": {
+            "caption": "",
+            "name": ""
+        },
+        "ACQ": {
+            "caption": "",
+            "name": ""
+        },
+        "ACR": {
+            "caption": "",
+            "name": ""
+        },
+        "ACS": {
+            "caption": "",
+            "name": ""
+        },
+        "ACT": {
+            "caption": "",
+            "name": ""
+        },
+        "ACU": {
+            "caption": "",
+            "name": ""
+        },
+        "ACV": {
+            "caption": "",
+            "name": ""
+        },
+        "ACW": {
+            "caption": "",
+            "name": ""
+        }
+    },
+    "type": "server_side"
+}

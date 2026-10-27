@@ -95,6 +95,10 @@
             "name": "response",
             "rank": 13,
             "value": "text"
+        },
+        "ALU": {
+            "caption": "",
+            "name": ""
         }
     },
     "type": "server_side"
