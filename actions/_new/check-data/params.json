@@ -1,0 +1,92 @@
+{
+    "category": "plugins",
+    "display": "DocSpring - Check Data",
+    "fields": {
+        "NEW_1": {
+            "caption": "Template ID",
+            "doc": "Starts with 'tpl_'. Find it in your DocSpring account, or with Find Templates.",
+            "editor": "DynamicValue",
+            "name": "templateId",
+            "rank": 0,
+            "value": "text"
+        },
+        "NEW_2": {
+            "caption": "Template Version",
+            "doc": "Optional. A published version such as 1.2.0 (or 1 for the latest 1.x.x), latest, or draft. Default: the latest published version (the draft when none has been published).",
+            "editor": "DynamicValue",
+            "name": "version",
+            "optional": true,
+            "rank": 1,
+            "value": "text"
+        },
+        "NEW_3": {
+            "caption": "Data",
+            "doc": "The values of the template's fields, by field name. Use '/' for nested fields and lists, such as 'address/city' or 'items/0/name'. Date fields take dates as YYYY-MM-DD. For an image field, use 'image_name/url' with an image URL.",
+            "editor": "key_value_list",
+            "name": "data",
+            "rank": 2,
+            "value": "text"
+        },
+        "NEW_4": {
+            "caption": "Enable Booleans",
+            "default_val": false,
+            "doc": "If enabled, any fields with the exact value of \"true\" or \"false\" will be parsed as booleans (true and false) instead of as text.",
+            "editor": "Checkbox",
+            "name": "parseAsBoolean",
+            "rank": 3
+        },
+        "NEW_5": {
+            "caption": "Test Mode",
+            "default_val": false,
+            "doc": "Test PDFs are free, but they include watermarks. A test API token always makes test PDFs.",
+            "editor": "DynamicValue",
+            "name": "test",
+            "optional": true,
+            "rank": 4,
+            "value": "boolean"
+        },
+        "NEW_6": {
+            "caption": "Signature Requests (JSON)",
+            "doc": "Optional. A JSON list of signature requests to check with the data, as in Create Signature Request's More Signers (JSON).",
+            "editor": "DynamicValue",
+            "name": "signatureRequests",
+            "optional": true,
+            "rank": 5,
+            "value": "text"
+        }
+    },
+    "return_value": {
+        "NEW_7": {
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
+        },
+        "NEW_8": {
+            "caption": "Valid",
+            "name": "valid",
+            "rank": 1,
+            "value": "boolean"
+        },
+        "NEW_9": {
+            "caption": "Errors",
+            "is_list": true,
+            "name": "errors",
+            "rank": 2,
+            "value": "text"
+        },
+        "NEW_10": {
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 3,
+            "value": "text"
+        },
+        "NEW_11": {
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 4,
+            "value": "text"
+        }
+    },
+    "type": "server_side"
+}

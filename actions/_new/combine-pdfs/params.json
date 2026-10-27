@@ -1,0 +1,102 @@
+{
+    "category": "plugins",
+    "display": "DocSpring - Combine PDFs",
+    "fields": {
+        "NEW_1": {
+            "caption": "Sources",
+            "doc": "The PDFs to merge, in order. Key: the type (submission, combined_pdf, template, custom_file or url). Value: its ID, or the URL for url.",
+            "editor": "key_value_list",
+            "name": "sources",
+            "rank": 0,
+            "value": "text"
+        },
+        "NEW_2": {
+            "caption": "Sources (JSON)",
+            "doc": "Optional, advanced. A JSON list of sources added after Sources, such as [{\"type\": \"template\", \"id\": \"tpl_123\", \"template_version\": \"1.2.0\"}].",
+            "editor": "DynamicValue",
+            "name": "sourcesJson",
+            "optional": true,
+            "rank": 1,
+            "value": "text"
+        },
+        "NEW_3": {
+            "caption": "Metadata",
+            "doc": "Your own data about the record, such as an ID from your app. It isn't printed on the PDF, and it's sent with webhooks.",
+            "editor": "key_value_list",
+            "name": "metadata",
+            "rank": 2,
+            "value": "text"
+        },
+        "NEW_4": {
+            "caption": "PDF Password",
+            "doc": "Optional. A password that the PDF needs to be opened with. DocSpring never returns it.",
+            "editor": "DynamicValue",
+            "name": "password",
+            "optional": true,
+            "rank": 3,
+            "value": "text"
+        },
+        "NEW_5": {
+            "caption": "Expires In (Seconds)",
+            "doc": "Optional. Seconds after the PDF is generated until DocSpring deletes it and its data, up to 10 years (315360000). Default: the template's expiration setting.",
+            "editor": "DynamicValue",
+            "name": "expiresIn",
+            "optional": true,
+            "rank": 4,
+            "value": "number"
+        },
+        "NEW_6": {
+            "caption": "Wait",
+            "default_val": true,
+            "doc": "Wait up to 45 seconds for the combined PDF. Turn it off to return straight away.",
+            "editor": "Checkbox",
+            "name": "wait",
+            "rank": 5
+        }
+    },
+    "return_value": {
+        "NEW_7": {
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
+        },
+        "NEW_8": {
+            "caption": "Combined PDF ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
+        },
+        "NEW_9": {
+            "caption": "Combined PDF State",
+            "name": "state",
+            "rank": 2,
+            "value": "text"
+        },
+        "NEW_10": {
+            "caption": "PDF File",
+            "name": "file",
+            "rank": 3,
+            "value": "file"
+        },
+        "NEW_11": {
+            "caption": "Permanent PDF File",
+            "name": "permanentFile",
+            "rank": 4,
+            "value": "file"
+        },
+        "NEW_12": {
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 5,
+            "value": "text"
+        },
+        "NEW_13": {
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 6,
+            "value": "text"
+        }
+    },
+    "type": "server_side"
+}

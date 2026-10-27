@@ -1,0 +1,65 @@
+{
+    "category": "plugins",
+    "display": "DocSpring - Get Combined PDF",
+    "fields": {
+        "NEW_1": {
+            "caption": "Combined PDF ID",
+            "doc": "Starts with 'com_'. Returned by Combine PDFs.",
+            "editor": "DynamicValue",
+            "name": "combinedPdfId",
+            "rank": 0,
+            "value": "text"
+        }
+    },
+    "return_value": {
+        "NEW_2": {
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
+        },
+        "NEW_3": {
+            "caption": "Combined PDF ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
+        },
+        "NEW_4": {
+            "caption": "Combined PDF State",
+            "name": "state",
+            "rank": 2,
+            "value": "text"
+        },
+        "NEW_5": {
+            "caption": "PDF File",
+            "name": "file",
+            "rank": 3,
+            "value": "file"
+        },
+        "NEW_6": {
+            "caption": "Permanent PDF File",
+            "name": "permanentFile",
+            "rank": 4,
+            "value": "file"
+        },
+        "NEW_7": {
+            "caption": "Expires At",
+            "name": "expiresAt",
+            "rank": 5,
+            "value": "text"
+        },
+        "NEW_8": {
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 6,
+            "value": "text"
+        },
+        "NEW_9": {
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 7,
+            "value": "text"
+        }
+    },
+    "type": "server_side"
+}

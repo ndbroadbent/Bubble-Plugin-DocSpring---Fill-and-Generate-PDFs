@@ -1,0 +1,127 @@
+{
+    "category": "plugins",
+    "display": "DocSpring - Generate PDFs in a Batch",
+    "fields": {
+        "NEW_1": {
+            "caption": "Submissions (JSON)",
+            "doc": "A JSON list with one object per PDF (up to 50), such as [{\"data\": {\"name\": \"Jane\"}, \"metadata\": {\"user_id\": 1}}]. Each object can also have field_overrides, test, template_id and template_version.",
+            "editor": "DynamicValue",
+            "name": "submissions",
+            "rank": 0,
+            "value": "text"
+        },
+        "NEW_2": {
+            "caption": "Template ID",
+            "doc": "The template for each submission that doesn't name its own template_id. Starts with 'tpl_'.",
+            "editor": "DynamicValue",
+            "name": "templateId",
+            "optional": true,
+            "rank": 1,
+            "value": "text"
+        },
+        "NEW_3": {
+            "caption": "Template Version",
+            "doc": "Optional. A published version such as 1.2.0 (or 1 for the latest 1.x.x), latest, or draft. Default: the latest published version (the draft when none has been published).",
+            "editor": "DynamicValue",
+            "name": "version",
+            "optional": true,
+            "rank": 2,
+            "value": "text"
+        },
+        "NEW_4": {
+            "caption": "Test Mode",
+            "default_val": false,
+            "doc": "Test PDFs are free, but they include watermarks. A test API token always makes test PDFs.",
+            "editor": "DynamicValue",
+            "name": "test",
+            "optional": true,
+            "rank": 3,
+            "value": "boolean"
+        },
+        "NEW_5": {
+            "caption": "Metadata",
+            "doc": "Your own data about the record, such as an ID from your app. It isn't printed on the PDF, and it's sent with webhooks.",
+            "editor": "key_value_list",
+            "name": "metadata",
+            "rank": 4,
+            "value": "text"
+        },
+        "NEW_6": {
+            "caption": "Make Page Images",
+            "default_val": false,
+            "doc": "Also make a PNG image of each page of the PDF (up to 100 pages).",
+            "editor": "Checkbox",
+            "name": "makePageImages",
+            "rank": 5
+        },
+        "NEW_7": {
+            "caption": "Wait",
+            "default_val": true,
+            "doc": "Wait up to 45 seconds for every PDF. Turn it off to return straight away.",
+            "editor": "Checkbox",
+            "name": "wait",
+            "rank": 6
+        }
+    },
+    "return_value": {
+        "NEW_8": {
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
+        },
+        "NEW_9": {
+            "caption": "Batch ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
+        },
+        "NEW_10": {
+            "caption": "Batch State",
+            "name": "state",
+            "rank": 2,
+            "value": "text"
+        },
+        "NEW_11": {
+            "caption": "Submission IDs",
+            "is_list": true,
+            "name": "submissionIds",
+            "rank": 3,
+            "value": "text"
+        },
+        "NEW_12": {
+            "caption": "Submission States",
+            "is_list": true,
+            "name": "submissionStates",
+            "rank": 4,
+            "value": "text"
+        },
+        "NEW_13": {
+            "caption": "PDF Files",
+            "is_list": true,
+            "name": "files",
+            "rank": 5,
+            "value": "file"
+        },
+        "NEW_14": {
+            "caption": "Permanent PDF Files",
+            "is_list": true,
+            "name": "permanentFiles",
+            "rank": 6,
+            "value": "file"
+        },
+        "NEW_15": {
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 7,
+            "value": "text"
+        },
+        "NEW_16": {
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 8,
+            "value": "text"
+        }
+    },
+    "type": "server_side"
+}
