@@ -55,7 +55,7 @@
             "value": "text"
         },
         "AAo": {
-            "caption": "MD5 Hash of the pdf file",
+            "caption": "SHA-256 hash of the PDF",
             "name": "pdfHash",
             "rank": 7,
             "value": "text"
@@ -79,7 +79,7 @@
             "value": "text"
         },
         "AAs": {
-            "caption": "Password used to encrypt the PDF",
+            "caption": "Password (always empty: DocSpring no longer returns it)",
             "name": "password",
             "rank": 11,
             "value": "text"

@@ -12,7 +12,7 @@
         },
         "AAR": {
             "caption": "Data",
-            "doc": "These are the variables which can be forwarded to DocSpring to be filled in your template. Example: Adding a text field into your template with the name 'firstName' and setting the value of 'firstName' in this action to 'John' will result in 'John' being added to your submission.",
+            "doc": "These are the variables which can be forwarded to DocSpring to be filled in your template. Example: Adding a text field into your template with the name 'firstName' and setting the value of 'firstName' in this action to 'John' will result in 'John' being added to your submission. Use '/' for nested fields and lists, such as 'address/city' or 'items/0/name'. Date fields take dates as YYYY-MM-DD.",
             "editor": "key_value_list",
             "name": "data",
             "rank": 1,
@@ -29,7 +29,7 @@
         "AAg": {
             "caption": "Test Mode",
             "default_val": false,
-            "doc": "Test PDFs are free, but they include watermarks. Set Test Mode to false to remove the watermarks (and make sure you are using a live API token. Test API tokens can only be used to generate test PDFs.)",
+            "doc": "Test PDFs are free, but they include watermarks. Set Test Mode to no to remove the watermarks (and make sure you are using a live API token: test API tokens always generate test PDFs).",
             "editor": "DynamicValue",
             "name": "test",
             "optional": true,
