@@ -1,0 +1,67 @@
+{
+    "category": "plugins",
+    "display": "DocSpring - Make an API Call",
+    "fields": {
+        "NEW_1": {
+            "caption": "Method",
+            "default_val": "GET",
+            "doc": "The HTTP method.",
+            "editor": "Dropdown",
+            "name": "method",
+            "options": "GET,POST,PUT,DELETE",
+            "rank": 0
+        },
+        "NEW_2": {
+            "caption": "Path",
+            "doc": "The path after /api/v2, such as /templates/tpl_123. See https://docspring.com/docs/api/",
+            "editor": "DynamicValue",
+            "name": "path",
+            "rank": 1,
+            "value": "text"
+        },
+        "NEW_3": {
+            "caption": "Query Parameters",
+            "doc": "Optional. Query parameters, such as limit = 10.",
+            "editor": "key_value_list",
+            "name": "query",
+            "rank": 2,
+            "value": "text"
+        },
+        "NEW_4": {
+            "caption": "Body (JSON)",
+            "doc": "Optional. The JSON body.",
+            "editor": "DynamicValue",
+            "name": "body",
+            "optional": true,
+            "rank": 3,
+            "value": "text"
+        }
+    },
+    "return_value": {
+        "NEW_5": {
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
+        },
+        "NEW_6": {
+            "caption": "Status Code",
+            "name": "statusCode",
+            "rank": 1,
+            "value": "number"
+        },
+        "NEW_7": {
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 2,
+            "value": "text"
+        },
+        "NEW_8": {
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 3,
+            "value": "text"
+        }
+    },
+    "type": "server_side"
+}

@@ -1,0 +1,62 @@
+{
+    "category": "plugins",
+    "display": "DocSpring - Create Folder",
+    "fields": {
+        "NEW_1": {
+            "caption": "Name",
+            "doc": "The folder's name. It can't contain '/'.",
+            "editor": "DynamicValue",
+            "name": "name",
+            "rank": 0,
+            "value": "text"
+        },
+        "NEW_2": {
+            "caption": "Parent Folder ID",
+            "doc": "Optional. The folder to create it in. Default: the root.",
+            "editor": "DynamicValue",
+            "name": "parentFolderId",
+            "optional": true,
+            "rank": 1,
+            "value": "text"
+        }
+    },
+    "return_value": {
+        "NEW_3": {
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
+        },
+        "NEW_4": {
+            "caption": "Folder ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
+        },
+        "NEW_5": {
+            "caption": "Name",
+            "name": "name",
+            "rank": 2,
+            "value": "text"
+        },
+        "NEW_6": {
+            "caption": "Folder Path",
+            "name": "path",
+            "rank": 3,
+            "value": "text"
+        },
+        "NEW_7": {
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 4,
+            "value": "text"
+        },
+        "NEW_8": {
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 5,
+            "value": "text"
+        }
+    },
+    "type": "server_side"
+}

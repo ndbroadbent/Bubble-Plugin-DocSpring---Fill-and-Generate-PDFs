@@ -1,0 +1,81 @@
+{
+    "category": "plugins",
+    "display": "DocSpring - List Folders",
+    "fields": {
+        "NEW_1": {
+            "caption": "Parent Folder ID",
+            "doc": "Optional. Only list the folders in this folder. Default: every folder, at any depth.",
+            "editor": "DynamicValue",
+            "name": "parentFolderId",
+            "optional": true,
+            "rank": 0,
+            "value": "text"
+        },
+        "NEW_2": {
+            "caption": "Limit",
+            "doc": "Optional. How many to return, from 1 to 100. Default 50.",
+            "editor": "DynamicValue",
+            "name": "limit",
+            "optional": true,
+            "rank": 1,
+            "value": "number"
+        },
+        "NEW_3": {
+            "caption": "Cursor",
+            "doc": "Optional. The Next Cursor from the previous page, to get the next page.",
+            "editor": "DynamicValue",
+            "name": "cursor",
+            "optional": true,
+            "rank": 2,
+            "value": "text"
+        }
+    },
+    "return_value": {
+        "NEW_4": {
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
+        },
+        "NEW_5": {
+            "caption": "Folder IDs",
+            "is_list": true,
+            "name": "ids",
+            "rank": 1,
+            "value": "text"
+        },
+        "NEW_6": {
+            "caption": "Folder Names",
+            "is_list": true,
+            "name": "names",
+            "rank": 2,
+            "value": "text"
+        },
+        "NEW_7": {
+            "caption": "Folder Paths",
+            "is_list": true,
+            "name": "paths",
+            "rank": 3,
+            "value": "text"
+        },
+        "NEW_8": {
+            "caption": "Next Cursor",
+            "name": "nextCursor",
+            "rank": 4,
+            "value": "text"
+        },
+        "NEW_9": {
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 5,
+            "value": "text"
+        },
+        "NEW_10": {
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 6,
+            "value": "text"
+        }
+    },
+    "type": "server_side"
+}
