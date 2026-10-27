@@ -4,10 +4,9 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const { runAction, actionDirs, readServerJs, helperBlock, US } = require("./support/harness");
 
-// Each action that puts an input ID in a URL path, with that field.
+// Each new action that puts an input ID in a URL path, with that field. (The
+// two actions from plugin 1.x return Success = no instead: see their tests.)
 const PATH_IDS = [
-  ["AAP-850n0", "templateId", "Template ID"],
-  ["AAY-850nj", "submissionId", "Submission ID"],
   ["get-submission-batch", "batchId", "Batch ID"],
   ["check-data", "templateId", "Template ID"],
   ["find-submissions", "templateId", "Template ID"],

@@ -77,7 +77,20 @@ test("rejects values that can't convert", async () => {
   await assert.rejects(runAction(ACTION, { templateId: "tpl_123", expiresIn: "an hour" }), /Expires In \(Seconds\) must be a whole number/);
   await assert.rejects(runAction(ACTION, { templateId: "tpl_123", fieldOverrides: "{nope" }), /Field Overrides \(JSON\) isn't valid JSON/);
   await assert.rejects(runAction(ACTION, { templateId: "tpl_123", fieldOverrides: "[]" }), /must be a JSON object/);
-  await assert.rejects(runAction(ACTION, { templateId: "" }), /Template ID is required/);
+});
+
+test("a blank template ID returns Success = no, as 1.7.0 did, without a request", async () => {
+  for (const templateId of ["", "  ", null, undefined]) {
+    const { result, calls } = await runAction(ACTION, { templateId: templateId, data: [] });
+    assert.equal(calls.length, 0);
+    assert.equal(result.success, false);
+    assert.equal(result.errorMessage, "Template ID is required.");
+    assert.equal(result.response, null);
+    assert.equal(JSON.parse(result.regionInfo).apiBaseUrl, US);
+  }
+  const { result } = await runAction(ACTION, { templateId: " .. " });
+  assert.equal(result.success, false);
+  assert.equal(result.errorMessage, 'Template ID can\'t be "..".');
 });
 
 test("builds nested data from a/b/0 keys, parses booleans, and fixes protocol-relative image URLs", async () => {

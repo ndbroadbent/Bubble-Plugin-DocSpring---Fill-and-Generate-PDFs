@@ -427,6 +427,12 @@ async function(properties, context) {
   const serializedRegionInfo = JSON.stringify(regionInfo);
   const withRegion = (result) => Object.assign(result, { regionInfo: serializedRegionInfo });
 
+  // As in plugin 1.x, a missing template ID returns Success = no instead of
+  // stopping the workflow.
+  const templateIdProblem = pathIdProblem(properties.templateId, "Template ID");
+  if (templateIdProblem) {
+    return withRegion(fail(templateIdProblem, null));
+  }
   const templateId = pathId(properties.templateId, "Template ID");
   const body = { data: buildData(properties.data, properties.parseAsBoolean) };
   if (toBoolean(properties.test, "Test Mode") === true) {

@@ -423,6 +423,12 @@ async function(properties, context) {
 
   // Get PDF Submission (API v2 "Get Submission").
   const serializedRegionInfo = JSON.stringify(regionInfo);
+  // As in plugin 1.x, a missing submission ID returns Success = no instead of
+  // stopping the workflow.
+  const submissionIdProblem = pathIdProblem(properties.submissionId, "Submission ID");
+  if (submissionIdProblem) {
+    return fail(submissionIdProblem, null, { regionInfo: serializedRegionInfo });
+  }
   const submissionId = pathId(properties.submissionId, "Submission ID");
 
   const result = await apiRequest("GET", `/submissions/${submissionId}`);

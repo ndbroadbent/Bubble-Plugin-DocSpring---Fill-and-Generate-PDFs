@@ -62,3 +62,17 @@ test("IDs are escaped in the path", async () => {
     responses: [{ method: "GET", uri: `${US}/submissions/sub_1%2F..%2Fx`, status: 200, body: submission() }]
   });
 });
+
+test("a blank submission ID returns Success = no, as 1.7.0 did, without a request", async () => {
+  for (const submissionId of ["", "  ", null, undefined]) {
+    const { result, calls } = await runAction("AAY-850nj", { submissionId: submissionId });
+    assert.equal(calls.length, 0);
+    assert.equal(result.success, false);
+    assert.equal(result.errorMessage, "Submission ID is required.");
+    assert.equal(result.response, null);
+    assert.equal(JSON.parse(result.regionInfo).apiBaseUrl, US);
+  }
+  const { result } = await runAction("AAY-850nj", { submissionId: "." });
+  assert.equal(result.success, false);
+  assert.equal(result.errorMessage, 'Submission ID can\'t be ".".');
+});
