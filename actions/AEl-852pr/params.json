@@ -1,143 +1,64 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Get Combined PDF",
     "fields": {
         "AEV": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
-        },
-        "AEW": {
-            "caption": "",
-            "name": "",
-            "rank": 1
-        },
-        "AEX": {
-            "caption": "",
-            "name": "",
-            "rank": 2
-        },
-        "AEY": {
-            "caption": "",
-            "name": "",
-            "rank": 3
-        },
-        "AEZ": {
-            "caption": "",
-            "name": "",
-            "rank": 4
-        },
-        "AEa": {
-            "caption": "",
-            "name": "",
-            "rank": 5
-        },
-        "AEb": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "AEc": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "AEd": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "AEe": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "AEf": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "AEg": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "AEh": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "AEi": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "AEj": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "AEk": {
-            "caption": "",
-            "name": "",
-            "rank": 15
+            "caption": "Combined PDF ID",
+            "doc": "Starts with 'com_'. Returned by Combine PDFs.",
+            "editor": "DynamicValue",
+            "name": "combinedPdfId",
+            "rank": 0,
+            "value": "text"
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Combined PDF ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Combined PDF State",
+            "name": "state",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "PDF File",
+            "name": "file",
+            "rank": 3,
+            "value": "file"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
+            "caption": "Permanent PDF File",
+            "name": "permanentFile",
+            "rank": 4,
+            "value": "file"
         },
         "ACP": {
-            "caption": "",
-            "name": ""
+            "caption": "Expires At",
+            "name": "expiresAt",
+            "rank": 5,
+            "value": "text"
         },
         "ACQ": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 6,
+            "value": "text"
         },
         "ACR": {
-            "caption": "",
-            "name": ""
-        },
-        "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 7,
+            "value": "text"
         }
     },
     "type": "server_side"

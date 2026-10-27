@@ -1,143 +1,89 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Find Templates",
     "fields": {
         "AFl": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
+            "caption": "Name Contains",
+            "doc": "Optional. Only find templates whose name contains this text.",
+            "editor": "DynamicValue",
+            "name": "query",
+            "optional": true,
+            "rank": 0,
+            "value": "text"
         },
         "AFm": {
-            "caption": "",
-            "name": "",
-            "rank": 1
+            "caption": "Folder ID",
+            "doc": "Optional. Only find the templates in this folder (not its subfolders). Starts with 'fld_'.",
+            "editor": "DynamicValue",
+            "name": "folderId",
+            "optional": true,
+            "rank": 1,
+            "value": "text"
         },
         "AFn": {
-            "caption": "",
-            "name": "",
-            "rank": 2
+            "caption": "Limit",
+            "doc": "Optional. How many to return, from 1 to 100. Default 50.",
+            "editor": "DynamicValue",
+            "name": "limit",
+            "optional": true,
+            "rank": 2,
+            "value": "number"
         },
         "AFo": {
-            "caption": "",
-            "name": "",
-            "rank": 3
-        },
-        "AFp": {
-            "caption": "",
-            "name": "",
-            "rank": 4
-        },
-        "AFq": {
-            "caption": "",
-            "name": "",
-            "rank": 5
-        },
-        "AFr": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "AFs": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "AFt": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "AFu": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "AFv": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "AFw": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "AFx": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "AFy": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "AFz": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "AGA": {
-            "caption": "",
-            "name": "",
-            "rank": 15
+            "caption": "Cursor",
+            "doc": "Optional. The Next Cursor from the previous page, to get the next page.",
+            "editor": "DynamicValue",
+            "name": "cursor",
+            "optional": true,
+            "rank": 3,
+            "value": "text"
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Template IDs",
+            "is_list": true,
+            "name": "ids",
+            "rank": 1,
+            "value": "text"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Template Names",
+            "is_list": true,
+            "name": "names",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "Template Types",
+            "is_list": true,
+            "name": "templateTypes",
+            "rank": 3,
+            "value": "text"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
+            "caption": "Next Cursor",
+            "name": "nextCursor",
+            "rank": 4,
+            "value": "text"
         },
         "ACP": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 5,
+            "value": "text"
         },
         "ACQ": {
-            "caption": "",
-            "name": ""
-        },
-        "ACR": {
-            "caption": "",
-            "name": ""
-        },
-        "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 6,
+            "value": "text"
         }
     },
     "type": "server_side"

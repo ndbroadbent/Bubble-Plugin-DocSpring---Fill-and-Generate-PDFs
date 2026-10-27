@@ -1,4 +1,4 @@
-// New signature request actions (actions/_new).
+// New signature request actions .
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const { runAction, submission, v2Error, US } = require("./support/harness");
@@ -16,7 +16,7 @@ const waiting = () =>
 const token = (id, url) => ({ id: id, type: "api", secret: "secret", signature_request_url: url, expires_at: "2026-10-28T00:00:00Z" });
 
 test("Create Signature Request creates the submission and a signing link per signer", async () => {
-  const { result, calls } = await runAction("_new/create-signature-request", {
+  const { result, calls } = await runAction("create-signature-request", {
     templateId: "tpl_123",
     version: "latest",
     data: [{ key: "company", value: "Acme" }],
@@ -63,7 +63,7 @@ test("Create Signature Request creates the submission and a signing link per sig
 });
 
 test("Create Signature Request leaves out empty data and makes no links with none", async () => {
-  const { result, calls } = await runAction("_new/create-signature-request", {
+  const { result, calls } = await runAction("create-signature-request", {
     templateId: "tpl_123",
     signerFields: ["signature"],
     signingLinkType: "none"
@@ -75,19 +75,19 @@ test("Create Signature Request leaves out empty data and makes no links with non
 });
 
 test("Create Signature Request needs a signer with fields", async () => {
-  await assert.rejects(runAction("_new/create-signature-request", { templateId: "tpl_123" }), /Add a signer/);
+  await assert.rejects(runAction("create-signature-request", { templateId: "tpl_123" }), /Add a signer/);
   await assert.rejects(
-    runAction("_new/create-signature-request", { templateId: "tpl_123", signerName: "Jane" }),
+    runAction("create-signature-request", { templateId: "tpl_123", signerName: "Jane" }),
     /Signer Fields is required/
   );
   await assert.rejects(
-    runAction("_new/create-signature-request", { templateId: "tpl_123", signerFields: "signature", authType: "none" }),
+    runAction("create-signature-request", { templateId: "tpl_123", signerFields: "signature", authType: "none" }),
     /Auth Type must be one of/
   );
 });
 
 test("Create Signature Request names the submission when a link fails", async () => {
-  const { result } = await runAction("_new/create-signature-request", {
+  const { result } = await runAction("create-signature-request", {
     templateId: "tpl_123",
     signerFields: "signature",
     signingLinkType: "email"
@@ -106,18 +106,18 @@ test("Create Signature Request names the submission when a link fails", async ()
 });
 
 test("Create Signing Link sends the type in the body", async () => {
-  const { result, calls } = await runAction("_new/create-signing-link", { signatureRequestId: "srq_1", type: "email" }, {
+  const { result, calls } = await runAction("create-signing-link", { signatureRequestId: "srq_1", type: "email" }, {
     responses: [{ method: "POST", uri: `${US}/signature_requests/srq_1/tokens`, status: 201, body: token("tok_1", "https://sign/1") }]
   });
   assert.deepEqual(calls[0].json, { type: "email" });
   assert.equal(result.id, "tok_1");
   assert.equal(result.signingUrl, "https://sign/1");
   assert.equal(result.expiresAt, "2026-10-28T00:00:00Z");
-  await assert.rejects(runAction("_new/create-signing-link", { signatureRequestId: "srq_1", type: "sms" }), /Link Type must be api or email/);
+  await assert.rejects(runAction("create-signing-link", { signatureRequestId: "srq_1", type: "sms" }), /Link Type must be api or email/);
 });
 
 test("Get Signature Request", async () => {
-  const { result } = await runAction("_new/get-signature-request", { signatureRequestId: "srq_1" }, {
+  const { result } = await runAction("get-signature-request", { signatureRequestId: "srq_1" }, {
     responses: [{
       method: "GET",
       uri: `${US}/signature_requests/srq_1`,

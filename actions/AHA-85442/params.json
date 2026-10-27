@@ -1,143 +1,107 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Replace Template PDF",
     "fields": {
         "AGk": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
+            "caption": "Template ID",
+            "doc": "Starts with 'tpl_'. Find it in your DocSpring account, or with Find Templates.",
+            "editor": "DynamicValue",
+            "name": "templateId",
+            "rank": 0,
+            "value": "text"
         },
         "AGl": {
-            "caption": "",
-            "name": "",
-            "rank": 1
+            "caption": "Document",
+            "doc": "The new PDF, as a file or an https:// URL (up to 100 MB).",
+            "editor": "DynamicValue",
+            "name": "document",
+            "optional": true,
+            "rank": 1,
+            "value": "file"
         },
         "AGm": {
-            "caption": "",
-            "name": "",
-            "rank": 2
+            "caption": "Document (Base64)",
+            "doc": "Optional. The PDF encoded as base64 instead of Document (up to 7 MB).",
+            "editor": "DynamicValue",
+            "name": "documentBase64",
+            "optional": true,
+            "rank": 2,
+            "value": "text"
         },
         "AGn": {
-            "caption": "",
-            "name": "",
-            "rank": 3
+            "caption": "Filename",
+            "doc": "Optional. The PDF's file name.",
+            "editor": "DynamicValue",
+            "name": "filename",
+            "optional": true,
+            "rank": 3,
+            "value": "text"
         },
         "AGo": {
-            "caption": "",
-            "name": "",
+            "caption": "Reimport Fields",
+            "default_val": false,
+            "doc": "Replace all of the template's fields with the fillable fields in the new PDF.",
+            "editor": "Checkbox",
+            "name": "reimportFields",
             "rank": 4
         },
         "AGp": {
-            "caption": "",
-            "name": "",
+            "caption": "Wait",
+            "default_val": true,
+            "doc": "Wait up to 45 seconds for the PDF to be processed. Turn it off to return straight away.",
+            "editor": "Checkbox",
+            "name": "wait",
             "rank": 5
-        },
-        "AGq": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "AGr": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "AGs": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "AGt": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "AGu": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "AGv": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "AGw": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "AGx": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "AGy": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "AGz": {
-            "caption": "",
-            "name": "",
-            "rank": 15
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Template ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Name",
+            "name": "name",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "Template Type",
+            "name": "templateType",
+            "rank": 3,
+            "value": "text"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
+            "caption": "Ready",
+            "name": "ready",
+            "rank": 4,
+            "value": "boolean"
         },
         "ACP": {
-            "caption": "",
-            "name": ""
+            "caption": "PDF State",
+            "name": "documentState",
+            "rank": 5,
+            "value": "text"
         },
         "ACQ": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 6,
+            "value": "text"
         },
         "ACR": {
-            "caption": "",
-            "name": ""
-        },
-        "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 7,
+            "value": "text"
         }
     },
     "type": "server_side"

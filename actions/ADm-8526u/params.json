@@ -1,143 +1,67 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Generate Submission Files",
     "fields": {
         "ADW": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
+            "caption": "Submission ID",
+            "doc": "Starts with 'sub_'.",
+            "editor": "DynamicValue",
+            "name": "submissionId",
+            "rank": 0,
+            "value": "text"
         },
         "ADX": {
-            "caption": "",
-            "name": "",
+            "caption": "Wait",
+            "default_val": true,
+            "doc": "Wait up to 45 seconds for the page images. Turn it off to return straight away.",
+            "editor": "Checkbox",
+            "name": "wait",
             "rank": 1
-        },
-        "ADY": {
-            "caption": "",
-            "name": "",
-            "rank": 2
-        },
-        "ADZ": {
-            "caption": "",
-            "name": "",
-            "rank": 3
-        },
-        "ADa": {
-            "caption": "",
-            "name": "",
-            "rank": 4
-        },
-        "ADb": {
-            "caption": "",
-            "name": "",
-            "rank": 5
-        },
-        "ADc": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "ADd": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "ADe": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "ADf": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "ADg": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "ADh": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "ADi": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "ADj": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "ADk": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "ADl": {
-            "caption": "",
-            "name": "",
-            "rank": 15
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Submission ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Submission State",
+            "name": "state",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "Page Images State",
+            "name": "pageImagesState",
+            "rank": 3,
+            "value": "text"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
+            "caption": "Page Images",
+            "is_list": true,
+            "name": "pageImages",
+            "rank": 4,
+            "value": "file"
         },
         "ACP": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 5,
+            "value": "text"
         },
         "ACQ": {
-            "caption": "",
-            "name": ""
-        },
-        "ACR": {
-            "caption": "",
-            "name": ""
-        },
-        "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 6,
+            "value": "text"
         }
     },
     "type": "server_side"

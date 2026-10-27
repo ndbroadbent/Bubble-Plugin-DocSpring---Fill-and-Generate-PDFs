@@ -1,143 +1,82 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Get Submission Batch",
     "fields": {
         "ACX": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
+            "caption": "Batch ID",
+            "doc": "Starts with 'sbb_'. Returned by Generate PDFs in a Batch.",
+            "editor": "DynamicValue",
+            "name": "batchId",
+            "rank": 0,
+            "value": "text"
         },
         "ACY": {
-            "caption": "",
-            "name": "",
+            "caption": "Include Data",
+            "default_val": false,
+            "doc": "Include each submission's data in Response JSON.",
+            "editor": "Checkbox",
+            "name": "includeData",
             "rank": 1
-        },
-        "ACZ": {
-            "caption": "",
-            "name": "",
-            "rank": 2
-        },
-        "ACa": {
-            "caption": "",
-            "name": "",
-            "rank": 3
-        },
-        "ACb": {
-            "caption": "",
-            "name": "",
-            "rank": 4
-        },
-        "ACc": {
-            "caption": "",
-            "name": "",
-            "rank": 5
-        },
-        "ACd": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "ACe": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "ACf": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "ACg": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "ACh": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "ACi": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "ACj": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "ACk": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "ACl": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "ACm": {
-            "caption": "",
-            "name": "",
-            "rank": 15
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Batch ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Batch State",
+            "name": "state",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "Submission IDs",
+            "is_list": true,
+            "name": "submissionIds",
+            "rank": 3,
+            "value": "text"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
+            "caption": "Submission States",
+            "is_list": true,
+            "name": "submissionStates",
+            "rank": 4,
+            "value": "text"
         },
         "ACP": {
-            "caption": "",
-            "name": ""
+            "caption": "PDF Files",
+            "is_list": true,
+            "name": "files",
+            "rank": 5,
+            "value": "file"
         },
         "ACQ": {
-            "caption": "",
-            "name": ""
+            "caption": "Permanent PDF Files",
+            "is_list": true,
+            "name": "permanentFiles",
+            "rank": 6,
+            "value": "file"
         },
         "ACR": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 7,
+            "value": "text"
         },
         "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 8,
+            "value": "text"
         }
     },
     "type": "server_side"

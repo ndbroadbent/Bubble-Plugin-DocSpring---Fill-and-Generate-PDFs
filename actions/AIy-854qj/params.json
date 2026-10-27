@@ -1,143 +1,56 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Update Template Fields",
     "fields": {
         "AIi": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
+            "caption": "Template ID",
+            "doc": "Starts with 'tpl_'. Find it in your DocSpring account, or with Find Templates.",
+            "editor": "DynamicValue",
+            "name": "templateId",
+            "rank": 0,
+            "value": "text"
         },
         "AIj": {
-            "caption": "",
-            "name": "",
-            "rank": 1
-        },
-        "AIk": {
-            "caption": "",
-            "name": "",
-            "rank": 2
-        },
-        "AIl": {
-            "caption": "",
-            "name": "",
-            "rank": 3
-        },
-        "AIm": {
-            "caption": "",
-            "name": "",
-            "rank": 4
-        },
-        "AIn": {
-            "caption": "",
-            "name": "",
-            "rank": 5
-        },
-        "AIo": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "AIp": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "AIq": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "AIr": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "AIs": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "AIt": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "AIu": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "AIv": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "AIw": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "AIx": {
-            "caption": "",
-            "name": "",
-            "rank": 15
+            "caption": "Fields (JSON)",
+            "doc": "A JSON list of changes, each with the id of the field it changes, such as [{\"id\": 12, \"required\": true}].",
+            "editor": "DynamicValue",
+            "name": "fields",
+            "rank": 1,
+            "value": "text"
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Field IDs",
+            "is_list": true,
+            "name": "ids",
+            "rank": 1,
+            "value": "number"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Field Names",
+            "is_list": true,
+            "name": "names",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 3,
+            "value": "text"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
-        },
-        "ACP": {
-            "caption": "",
-            "name": ""
-        },
-        "ACQ": {
-            "caption": "",
-            "name": ""
-        },
-        "ACR": {
-            "caption": "",
-            "name": ""
-        },
-        "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 4,
+            "value": "text"
         }
     },
     "type": "server_side"

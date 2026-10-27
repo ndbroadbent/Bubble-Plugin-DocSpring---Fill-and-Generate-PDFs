@@ -1,143 +1,85 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Copy Template",
     "fields": {
         "AHB": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
+            "caption": "Template ID",
+            "doc": "Starts with 'tpl_'. Find it in your DocSpring account, or with Find Templates.",
+            "editor": "DynamicValue",
+            "name": "templateId",
+            "rank": 0,
+            "value": "text"
         },
         "AHC": {
-            "caption": "",
-            "name": "",
-            "rank": 1
+            "caption": "Name",
+            "doc": "Optional. Default: the template's name followed by a number.",
+            "editor": "DynamicValue",
+            "name": "name",
+            "optional": true,
+            "rank": 1,
+            "value": "text"
         },
         "AHD": {
-            "caption": "",
-            "name": "",
-            "rank": 2
+            "caption": "Folder ID",
+            "doc": "Optional. The folder to put the copy in, or root. Default: the template's own folder.",
+            "editor": "DynamicValue",
+            "name": "folderId",
+            "optional": true,
+            "rank": 2,
+            "value": "text"
         },
         "AHE": {
-            "caption": "",
-            "name": "",
-            "rank": 3
-        },
-        "AHF": {
-            "caption": "",
-            "name": "",
-            "rank": 4
-        },
-        "AHG": {
-            "caption": "",
-            "name": "",
-            "rank": 5
-        },
-        "AHH": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "AHI": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "AHJ": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "AHK": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "AHL": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "AHM": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "AHN": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "AHO": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "AHP": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "AHQ": {
-            "caption": "",
-            "name": "",
-            "rank": 15
+            "caption": "Version",
+            "doc": "Optional. Copy this published version (such as 1.2.0) instead of the draft.",
+            "editor": "DynamicValue",
+            "name": "version",
+            "optional": true,
+            "rank": 3,
+            "value": "text"
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Template ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Name",
+            "name": "name",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "Folder ID",
+            "name": "folderId",
+            "rank": 3,
+            "value": "text"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
+            "caption": "Folder Path",
+            "name": "path",
+            "rank": 4,
+            "value": "text"
         },
         "ACP": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 5,
+            "value": "text"
         },
         "ACQ": {
-            "caption": "",
-            "name": ""
-        },
-        "ACR": {
-            "caption": "",
-            "name": ""
-        },
-        "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 6,
+            "value": "text"
         }
     },
     "type": "server_side"

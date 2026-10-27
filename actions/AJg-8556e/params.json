@@ -1,143 +1,62 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Get Template Page Images",
     "fields": {
         "AJQ": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
+            "caption": "Template ID",
+            "doc": "Starts with 'tpl_'. Find it in your DocSpring account, or with Find Templates.",
+            "editor": "DynamicValue",
+            "name": "templateId",
+            "rank": 0,
+            "value": "text"
         },
         "AJR": {
-            "caption": "",
-            "name": "",
-            "rank": 1
-        },
-        "AJS": {
-            "caption": "",
-            "name": "",
-            "rank": 2
-        },
-        "AJT": {
-            "caption": "",
-            "name": "",
-            "rank": 3
-        },
-        "AJU": {
-            "caption": "",
-            "name": "",
-            "rank": 4
-        },
-        "AJV": {
-            "caption": "",
-            "name": "",
-            "rank": 5
-        },
-        "AJW": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "AJX": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "AJY": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "AJZ": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "AJa": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "AJb": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "AJc": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "AJd": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "AJe": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "AJf": {
-            "caption": "",
-            "name": "",
-            "rank": 15
+            "caption": "Template Version",
+            "doc": "Optional. A published version such as 1.2.0 (or 1 for the latest 1.x.x), latest, or draft. Default: the latest published version (the draft when none has been published).",
+            "editor": "DynamicValue",
+            "name": "version",
+            "optional": true,
+            "rank": 1,
+            "value": "text"
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Page Count",
+            "name": "pageCount",
+            "rank": 1,
+            "value": "number"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Page Images",
+            "is_list": true,
+            "name": "images",
+            "rank": 2,
+            "value": "file"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "Version",
+            "name": "version",
+            "rank": 3,
+            "value": "text"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 4,
+            "value": "text"
         },
         "ACP": {
-            "caption": "",
-            "name": ""
-        },
-        "ACQ": {
-            "caption": "",
-            "name": ""
-        },
-        "ACR": {
-            "caption": "",
-            "name": ""
-        },
-        "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 5,
+            "value": "text"
         }
     },
     "type": "server_side"

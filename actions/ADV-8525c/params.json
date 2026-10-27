@@ -1,143 +1,115 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Find Submissions",
     "fields": {
         "ADF": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
+            "caption": "Template ID",
+            "doc": "Optional. Only find this template's submissions.",
+            "editor": "DynamicValue",
+            "name": "templateId",
+            "optional": true,
+            "rank": 0,
+            "value": "text"
         },
         "ADG": {
-            "caption": "",
-            "name": "",
+            "caption": "Test or Live",
+            "default_val": "any",
+            "doc": "Find test submissions, live submissions, or any.",
+            "editor": "Dropdown",
+            "name": "testFilter",
+            "options": "any,live,test",
             "rank": 1
         },
         "ADH": {
-            "caption": "",
-            "name": "",
-            "rank": 2
+            "caption": "Created After",
+            "doc": "Optional. Only find submissions created after this time.",
+            "editor": "DynamicValue",
+            "name": "createdAfter",
+            "optional": true,
+            "rank": 2,
+            "value": "date"
         },
         "ADI": {
-            "caption": "",
-            "name": "",
-            "rank": 3
+            "caption": "Created Before",
+            "doc": "Optional. Only find submissions created before this time.",
+            "editor": "DynamicValue",
+            "name": "createdBefore",
+            "optional": true,
+            "rank": 3,
+            "value": "date"
         },
         "ADJ": {
-            "caption": "",
-            "name": "",
+            "caption": "Include Data",
+            "default_val": false,
+            "doc": "Include each submission's data in Response JSON.",
+            "editor": "Checkbox",
+            "name": "includeData",
             "rank": 4
         },
         "ADK": {
-            "caption": "",
-            "name": "",
-            "rank": 5
+            "caption": "Limit",
+            "doc": "Optional. How many to return, from 1 to 100. Default 50.",
+            "editor": "DynamicValue",
+            "name": "limit",
+            "optional": true,
+            "rank": 5,
+            "value": "number"
         },
         "ADL": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "ADM": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "ADN": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "ADO": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "ADP": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "ADQ": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "ADR": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "ADS": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "ADT": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "ADU": {
-            "caption": "",
-            "name": "",
-            "rank": 15
+            "caption": "Cursor",
+            "doc": "Optional. The Next Cursor from the previous page, to get the next page.",
+            "editor": "DynamicValue",
+            "name": "cursor",
+            "optional": true,
+            "rank": 6,
+            "value": "text"
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Submission IDs",
+            "is_list": true,
+            "name": "ids",
+            "rank": 1,
+            "value": "text"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Submission States",
+            "is_list": true,
+            "name": "states",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "PDF Files",
+            "is_list": true,
+            "name": "files",
+            "rank": 3,
+            "value": "file"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
+            "caption": "Next Cursor",
+            "name": "nextCursor",
+            "rank": 4,
+            "value": "text"
         },
         "ACP": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 5,
+            "value": "text"
         },
         "ACQ": {
-            "caption": "",
-            "name": ""
-        },
-        "ACR": {
-            "caption": "",
-            "name": ""
-        },
-        "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 6,
+            "value": "text"
         }
     },
     "type": "server_side"

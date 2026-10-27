@@ -1,143 +1,52 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Expire Submission",
     "fields": {
         "ADn": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
-        },
-        "ADo": {
-            "caption": "",
-            "name": "",
-            "rank": 1
-        },
-        "ADp": {
-            "caption": "",
-            "name": "",
-            "rank": 2
-        },
-        "ADq": {
-            "caption": "",
-            "name": "",
-            "rank": 3
-        },
-        "ADr": {
-            "caption": "",
-            "name": "",
-            "rank": 4
-        },
-        "ADs": {
-            "caption": "",
-            "name": "",
-            "rank": 5
-        },
-        "ADt": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "ADu": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "ADv": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "ADw": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "ADx": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "ADy": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "ADz": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "AEA": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "AEB": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "AEC": {
-            "caption": "",
-            "name": "",
-            "rank": 15
+            "caption": "Submission ID",
+            "doc": "Starts with 'sub_'.",
+            "editor": "DynamicValue",
+            "name": "submissionId",
+            "rank": 0,
+            "value": "text"
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Submission ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Submission State",
+            "name": "state",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "Expired",
+            "name": "expired",
+            "rank": 3,
+            "value": "boolean"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 4,
+            "value": "text"
         },
         "ACP": {
-            "caption": "",
-            "name": ""
-        },
-        "ACQ": {
-            "caption": "",
-            "name": ""
-        },
-        "ACR": {
-            "caption": "",
-            "name": ""
-        },
-        "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 5,
+            "value": "text"
         }
     },
     "type": "server_side"

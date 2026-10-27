@@ -1,4 +1,4 @@
-// New submission, batch and combined PDF actions (actions/_new).
+// New submission, batch and combined PDF actions .
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const { runAction, submission, v2Error, US } = require("./support/harness");
@@ -18,7 +18,7 @@ const batch = (overrides) =>
   );
 
 test("Generate PDFs in a Batch posts the batch with wait=false and polls until it has finished", async () => {
-  const { result, calls } = await runAction("_new/generate-pdfs-in-a-batch", {
+  const { result, calls } = await runAction("generate-pdfs-in-a-batch", {
     submissions: '[{"data": {"name": "Jane"}}, {"data": {"name": "Joe"}, "template_id": "tpl_456"}]',
     templateId: "tpl_123",
     version: "draft",
@@ -51,7 +51,7 @@ test("Generate PDFs in a Batch reports a failed batch, and needs a JSON list", a
     error_count: 1,
     submissions: [submission(), submission({ id: "sub_456", state: "error", error_message: "Boom", files: {} })]
   });
-  const { result } = await runAction("_new/generate-pdfs-in-a-batch", { submissions: [{ data: {} }], wait: false }, {
+  const { result } = await runAction("generate-pdfs-in-a-batch", { submissions: [{ data: {} }], wait: false }, {
     responses: [{ method: "POST", uri: `${US}/submissions/batches?wait=false`, status: 201, body: failed }]
   });
   assert.equal(result.success, false);
@@ -59,12 +59,12 @@ test("Generate PDFs in a Batch reports a failed batch, and needs a JSON list", a
     result.errorMessage,
     "1 of 2 PDFs in the batch couldn't be generated (state: error).\nSubmission batch: sbb_123\nFirst failure: sub_456 (state: error): Boom"
   );
-  await assert.rejects(runAction("_new/generate-pdfs-in-a-batch", { submissions: '{"data": {}}' }), /must be a JSON array/);
-  await assert.rejects(runAction("_new/generate-pdfs-in-a-batch", { submissions: "" }), /Submissions \(JSON\) is required/);
+  await assert.rejects(runAction("generate-pdfs-in-a-batch", { submissions: '{"data": {}}' }), /must be a JSON array/);
+  await assert.rejects(runAction("generate-pdfs-in-a-batch", { submissions: "" }), /Submissions \(JSON\) is required/);
 });
 
 test("Get Submission Batch", async () => {
-  const { result } = await runAction("_new/get-submission-batch", { batchId: "sbb_123", includeData: true }, {
+  const { result } = await runAction("get-submission-batch", { batchId: "sbb_123", includeData: true }, {
     responses: [{ method: "GET", uri: `${US}/submissions/batches/sbb_123?include_data=true`, status: 200, body: batch() }]
   });
   assert.equal(result.success, true);
@@ -81,7 +81,7 @@ test("Check Data posts to validate and returns valid and the errors", async () =
       details: [{ code: "required", message: "is required", pointer: "/data/last_name" }]
     }).error
   };
-  const { result, calls } = await runAction("_new/check-data", {
+  const { result, calls } = await runAction("check-data", {
     templateId: "tpl_123",
     version: "draft",
     data: [{ key: "first_name", value: "Jane" }],
@@ -98,7 +98,7 @@ test("Check Data posts to validate and returns valid and the errors", async () =
     "invalid_data: The data doesn't match the template's fields\n/data/last_name: is required\nRequest ID: req_123"
   );
 
-  const valid = await runAction("_new/check-data", {
+  const valid = await runAction("check-data", {
     templateId: "tpl_123",
     signatureRequests: '[{"fields": ["signature"], "auth_type": "email_link"}]'
   }, {
@@ -110,7 +110,7 @@ test("Check Data posts to validate and returns valid and the errors", async () =
 });
 
 test("Find Submissions lists a template's submissions with filters", async () => {
-  const { result } = await runAction("_new/find-submissions", {
+  const { result } = await runAction("find-submissions", {
     templateId: "tpl_123",
     testFilter: "live",
     createdAfter: new Date("2026-10-01T00:00:00Z"),
@@ -134,19 +134,19 @@ test("Find Submissions lists a template's submissions with filters", async () =>
 });
 
 test("Find Submissions without a template lists every submission", async () => {
-  const { result } = await runAction("_new/find-submissions", { testFilter: "any" }, {
+  const { result } = await runAction("find-submissions", { testFilter: "any" }, {
     responses: [{ method: "GET", uri: `${US}/submissions`, status: 200, body: { data: [], next_cursor: null } }]
   });
   assert.deepEqual(result.ids, []);
   assert.equal(result.nextCursor, null);
-  await assert.rejects(runAction("_new/find-submissions", { testFilter: "both" }), /Test or Live must be any, live or test/);
-  await assert.rejects(runAction("_new/find-submissions", { createdAfter: "last week" }), /Created After must be a date/);
+  await assert.rejects(runAction("find-submissions", { testFilter: "both" }), /Test or Live must be any, live or test/);
+  await assert.rejects(runAction("find-submissions", { createdAfter: "last week" }), /Created After must be a date/);
 });
 
 test("Generate Submission Files asks for png and waits for the images", async () => {
   const making = submission({ files: { pdf: submission().files.pdf, png: { state: "pending", pages: [] } } });
   const made = submission({ files: { pdf: submission().files.pdf, png: { state: "processed", pages: [{ download_url: "https://img/1.png" }] } } });
-  const { result, calls } = await runAction("_new/generate-submission-files", { submissionId: "sub_123", wait: true }, {
+  const { result, calls } = await runAction("generate-submission-files", { submissionId: "sub_123", wait: true }, {
     responses: [
       { method: "POST", uri: `${US}/submissions/sub_123/generate_files?wait=false`, status: 200, body: making },
       { method: "GET", uri: `${US}/submissions/sub_123`, status: 200, body: made }
@@ -159,7 +159,7 @@ test("Generate Submission Files asks for png and waits for the images", async ()
 });
 
 test("Expire Submission deletes it", async () => {
-  const { result } = await runAction("_new/expire-submission", { submissionId: "sub_123" }, {
+  const { result } = await runAction("expire-submission", { submissionId: "sub_123" }, {
     responses: [{ method: "DELETE", uri: `${US}/submissions/sub_123`, status: 200, body: submission({ expired: true, files: {} }) }]
   });
   assert.equal(result.success, true);
@@ -173,7 +173,7 @@ test("Combine PDFs builds typed sources, fixes protocol-relative URLs, and polls
     error_message: null,
     files: state === "processed" ? { pdf: { download_url: "https://downloads.example.com/com_123.pdf", permanent_url: "https://app/com_123" } } : {}
   });
-  const { result, calls } = await runAction("_new/combine-pdfs", {
+  const { result, calls } = await runAction("combine-pdfs", {
     sources: [
       { key: "submission", value: "sub_123" },
       { key: "Combined PDF", value: "com_000" },
@@ -203,12 +203,12 @@ test("Combine PDFs builds typed sources, fixes protocol-relative URLs, and polls
   });
   assert.equal(result.success, true);
   assert.equal(result.file, "https://downloads.example.com/com_123.pdf");
-  await assert.rejects(runAction("_new/combine-pdfs", { sources: [{ key: "pdf", value: "x" }] }), /"pdf" isn't a source type/);
-  await assert.rejects(runAction("_new/combine-pdfs", {}), /Add at least one PDF/);
+  await assert.rejects(runAction("combine-pdfs", { sources: [{ key: "pdf", value: "x" }] }), /"pdf" isn't a source type/);
+  await assert.rejects(runAction("combine-pdfs", {}), /Add at least one PDF/);
 });
 
 test("Combine PDFs reports a failed combined PDF", async () => {
-  const { result } = await runAction("_new/combine-pdfs", { sources: [{ key: "submission", value: "sub_123" }], wait: false }, {
+  const { result } = await runAction("combine-pdfs", { sources: [{ key: "submission", value: "sub_123" }], wait: false }, {
     responses: [{ method: "POST", status: 201, body: { id: "com_123", state: "error", error_message: "Not a PDF", files: {} } }]
   });
   assert.equal(result.success, false);
@@ -216,7 +216,7 @@ test("Combine PDFs reports a failed combined PDF", async () => {
 });
 
 test("Get Combined PDF", async () => {
-  const { result } = await runAction("_new/get-combined-pdf", { combinedPdfId: "com_123" }, {
+  const { result } = await runAction("get-combined-pdf", { combinedPdfId: "com_123" }, {
     responses: [{
       method: "GET",
       uri: `${US}/combined_pdfs/com_123`,

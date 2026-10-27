@@ -1,143 +1,126 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold",
+    "display": "DocSpring - Generate PDFs in a Batch",
     "fields": {
         "ABu": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
+            "caption": "Submissions (JSON)",
+            "doc": "A JSON list with one object per PDF (up to 50), such as [{\"data\": {\"name\": \"Jane\"}, \"metadata\": {\"user_id\": 1}}]. Each object can also have field_overrides, test, template_id and template_version.",
+            "editor": "DynamicValue",
+            "name": "submissions",
+            "rank": 0,
+            "value": "text"
         },
         "ABv": {
-            "caption": "",
-            "name": "",
-            "rank": 1
+            "caption": "Template ID",
+            "doc": "The template for each submission that doesn't name its own template_id. Starts with 'tpl_'.",
+            "editor": "DynamicValue",
+            "name": "templateId",
+            "optional": true,
+            "rank": 1,
+            "value": "text"
         },
         "ABw": {
-            "caption": "",
-            "name": "",
-            "rank": 2
+            "caption": "Template Version",
+            "doc": "Optional. A published version such as 1.2.0 (or 1 for the latest 1.x.x), latest, or draft. Default: the latest published version (the draft when none has been published).",
+            "editor": "DynamicValue",
+            "name": "version",
+            "optional": true,
+            "rank": 2,
+            "value": "text"
         },
         "ABx": {
-            "caption": "",
-            "name": "",
-            "rank": 3
+            "caption": "Test Mode",
+            "default_val": false,
+            "doc": "Test PDFs are free, but they include watermarks. A test API token always makes test PDFs.",
+            "editor": "DynamicValue",
+            "name": "test",
+            "optional": true,
+            "rank": 3,
+            "value": "boolean"
         },
         "ABy": {
-            "caption": "",
-            "name": "",
-            "rank": 4
+            "caption": "Metadata",
+            "doc": "Your own data about the record, such as an ID from your app. It isn't printed on the PDF, and it's sent with webhooks.",
+            "editor": "key_value_list",
+            "name": "metadata",
+            "rank": 4,
+            "value": "text"
         },
         "ABz": {
-            "caption": "",
-            "name": "",
+            "caption": "Make Page Images",
+            "default_val": false,
+            "doc": "Also make a PNG image of each page of the PDF (up to 100 pages).",
+            "editor": "Checkbox",
+            "name": "makePageImages",
             "rank": 5
         },
         "ACA": {
-            "caption": "",
-            "name": "",
+            "caption": "Wait",
+            "default_val": true,
+            "doc": "Wait up to 45 seconds for every PDF. Turn it off to return straight away.",
+            "editor": "Checkbox",
+            "name": "wait",
             "rank": 6
-        },
-        "ACB": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "ACC": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "ACD": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "ACE": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "ACF": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "ACG": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "ACH": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "ACI": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "ACJ": {
-            "caption": "",
-            "name": "",
-            "rank": 15
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Batch ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Batch State",
+            "name": "state",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "Submission IDs",
+            "is_list": true,
+            "name": "submissionIds",
+            "rank": 3,
+            "value": "text"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
+            "caption": "Submission States",
+            "is_list": true,
+            "name": "submissionStates",
+            "rank": 4,
+            "value": "text"
         },
         "ACP": {
-            "caption": "",
-            "name": ""
+            "caption": "PDF Files",
+            "is_list": true,
+            "name": "files",
+            "rank": 5,
+            "value": "file"
         },
         "ACQ": {
-            "caption": "",
-            "name": ""
+            "caption": "Permanent PDF Files",
+            "is_list": true,
+            "name": "permanentFiles",
+            "rank": 6,
+            "value": "file"
         },
         "ACR": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 7,
+            "value": "text"
         },
         "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 8,
+            "value": "text"
         }
     },
     "type": "server_side"

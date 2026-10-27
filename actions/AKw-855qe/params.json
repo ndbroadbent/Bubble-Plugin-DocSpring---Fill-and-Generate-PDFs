@@ -1,143 +1,72 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Create Webhook",
     "fields": {
         "AKg": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
+            "caption": "URL",
+            "doc": "Where DocSpring sends each event, such as one of your app's backend workflow URLs (\u2026/api/1.1/wf/docspring_event).",
+            "editor": "DynamicValue",
+            "name": "url",
+            "rank": 0,
+            "value": "text"
         },
         "AKh": {
-            "caption": "",
-            "name": "",
-            "rank": 1
+            "caption": "Event Types",
+            "doc": "The events to send, as a list or separated by commas, such as \"submission.processed, submission.failed\". See https://docspring.com/docs/webhooks/events/",
+            "editor": "DynamicValue",
+            "name": "eventTypes",
+            "rank": 1,
+            "value": "text"
         },
         "AKi": {
-            "caption": "",
-            "name": "",
-            "rank": 2
+            "caption": "Template IDs",
+            "doc": "Optional. Only send events for these templates, as a list or separated by commas.",
+            "editor": "DynamicValue",
+            "name": "templateIds",
+            "optional": true,
+            "rank": 2,
+            "value": "text"
         },
         "AKj": {
-            "caption": "",
-            "name": "",
-            "rank": 3
-        },
-        "AKk": {
-            "caption": "",
-            "name": "",
-            "rank": 4
-        },
-        "AKl": {
-            "caption": "",
-            "name": "",
-            "rank": 5
-        },
-        "AKm": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "AKn": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "AKo": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "AKp": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "AKq": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "AKr": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "AKs": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "AKt": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "AKu": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "AKv": {
-            "caption": "",
-            "name": "",
-            "rank": 15
+            "caption": "Name",
+            "doc": "Optional. A name for the webhook, shown in DocSpring.",
+            "editor": "DynamicValue",
+            "name": "name",
+            "optional": true,
+            "rank": 3,
+            "value": "text"
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Webhook ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Signing Secret",
+            "name": "secret",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 3,
+            "value": "text"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
-        },
-        "ACP": {
-            "caption": "",
-            "name": ""
-        },
-        "ACQ": {
-            "caption": "",
-            "name": ""
-        },
-        "ACR": {
-            "caption": "",
-            "name": ""
-        },
-        "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 4,
+            "value": "text"
         }
     },
     "type": "server_side"

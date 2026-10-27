@@ -1,10 +1,10 @@
-// New folder, webhook and API call actions (actions/_new).
+// New folder, webhook and API call actions .
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const { runAction, v2Error, US } = require("./support/harness");
 
 test("List Folders", async () => {
-  const { result } = await runAction("_new/list-folders", { parentFolderId: "fld_1", limit: 100 }, {
+  const { result } = await runAction("list-folders", { parentFolderId: "fld_1", limit: 100 }, {
     responses: [{
       method: "GET",
       uri: `${US}/folders?parent_folder_id=fld_1&limit=100`,
@@ -19,16 +19,16 @@ test("List Folders", async () => {
 });
 
 test("Create Folder", async () => {
-  const { result, calls } = await runAction("_new/create-folder", { name: "2026", parentFolderId: "fld_1" }, {
+  const { result, calls } = await runAction("create-folder", { name: "2026", parentFolderId: "fld_1" }, {
     responses: [{ method: "POST", uri: `${US}/folders`, status: 201, body: { id: "fld_2", name: "2026", path: "/Contracts", parent_folder_id: "fld_1" } }]
   });
   assert.deepEqual(calls[0].json, { name: "2026", parent_folder_id: "fld_1" });
   assert.equal(result.id, "fld_2");
-  await assert.rejects(runAction("_new/create-folder", { name: " " }), /Name is required/);
+  await assert.rejects(runAction("create-folder", { name: " " }), /Name is required/);
 });
 
 test("Create Webhook posts a flat body with no version", async () => {
-  const { result, calls } = await runAction("_new/create-webhook", {
+  const { result, calls } = await runAction("create-webhook", {
     url: "https://myapp.bubbleapps.io/version-test/api/1.1/wf/docspring_event",
     eventTypes: "submission.processed, submission.failed",
     templateIds: ["tpl_123"],
@@ -43,27 +43,27 @@ test("Create Webhook posts a flat body with no version", async () => {
   });
   assert.equal(result.id, "whk_123");
   assert.equal(result.secret, "whsec");
-  await assert.rejects(runAction("_new/create-webhook", { url: "https://x.example.com" }), /Event Types is required/);
+  await assert.rejects(runAction("create-webhook", { url: "https://x.example.com" }), /Event Types is required/);
 });
 
 test("Delete Webhook treats a 404 as already deleted", async () => {
-  const deleted = await runAction("_new/delete-webhook", { webhookId: "whk_123" }, {
+  const deleted = await runAction("delete-webhook", { webhookId: "whk_123" }, {
     responses: [{ method: "DELETE", uri: `${US}/webhooks/whk_123`, status: 200, body: { id: "whk_123" } }]
   });
   assert.equal(deleted.result.success, true);
-  const gone = await runAction("_new/delete-webhook", { webhookId: "whk_123" }, {
+  const gone = await runAction("delete-webhook", { webhookId: "whk_123" }, {
     responses: [{ method: "DELETE", status: 404, body: v2Error("not_found", "Webhook not found") }]
   });
   assert.equal(gone.result.success, true);
   assert.equal(gone.result.id, "whk_123");
-  const denied = await runAction("_new/delete-webhook", { webhookId: "whk_123" }, {
+  const denied = await runAction("delete-webhook", { webhookId: "whk_123" }, {
     responses: [{ method: "DELETE", status: 401, body: v2Error("unauthorized", "Invalid API token") }]
   });
   assert.equal(denied.result.success, false);
 });
 
 test("Make an API Call sends any API v2 request", async () => {
-  const { result, calls } = await runAction("_new/make-an-api-call", {
+  const { result, calls } = await runAction("make-an-api-call", {
     method: "post",
     path: "/api/v2/templates/tpl_123/copy?x=1",
     query: [{ key: "y", value: "2" }],
@@ -76,14 +76,14 @@ test("Make an API Call sends any API v2 request", async () => {
   assert.equal(result.statusCode, 201);
   assert.deepEqual(JSON.parse(result.response), { id: "tpl_789" });
 
-  const failed = await runAction("_new/make-an-api-call", { path: "templates/tpl_x" }, {
+  const failed = await runAction("make-an-api-call", { path: "templates/tpl_x" }, {
     responses: [{ method: "GET", uri: `${US}/templates/tpl_x`, status: 404, body: v2Error("not_found", "Template not found") }]
   });
   assert.equal(failed.result.success, false);
   assert.equal(failed.result.statusCode, 404);
   assert.match(failed.result.errorMessage, /404 not_found: Template not found/);
 
-  await assert.rejects(runAction("_new/make-an-api-call", { path: "https://api.docspring.com/api/v1/templates" }), /relative to \/api\/v2/);
-  await assert.rejects(runAction("_new/make-an-api-call", { path: "/../v1/templates" }), /can't contain/);
-  await assert.rejects(runAction("_new/make-an-api-call", { path: "/templates", method: "PATCH" }), /Method must be/);
+  await assert.rejects(runAction("make-an-api-call", { path: "https://api.docspring.com/api/v1/templates" }), /relative to \/api\/v2/);
+  await assert.rejects(runAction("make-an-api-call", { path: "/../v1/templates" }), /can't contain/);
+  await assert.rejects(runAction("make-an-api-call", { path: "/templates", method: "PATCH" }), /Method must be/);
 });

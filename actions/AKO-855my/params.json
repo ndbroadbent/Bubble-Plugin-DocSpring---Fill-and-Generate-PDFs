@@ -1,143 +1,61 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Create Folder",
     "fields": {
         "AJy": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
+            "caption": "Name",
+            "doc": "The folder's name. It can't contain '/'.",
+            "editor": "DynamicValue",
+            "name": "name",
+            "rank": 0,
+            "value": "text"
         },
         "AJz": {
-            "caption": "",
-            "name": "",
-            "rank": 1
-        },
-        "AKA": {
-            "caption": "",
-            "name": "",
-            "rank": 2
-        },
-        "AKB": {
-            "caption": "",
-            "name": "",
-            "rank": 3
-        },
-        "AKC": {
-            "caption": "",
-            "name": "",
-            "rank": 4
-        },
-        "AKD": {
-            "caption": "",
-            "name": "",
-            "rank": 5
-        },
-        "AKE": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "AKF": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "AKG": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "AKH": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "AKI": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "AKJ": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "AKK": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "AKL": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "AKM": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "AKN": {
-            "caption": "",
-            "name": "",
-            "rank": 15
+            "caption": "Parent Folder ID",
+            "doc": "Optional. The folder to create it in. Default: the root.",
+            "editor": "DynamicValue",
+            "name": "parentFolderId",
+            "optional": true,
+            "rank": 1,
+            "value": "text"
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Folder ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Name",
+            "name": "name",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "Folder Path",
+            "name": "path",
+            "rank": 3,
+            "value": "text"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 4,
+            "value": "text"
         },
         "ACP": {
-            "caption": "",
-            "name": ""
-        },
-        "ACQ": {
-            "caption": "",
-            "name": ""
-        },
-        "ACR": {
-            "caption": "",
-            "name": ""
-        },
-        "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 5,
+            "value": "text"
         }
     },
     "type": "server_side"

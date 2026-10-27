@@ -1,143 +1,203 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Create Signature Request",
     "fields": {
         "AEm": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
+            "caption": "Template ID",
+            "doc": "Starts with 'tpl_'. Find it in your DocSpring account, or with Find Templates.",
+            "editor": "DynamicValue",
+            "name": "templateId",
+            "rank": 0,
+            "value": "text"
         },
         "AEn": {
-            "caption": "",
-            "name": "",
-            "rank": 1
+            "caption": "Template Version",
+            "doc": "Optional. A published version such as 1.2.0 (or 1 for the latest 1.x.x), latest, or draft. Default: the latest published version (the draft when none has been published).",
+            "editor": "DynamicValue",
+            "name": "version",
+            "optional": true,
+            "rank": 1,
+            "value": "text"
         },
         "AEo": {
-            "caption": "",
-            "name": "",
-            "rank": 2
+            "caption": "Data",
+            "doc": "The values of the template's fields, by field name. Use '/' for nested fields and lists, such as 'address/city' or 'items/0/name'. Date fields take dates as YYYY-MM-DD. For an image field, use 'image_name/url' with an image URL.",
+            "editor": "key_value_list",
+            "name": "data",
+            "rank": 2,
+            "value": "text"
         },
         "AEp": {
-            "caption": "",
-            "name": "",
+            "caption": "Enable Booleans",
+            "default_val": false,
+            "doc": "If enabled, any fields with the exact value of \"true\" or \"false\" will be parsed as booleans (true and false) instead of as text.",
+            "editor": "Checkbox",
+            "name": "parseAsBoolean",
             "rank": 3
         },
         "AEq": {
-            "caption": "",
-            "name": "",
-            "rank": 4
+            "caption": "Test Mode",
+            "default_val": false,
+            "doc": "Test PDFs are free, but they include watermarks. A test API token always makes test PDFs.",
+            "editor": "DynamicValue",
+            "name": "test",
+            "optional": true,
+            "rank": 4,
+            "value": "boolean"
         },
         "AEr": {
-            "caption": "",
-            "name": "",
-            "rank": 5
+            "caption": "Metadata",
+            "doc": "Your own data about the record, such as an ID from your app. It isn't printed on the PDF, and it's sent with webhooks.",
+            "editor": "key_value_list",
+            "name": "metadata",
+            "rank": 5,
+            "value": "text"
         },
         "AEs": {
-            "caption": "",
-            "name": "",
-            "rank": 6
+            "caption": "Signer Name",
+            "doc": "The name of the person who signs.",
+            "editor": "DynamicValue",
+            "name": "signerName",
+            "optional": true,
+            "rank": 6,
+            "value": "text"
         },
         "AEt": {
-            "caption": "",
-            "name": "",
-            "rank": 7
+            "caption": "Signer Email",
+            "doc": "Their email address.",
+            "editor": "DynamicValue",
+            "name": "signerEmail",
+            "optional": true,
+            "rank": 7,
+            "value": "text"
         },
         "AEu": {
-            "caption": "",
-            "name": "",
-            "rank": 8
+            "caption": "Signer Role",
+            "doc": "Optional. Which of the template's signers they are: Signer 1, Signer 2 and so on. Either every signer has a role or none does.",
+            "editor": "DynamicValue",
+            "name": "signerRole",
+            "optional": true,
+            "rank": 8,
+            "value": "text"
         },
         "AEv": {
-            "caption": "",
-            "name": "",
-            "rank": 9
+            "caption": "Signer Fields",
+            "doc": "The names of the fields this person fills in and signs, separated by commas, such as \"signature, date_signed\".",
+            "editor": "DynamicValue",
+            "name": "signerFields",
+            "optional": true,
+            "rank": 9,
+            "value": "text"
         },
         "AEw": {
-            "caption": "",
-            "name": "",
+            "caption": "Auth Type",
+            "default_val": "email_link",
+            "doc": "How your app checked who the person is before showing them the signature request.",
+            "editor": "Dropdown",
+            "name": "authType",
+            "options": "email_link,password,oauth,phone_number,ldap,saml",
             "rank": 10
         },
         "AEx": {
-            "caption": "",
-            "name": "",
-            "rank": 11
+            "caption": "Auth Provider",
+            "doc": "The service that authenticated them, such as google. Required when Auth Type is oauth.",
+            "editor": "DynamicValue",
+            "name": "authProvider",
+            "optional": true,
+            "rank": 11,
+            "value": "text"
         },
         "AEy": {
-            "caption": "",
-            "name": "",
+            "caption": "Prefilled Values Editable",
+            "default_val": false,
+            "doc": "Let the signer change values that Data already fills in for their fields.",
+            "editor": "Checkbox",
+            "name": "prefilledValuesEditable",
             "rank": 12
         },
         "AEz": {
-            "caption": "",
-            "name": "",
+            "caption": "Ignore Unknown Fields",
+            "default_val": false,
+            "doc": "Leave out Signer Fields names that the template doesn't have.",
+            "editor": "Checkbox",
+            "name": "ignoreUnknownFields",
             "rank": 13
         },
         "AFA": {
-            "caption": "",
-            "name": "",
-            "rank": 14
+            "caption": "More Signers (JSON)",
+            "doc": "Optional, advanced. A JSON list of more signers, added after the signer above, such as [{\"name\": \"Jane\", \"email\": \"jane@example.com\", \"fields\": [\"signature_2\"], \"auth_type\": \"email_link\"}].",
+            "editor": "DynamicValue",
+            "name": "signatureRequests",
+            "optional": true,
+            "rank": 14,
+            "value": "text"
         },
         "AFB": {
-            "caption": "",
-            "name": "",
+            "caption": "Signing Link Type",
+            "default_val": "api",
+            "doc": "Make a signing link for each signer: api (opens for 24 hours, for your app to show now), email (7 days, to send), or none.",
+            "editor": "Dropdown",
+            "name": "signingLinkType",
+            "options": "api,email,none",
             "rank": 15
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Submission ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Submission State",
+            "name": "state",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "Signature Request IDs",
+            "is_list": true,
+            "name": "signatureRequestIds",
+            "rank": 3,
+            "value": "text"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
+            "caption": "Signing Links",
+            "is_list": true,
+            "name": "signingUrls",
+            "rank": 4,
+            "value": "text"
         },
         "ACP": {
-            "caption": "",
-            "name": ""
+            "caption": "First Signature Request ID",
+            "name": "firstSignatureRequestId",
+            "rank": 5,
+            "value": "text"
         },
         "ACQ": {
-            "caption": "",
-            "name": ""
+            "caption": "First Signing Link",
+            "name": "firstSigningUrl",
+            "rank": 6,
+            "value": "text"
         },
         "ACR": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 7,
+            "value": "text"
         },
         "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 8,
+            "value": "text"
         }
     },
     "type": "server_side"

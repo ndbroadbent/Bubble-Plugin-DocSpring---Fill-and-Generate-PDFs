@@ -1,143 +1,91 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Check Data",
     "fields": {
         "ACo": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
+            "caption": "Template ID",
+            "doc": "Starts with 'tpl_'. Find it in your DocSpring account, or with Find Templates.",
+            "editor": "DynamicValue",
+            "name": "templateId",
+            "rank": 0,
+            "value": "text"
         },
         "ACp": {
-            "caption": "",
-            "name": "",
-            "rank": 1
+            "caption": "Template Version",
+            "doc": "Optional. A published version such as 1.2.0 (or 1 for the latest 1.x.x), latest, or draft. Default: the latest published version (the draft when none has been published).",
+            "editor": "DynamicValue",
+            "name": "version",
+            "optional": true,
+            "rank": 1,
+            "value": "text"
         },
         "ACq": {
-            "caption": "",
-            "name": "",
-            "rank": 2
+            "caption": "Data",
+            "doc": "The values of the template's fields, by field name. Use '/' for nested fields and lists, such as 'address/city' or 'items/0/name'. Date fields take dates as YYYY-MM-DD. For an image field, use 'image_name/url' with an image URL.",
+            "editor": "key_value_list",
+            "name": "data",
+            "rank": 2,
+            "value": "text"
         },
         "ACr": {
-            "caption": "",
-            "name": "",
+            "caption": "Enable Booleans",
+            "default_val": false,
+            "doc": "If enabled, any fields with the exact value of \"true\" or \"false\" will be parsed as booleans (true and false) instead of as text.",
+            "editor": "Checkbox",
+            "name": "parseAsBoolean",
             "rank": 3
         },
         "ACs": {
-            "caption": "",
-            "name": "",
-            "rank": 4
+            "caption": "Test Mode",
+            "default_val": false,
+            "doc": "Test PDFs are free, but they include watermarks. A test API token always makes test PDFs.",
+            "editor": "DynamicValue",
+            "name": "test",
+            "optional": true,
+            "rank": 4,
+            "value": "boolean"
         },
         "ACt": {
-            "caption": "",
-            "name": "",
-            "rank": 5
-        },
-        "ACu": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "ACv": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "ACw": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "ACx": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "ACy": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "ACz": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "ADA": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "ADB": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "ADC": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "ADD": {
-            "caption": "",
-            "name": "",
-            "rank": 15
+            "caption": "Signature Requests (JSON)",
+            "doc": "Optional. A JSON list of signature requests to check with the data, as in Create Signature Request's More Signers (JSON).",
+            "editor": "DynamicValue",
+            "name": "signatureRequests",
+            "optional": true,
+            "rank": 5,
+            "value": "text"
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Valid",
+            "name": "valid",
+            "rank": 1,
+            "value": "boolean"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Errors",
+            "is_list": true,
+            "name": "errors",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 3,
+            "value": "text"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
-        },
-        "ACP": {
-            "caption": "",
-            "name": ""
-        },
-        "ACQ": {
-            "caption": "",
-            "name": ""
-        },
-        "ACR": {
-            "caption": "",
-            "name": ""
-        },
-        "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 4,
+            "value": "text"
         }
     },
     "type": "server_side"

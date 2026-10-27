@@ -1,143 +1,66 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Make an API Call",
     "fields": {
         "AKP": {
-            "caption": "f1",
+            "caption": "Method",
+            "default_val": "GET",
+            "doc": "The HTTP method.",
             "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
+            "name": "method",
+            "options": "GET,POST,PUT,DELETE",
             "rank": 0
         },
         "AKQ": {
-            "caption": "",
-            "name": "",
-            "rank": 1
+            "caption": "Path",
+            "doc": "The path after /api/v2, such as /templates/tpl_123. See https://docspring.com/docs/api/",
+            "editor": "DynamicValue",
+            "name": "path",
+            "rank": 1,
+            "value": "text"
         },
         "AKR": {
-            "caption": "",
-            "name": "",
-            "rank": 2
+            "caption": "Query Parameters",
+            "doc": "Optional. Query parameters, such as limit = 10.",
+            "editor": "key_value_list",
+            "name": "query",
+            "rank": 2,
+            "value": "text"
         },
         "AKS": {
-            "caption": "",
-            "name": "",
-            "rank": 3
-        },
-        "AKT": {
-            "caption": "",
-            "name": "",
-            "rank": 4
-        },
-        "AKU": {
-            "caption": "",
-            "name": "",
-            "rank": 5
-        },
-        "AKV": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "AKW": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "AKX": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "AKY": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "AKZ": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "AKa": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "AKb": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "AKc": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "AKd": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "AKe": {
-            "caption": "",
-            "name": "",
-            "rank": 15
+            "caption": "Body (JSON)",
+            "doc": "Optional. The JSON body.",
+            "editor": "DynamicValue",
+            "name": "body",
+            "optional": true,
+            "rank": 3,
+            "value": "text"
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Status Code",
+            "name": "statusCode",
+            "rank": 1,
+            "value": "number"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
-        },
-        "ACO": {
-            "caption": "",
-            "name": ""
-        },
-        "ACP": {
-            "caption": "",
-            "name": ""
-        },
-        "ACQ": {
-            "caption": "",
-            "name": ""
-        },
-        "ACR": {
-            "caption": "",
-            "name": ""
-        },
-        "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 3,
+            "value": "text"
         }
     },
     "type": "server_side"

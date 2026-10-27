@@ -11,7 +11,14 @@ const ACTIONS_DIR = path.join(ROOT, "actions");
 const DEFAULT_KEYS = { "Token ID": "token_id", "Token Secret": "token_secret", Region: "" };
 const US = "https://api.docspring.com/api/v2";
 
-// Every action folder that has a server.js: the existing ones and actions/_new/*.
+// Bubble names action folders by ID; tests name the new actions by slug (test/support/actions.json).
+const ACTION_FOLDERS = JSON.parse(fs.readFileSync(path.join(__dirname, "actions.json"), "utf8"));
+
+function resolve(dir) {
+  return ACTION_FOLDERS[dir] || dir;
+}
+
+// Every action folder that has a server.js.
 function actionDirs() {
   const dirs = [];
   const walk = (dir) => {
@@ -27,21 +34,17 @@ function actionDirs() {
 }
 
 function readServerJs(dir) {
-  return fs.readFileSync(path.join(ACTIONS_DIR, dir, "server.js"), "utf8");
+  return fs.readFileSync(path.join(ACTIONS_DIR, resolve(dir), "server.js"), "utf8");
 }
 
 function readParams(dir) {
-  return JSON.parse(fs.readFileSync(path.join(ACTIONS_DIR, dir, "params.json"), "utf8"));
+  return JSON.parse(fs.readFileSync(path.join(ACTIONS_DIR, resolve(dir), "params.json"), "utf8"));
 }
 
-// An action's params.json, plus actions/_new/<ID>-additions/params.json for the
-// fields and return values still to be added to an existing action.
+// The field and return value names an action's params.json declares.
 function declared(dir) {
-  const sources = [readParams(dir)];
-  const additions = path.join(ACTIONS_DIR, "_new", `${path.basename(dir)}-additions`, "params.json");
-  if (fs.existsSync(additions)) sources.push(JSON.parse(fs.readFileSync(additions, "utf8")));
-  const names = (key) =>
-    sources.flatMap((params) => Object.values(params[key] || {}).map((entry) => entry.name));
+  const params = readParams(dir);
+  const names = (key) => Object.values(params[key] || {}).map((entry) => entry.name);
   return { fields: names("fields"), returns: names("return_value") };
 }
 
@@ -129,6 +132,7 @@ const submission = (overrides) =>
   );
 
 module.exports = {
+  ACTION_FOLDERS,
   ROOT,
   ACTIONS_DIR,
   US,

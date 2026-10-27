@@ -1,143 +1,101 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Combine PDFs",
     "fields": {
         "AEE": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
+            "caption": "Sources",
+            "doc": "The PDFs to merge, in order. Key: the type (submission, combined_pdf, template, custom_file or url). Value: its ID, or the URL for url.",
+            "editor": "key_value_list",
+            "name": "sources",
+            "rank": 0,
+            "value": "text"
         },
         "AEF": {
-            "caption": "",
-            "name": "",
-            "rank": 1
+            "caption": "Sources (JSON)",
+            "doc": "Optional, advanced. A JSON list of sources added after Sources, such as [{\"type\": \"template\", \"id\": \"tpl_123\", \"template_version\": \"1.2.0\"}].",
+            "editor": "DynamicValue",
+            "name": "sourcesJson",
+            "optional": true,
+            "rank": 1,
+            "value": "text"
         },
         "AEG": {
-            "caption": "",
-            "name": "",
-            "rank": 2
+            "caption": "Metadata",
+            "doc": "Your own data about the record, such as an ID from your app. It isn't printed on the PDF, and it's sent with webhooks.",
+            "editor": "key_value_list",
+            "name": "metadata",
+            "rank": 2,
+            "value": "text"
         },
         "AEH": {
-            "caption": "",
-            "name": "",
-            "rank": 3
+            "caption": "PDF Password",
+            "doc": "Optional. A password that the PDF needs to be opened with. DocSpring never returns it.",
+            "editor": "DynamicValue",
+            "name": "password",
+            "optional": true,
+            "rank": 3,
+            "value": "text"
         },
         "AEI": {
-            "caption": "",
-            "name": "",
-            "rank": 4
+            "caption": "Expires In (Seconds)",
+            "doc": "Optional. Seconds after the PDF is generated until DocSpring deletes it and its data, up to 10 years (315360000). Default: the template's expiration setting.",
+            "editor": "DynamicValue",
+            "name": "expiresIn",
+            "optional": true,
+            "rank": 4,
+            "value": "number"
         },
         "AEJ": {
-            "caption": "",
-            "name": "",
+            "caption": "Wait",
+            "default_val": true,
+            "doc": "Wait up to 45 seconds for the combined PDF. Turn it off to return straight away.",
+            "editor": "Checkbox",
+            "name": "wait",
             "rank": 5
-        },
-        "AEK": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "AEL": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "AEM": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "AEN": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "AEO": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "AEP": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "AEQ": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "AER": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "AES": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "AET": {
-            "caption": "",
-            "name": "",
-            "rank": 15
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Combined PDF ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Combined PDF State",
+            "name": "state",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "PDF File",
+            "name": "file",
+            "rank": 3,
+            "value": "file"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
+            "caption": "Permanent PDF File",
+            "name": "permanentFile",
+            "rank": 4,
+            "value": "file"
         },
         "ACP": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 5,
+            "value": "text"
         },
         "ACQ": {
-            "caption": "",
-            "name": ""
-        },
-        "ACR": {
-            "caption": "",
-            "name": ""
-        },
-        "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 6,
+            "value": "text"
         }
     },
     "type": "server_side"

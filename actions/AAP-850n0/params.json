@@ -45,34 +45,48 @@
             "value": "text"
         },
         "ALO": {
-            "caption": "",
-            "name": "",
-            "rank": 5
+            "caption": "Template Version",
+            "doc": "Optional. A published version such as 1.2.0 (or 1 for the latest 1.x.x), latest, or draft. Default: the latest published version (the draft when none has been published).",
+            "editor": "DynamicValue",
+            "name": "version",
+            "optional": true,
+            "rank": 5,
+            "value": "text"
         },
         "ALP": {
-            "caption": "",
-            "name": "",
+            "caption": "Make Page Images",
+            "default_val": false,
+            "doc": "Also make a PNG image of each page of the PDF (up to 100 pages).",
+            "editor": "Checkbox",
+            "name": "makePageImages",
             "rank": 6
         },
         "ALQ": {
-            "caption": "",
-            "name": "",
-            "rank": 7
+            "caption": "PDF Password",
+            "doc": "Optional. A password that the PDF needs to be opened with. DocSpring never returns it.",
+            "editor": "DynamicValue",
+            "name": "password",
+            "optional": true,
+            "rank": 7,
+            "value": "text"
         },
         "ALR": {
-            "caption": "",
-            "name": "",
-            "rank": 8
+            "caption": "Expires In (Seconds)",
+            "doc": "Optional. Seconds after the PDF is generated until DocSpring deletes it and its data, up to 10 years (315360000). Default: the template's expiration setting.",
+            "editor": "DynamicValue",
+            "name": "expiresIn",
+            "optional": true,
+            "rank": 8,
+            "value": "number"
         },
         "ALS": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "ALV": {
-            "caption": "",
-            "name": "",
-            "rank": 10
+            "caption": "Field Overrides (JSON)",
+            "doc": "Optional, advanced. Changes to field settings for this PDF only, as a JSON object by field name, such as {\"name\": {\"required\": false, \"font_size\": 9}}.",
+            "editor": "DynamicValue",
+            "name": "fieldOverrides",
+            "optional": true,
+            "rank": 9,
+            "value": "text"
         }
     },
     "return_value": {
@@ -125,8 +139,11 @@
             "value": "text"
         },
         "ALT": {
-            "caption": "",
-            "name": ""
+            "caption": "Page Images",
+            "is_list": true,
+            "name": "pageImages",
+            "rank": 8,
+            "value": "file"
         }
     },
     "type": "server_side"

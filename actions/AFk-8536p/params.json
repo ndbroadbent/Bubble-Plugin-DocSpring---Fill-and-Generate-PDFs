@@ -1,143 +1,95 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Get Signature Request",
     "fields": {
         "AFU": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
-        },
-        "AFV": {
-            "caption": "",
-            "name": "",
-            "rank": 1
-        },
-        "AFW": {
-            "caption": "",
-            "name": "",
-            "rank": 2
-        },
-        "AFX": {
-            "caption": "",
-            "name": "",
-            "rank": 3
-        },
-        "AFY": {
-            "caption": "",
-            "name": "",
-            "rank": 4
-        },
-        "AFZ": {
-            "caption": "",
-            "name": "",
-            "rank": 5
-        },
-        "AFa": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "AFb": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "AFc": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "AFd": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "AFe": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "AFf": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "AFg": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "AFh": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "AFi": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "AFj": {
-            "caption": "",
-            "name": "",
-            "rank": 15
+            "caption": "Signature Request ID",
+            "doc": "Starts with 'srq_'.",
+            "editor": "DynamicValue",
+            "name": "signatureRequestId",
+            "rank": 0,
+            "value": "text"
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Signature Request ID",
+            "name": "id",
+            "rank": 1,
+            "value": "text"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Submission ID",
+            "name": "submissionId",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "State",
+            "name": "state",
+            "rank": 3,
+            "value": "text"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
+            "caption": "Signer Name",
+            "name": "name",
+            "rank": 4,
+            "value": "text"
         },
         "ACP": {
-            "caption": "",
-            "name": ""
+            "caption": "Signer Email",
+            "name": "email",
+            "rank": 5,
+            "value": "text"
         },
         "ACQ": {
-            "caption": "",
-            "name": ""
+            "caption": "Signer Role",
+            "name": "role",
+            "rank": 6,
+            "value": "text"
         },
         "ACR": {
-            "caption": "",
-            "name": ""
+            "caption": "Fields",
+            "is_list": true,
+            "name": "fields",
+            "rank": 7,
+            "value": "text"
         },
         "ACS": {
-            "caption": "",
-            "name": ""
+            "caption": "Viewed At",
+            "name": "viewedAt",
+            "rank": 8,
+            "value": "text"
         },
         "ACT": {
-            "caption": "",
-            "name": ""
+            "caption": "Completed At",
+            "name": "completedAt",
+            "rank": 9,
+            "value": "text"
         },
         "ACU": {
-            "caption": "",
-            "name": ""
+            "caption": "Declined At",
+            "name": "declinedAt",
+            "rank": 10,
+            "value": "text"
         },
         "ACV": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 11,
+            "value": "text"
         },
         "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 12,
+            "value": "text"
         }
     },
     "type": "server_side"

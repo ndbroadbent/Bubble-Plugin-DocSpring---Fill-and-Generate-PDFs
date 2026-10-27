@@ -1,143 +1,56 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Scaffold (copy)",
+    "display": "DocSpring - Remove Template Fields",
     "fields": {
         "AIz": {
-            "caption": "f1",
-            "editor": "Dropdown",
-            "name": "f1",
-            "options": "a,b",
-            "rank": 0
+            "caption": "Template ID",
+            "doc": "Starts with 'tpl_'. Find it in your DocSpring account, or with Find Templates.",
+            "editor": "DynamicValue",
+            "name": "templateId",
+            "rank": 0,
+            "value": "text"
         },
         "AJA": {
-            "caption": "",
-            "name": "",
-            "rank": 1
-        },
-        "AJB": {
-            "caption": "",
-            "name": "",
-            "rank": 2
-        },
-        "AJC": {
-            "caption": "",
-            "name": "",
-            "rank": 3
-        },
-        "AJD": {
-            "caption": "",
-            "name": "",
-            "rank": 4
-        },
-        "AJE": {
-            "caption": "",
-            "name": "",
-            "rank": 5
-        },
-        "AJF": {
-            "caption": "",
-            "name": "",
-            "rank": 6
-        },
-        "AJG": {
-            "caption": "",
-            "name": "",
-            "rank": 7
-        },
-        "AJH": {
-            "caption": "",
-            "name": "",
-            "rank": 8
-        },
-        "AJI": {
-            "caption": "",
-            "name": "",
-            "rank": 9
-        },
-        "AJJ": {
-            "caption": "",
-            "name": "",
-            "rank": 10
-        },
-        "AJK": {
-            "caption": "",
-            "name": "",
-            "rank": 11
-        },
-        "AJL": {
-            "caption": "",
-            "name": "",
-            "rank": 12
-        },
-        "AJM": {
-            "caption": "",
-            "name": "",
-            "rank": 13
-        },
-        "AJN": {
-            "caption": "",
-            "name": "",
-            "rank": 14
-        },
-        "AJO": {
-            "caption": "",
-            "name": "",
-            "rank": 15
+            "caption": "Field IDs",
+            "doc": "The IDs of the fields to remove (whole numbers), as a list or separated by commas, such as \"12, 13\".",
+            "editor": "DynamicValue",
+            "name": "fieldIds",
+            "rank": 1,
+            "value": "text"
         }
     },
     "return_value": {
         "ACK": {
-            "caption": "",
-            "is_list": true,
-            "name": "r1"
+            "caption": "Success",
+            "name": "success",
+            "rank": 0,
+            "value": "boolean"
         },
         "ACL": {
-            "caption": "",
-            "name": ""
+            "caption": "Remaining Field IDs",
+            "is_list": true,
+            "name": "ids",
+            "rank": 1,
+            "value": "number"
         },
         "ACM": {
-            "caption": "",
-            "name": ""
+            "caption": "Remaining Field Names",
+            "is_list": true,
+            "name": "names",
+            "rank": 2,
+            "value": "text"
         },
         "ACN": {
-            "caption": "",
-            "name": ""
+            "caption": "Error Message",
+            "name": "errorMessage",
+            "rank": 3,
+            "value": "text"
         },
         "ACO": {
-            "caption": "",
-            "name": ""
-        },
-        "ACP": {
-            "caption": "",
-            "name": ""
-        },
-        "ACQ": {
-            "caption": "",
-            "name": ""
-        },
-        "ACR": {
-            "caption": "",
-            "name": ""
-        },
-        "ACS": {
-            "caption": "",
-            "name": ""
-        },
-        "ACT": {
-            "caption": "",
-            "name": ""
-        },
-        "ACU": {
-            "caption": "",
-            "name": ""
-        },
-        "ACV": {
-            "caption": "",
-            "name": ""
-        },
-        "ACW": {
-            "caption": "",
-            "name": ""
+            "caption": "Response JSON",
+            "name": "response",
+            "rank": 4,
+            "value": "text"
         }
     },
     "type": "server_side"

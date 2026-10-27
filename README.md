@@ -11,10 +11,10 @@ directions, so keep its structure and never change an ID (`AAQ`, `AAP-850n0` and
   ID, Token Secret, Region).
 - `actions/<ID>/`: one server-side action each, with `params.json` (fields and return values), `server.js` and
   `client.js`.
-- `actions/_new/<name>/`: actions written here that don't exist in the editor yet. Their `params.json` uses
-  placeholder IDs (`NEW_1`, `NEW_2`, ...), because Bubble assigns the real ones. Create each action in the editor
-  with the same fields and return values, paste in its `server.js`, then remove its folder here.
-  `actions/_new/<ID>-additions/` lists fields and return values to add to an existing action.
+- New actions, fields and return values need IDs from Bubble: create them in the editor first (an action with
+  enough empty fields and return values, or empty rows on an existing action), click "Synchronize with GitHub",
+  then fill them in here and sync again. `test/support/actions.json` maps each action's name to its folder for the
+  tests.
 - Bubble actions can't share modules, so every `server.js` starts with the same helper block (region, auth,
   requests, errors). Change it in `actions/AAP-850n0/server.js`, then copy it to every action with
   `node test/support/sync-helpers.js --write`.
