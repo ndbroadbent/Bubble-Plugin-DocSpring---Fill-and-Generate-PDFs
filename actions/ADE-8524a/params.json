@@ -53,6 +53,56 @@
             "optional": true,
             "rank": 5,
             "value": "text"
+        },
+        "ALh": {
+            "caption": "sendEmail",
+            "name": "sendEmail",
+            "rank": 6
+        },
+        "ALi": {
+            "caption": "signingOrder",
+            "name": "signingOrder",
+            "rank": 7
+        },
+        "ALj": {
+            "caption": "emailSubject",
+            "name": "emailSubject",
+            "rank": 8
+        },
+        "ALk": {
+            "caption": "emailMessage",
+            "name": "emailMessage",
+            "rank": 9
+        },
+        "ALl": {
+            "caption": "cc",
+            "name": "cc",
+            "rank": 10
+        },
+        "ALm": {
+            "caption": "reminderIntervalDays",
+            "name": "reminderIntervalDays",
+            "rank": 11
+        },
+        "ALn": {
+            "caption": "reminderMaxCount",
+            "name": "reminderMaxCount",
+            "rank": 12
+        },
+        "ALo": {
+            "caption": "replyTo",
+            "name": "replyTo",
+            "rank": 13
+        },
+        "ALp": {
+            "caption": "notificationEmails",
+            "name": "notificationEmails",
+            "rank": 14
+        },
+        "ALq": {
+            "caption": "notifyWhenSigned",
+            "name": "notifyWhenSigned",
+            "rank": 15
         }
     },
     "return_value": {

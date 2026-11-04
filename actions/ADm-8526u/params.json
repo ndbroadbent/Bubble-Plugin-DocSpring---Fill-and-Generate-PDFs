@@ -17,6 +17,11 @@
             "editor": "Checkbox",
             "name": "wait",
             "rank": 1
+        },
+        "AMJ": {
+            "caption": "formats",
+            "name": "formats",
+            "rank": 2
         }
     },
     "return_value": {
@@ -62,6 +67,30 @@
             "name": "response",
             "rank": 6,
             "value": "text"
+        },
+        "AMK": {
+            "caption": "",
+            "name": "file"
+        },
+        "AML": {
+            "caption": "",
+            "name": "permanentFile"
+        },
+        "AMM": {
+            "caption": "",
+            "name": "wordFile"
+        },
+        "AMN": {
+            "caption": "",
+            "name": "permanentWordFile"
+        },
+        "AMO": {
+            "caption": "",
+            "name": "openDocumentFile"
+        },
+        "AMP": {
+            "caption": "",
+            "name": "permanentOpenDocumentFile"
         }
     },
     "type": "server_side"
