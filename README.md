@@ -19,6 +19,10 @@ directions, so keep its structure and never change an ID (`AAQ`, `AAP-850n0` and
   **Reload** in the dialog that says the new version has been fetched. Closing the dialog without Reload leaves the
   editor unchanged, but Bubble still records the commit as synced, so the next sync says it's already synced. To
   retry, push another commit (an empty one works) and sync again.
+- When the editor has changes that aren't on GitHub (such as new empty rows), "Synchronize with GitHub" first pushes
+  them as an "Automatic commit from Bubble" and merges it into `master`. That commit has only the plugin's own files,
+  so it deletes `test/` and `CHANGELOG.md`: restore them from the commit before it
+  (`git checkout <commit> -- test CHANGELOG.md`) and commit them with your changes.
 - Bubble actions can't share modules, so every `server.js` starts with the same helper block (region, auth,
   requests, errors). Change it in `actions/AAP-850n0/server.js`, then copy it to every action with
   `node test/support/sync-helpers.js --write`.
