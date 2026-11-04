@@ -96,11 +96,6 @@
             "optional": true,
             "rank": 10,
             "value": "boolean"
-        },
-        "ALr": {
-            "caption": "outputFormats",
-            "name": "outputFormats",
-            "rank": 11
         }
     },
     "return_value": {
@@ -158,22 +153,6 @@
             "name": "pageImages",
             "rank": 8,
             "value": "file"
-        },
-        "ALs": {
-            "caption": "",
-            "name": "wordFile"
-        },
-        "ALt": {
-            "caption": "",
-            "name": "permanentWordFile"
-        },
-        "ALu": {
-            "caption": "",
-            "name": "openDocumentFile"
-        },
-        "ALv": {
-            "caption": "",
-            "name": "permanentOpenDocumentFile"
         }
     },
     "type": "server_side"

@@ -47,7 +47,7 @@
         },
         "ACt": {
             "caption": "Signature Requests (JSON)",
-            "doc": "Optional. A JSON list of signature requests to check with the data, as in Create Signature Request's More Signers (JSON).",
+            "doc": "Optional. A JSON list of signature requests to check with the data, as in Create Signature Request's More Signers (JSON). auth_type is email_link when left out.",
             "editor": "DynamicValue",
             "name": "signatureRequests",
             "optional": true,
@@ -55,52 +55,90 @@
             "value": "text"
         },
         "ALh": {
-            "caption": "sendEmail",
+            "caption": "Emails to Signers",
+            "default_val": "docspring",
+            "doc": "With Signature Requests (JSON): who sends the signers their links, as in Create Signature Request. docspring: DocSpring emails each signer a link to sign, any reminders, and the signed PDF once everyone has signed. Each signer then needs an email address and the email_link Auth Type. A test submission can only email members of your DocSpring team. self: you send the signing links (see Signing Link Type), or people sign in your app. DocSpring doesn't email the signers of a form library template: choose self for one.",
+            "editor": "Dropdown",
             "name": "sendEmail",
+            "options": "docspring,self",
             "rank": 6
         },
         "ALi": {
-            "caption": "signingOrder",
+            "caption": "Signing Order",
+            "doc": "With Signature Requests (JSON). parallel (the default): everyone can sign at once. sequential: people sign one step at a time, in the order of their Signing Step, or of the signers. DocSpring emails each step when the one before it is done. When you send the links, send each step's once the step before it has signed, and make a new one with Create Signing Link if it has expired.",
+            "editor": "Dropdown",
             "name": "signingOrder",
+            "options": "parallel,sequential",
             "rank": 7
         },
         "ALj": {
-            "caption": "emailSubject",
+            "caption": "Email Subject",
+            "doc": "With Signature Requests (JSON) and DocSpring's emails: the subject of the emails that ask people to sign, such as Please sign the lease. Blank: \"<your name> sent you <document> to sign\".",
+            "editor": "DynamicValue",
             "name": "emailSubject",
-            "rank": 8
+            "optional": true,
+            "rank": 8,
+            "value": "text"
         },
         "ALk": {
-            "caption": "emailMessage",
+            "caption": "Email Message",
+            "doc": "With Signature Requests (JSON) and DocSpring's emails: a message for the signers, shown above the signing button. Links and web addresses are shown as plain text.",
+            "editor": "DynamicValue",
             "name": "emailMessage",
-            "rank": 9
+            "optional": true,
+            "rank": 9,
+            "value": "text"
         },
         "ALl": {
-            "caption": "cc",
+            "caption": "CC",
+            "doc": "With Signature Requests (JSON) and DocSpring's emails: up to 10 email addresses, separated by commas, that get the signed PDF. They don't sign.",
+            "editor": "DynamicValue",
             "name": "cc",
-            "rank": 10
+            "optional": true,
+            "rank": 10,
+            "value": "text"
         },
         "ALm": {
-            "caption": "reminderIntervalDays",
+            "caption": "Days Between Reminders",
+            "doc": "With Signature Requests (JSON) and DocSpring's emails: remind people who haven't signed every 1 to 30 days. Set Most Reminders per Person too, or leave both blank for no reminders.",
+            "editor": "DynamicValue",
             "name": "reminderIntervalDays",
-            "rank": 11
+            "optional": true,
+            "rank": 11,
+            "value": "number"
         },
         "ALn": {
-            "caption": "reminderMaxCount",
+            "caption": "Most Reminders per Person",
+            "doc": "With Signature Requests (JSON) and DocSpring's emails: from 1 to 10. Set Days Between Reminders too.",
+            "editor": "DynamicValue",
             "name": "reminderMaxCount",
-            "rank": 12
+            "optional": true,
+            "rank": 12,
+            "value": "number"
         },
         "ALo": {
-            "caption": "replyTo",
+            "caption": "Reply-To Address",
+            "doc": "With Signature Requests (JSON) and DocSpring's emails: where replies to the emails go: a member of your DocSpring team, or an address at one of your verified email domains. Blank: the template's reply-to address (the account owner when it has none).",
+            "editor": "DynamicValue",
             "name": "replyTo",
-            "rank": 13
+            "optional": true,
+            "rank": 13,
+            "value": "text"
         },
         "ALp": {
-            "caption": "notificationEmails",
+            "caption": "Notification Emails",
+            "doc": "With Signature Requests (JSON) and DocSpring's emails: up to 10 addresses, separated by commas, that DocSpring tells when the document is completed or declined, or an email bounces or can't be sent: members of your DocSpring team or addresses at your verified email domains. Blank: the template's notification addresses (the account owner when it has none).",
+            "editor": "DynamicValue",
             "name": "notificationEmails",
-            "rank": 14
+            "optional": true,
+            "rank": 14,
+            "value": "text"
         },
         "ALq": {
-            "caption": "notifyWhenSigned",
+            "caption": "Notify When Each Person Signs",
+            "default_val": false,
+            "doc": "With Signature Requests (JSON) and DocSpring's emails: also email the notification addresses each time someone signs.",
+            "editor": "Checkbox",
             "name": "notifyWhenSigned",
             "rank": 15
         }

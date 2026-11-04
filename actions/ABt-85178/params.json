@@ -61,11 +61,6 @@
             "editor": "Checkbox",
             "name": "wait",
             "rank": 6
-        },
-        "AMA": {
-            "caption": "outputFormats",
-            "name": "outputFormats",
-            "rank": 7
         }
     },
     "return_value": {
@@ -126,22 +121,6 @@
             "name": "response",
             "rank": 8,
             "value": "text"
-        },
-        "AMB": {
-            "caption": "",
-            "name": "wordFiles"
-        },
-        "AMC": {
-            "caption": "",
-            "name": "permanentWordFiles"
-        },
-        "AMD": {
-            "caption": "",
-            "name": "openDocumentFiles"
-        },
-        "AME": {
-            "caption": "",
-            "name": "permanentOpenDocumentFiles"
         }
     },
     "type": "server_side"

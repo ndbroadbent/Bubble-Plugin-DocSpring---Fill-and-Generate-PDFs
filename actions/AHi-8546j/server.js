@@ -500,6 +500,61 @@ async function(properties, context) {
     const png = record && record.files && record.files.png;
     return png && Array.isArray(png.pages) ? png.pages.map((page) => page.download_url || null) : [];
   };
+
+  // Email addresses from a list or text (commas or new lines), each once:
+  // the API refuses repeats.
+  const addressList = (value) => toList(value).filter((address, index, list) => list.indexOf(address) === index);
+
+  // Signers from a JSON list (More Signers, Signature Requests). Blank values
+  // are left out (the API refuses blank text), an email is trimmed, and
+  // auth_type defaults to email_link, as for the signer the fields describe.
+  const jsonSigners = (value, name) =>
+    (parseJsonInput(value, name, "array") || []).map((item, index) => {
+      if (!item || typeof item !== "object" || Array.isArray(item)) {
+        throw new Error(
+          `${name} item ${index + 1} must be an object, such as ` +
+          '{"name": "Jane", "email": "jane@example.com", "fields": ["signature"], "auth_type": "email_link"}.'
+        );
+      }
+      const signer = {};
+      Object.keys(item).forEach((key) => {
+        const itemValue = key === "email" && typeof item[key] === "string" ? item[key].trim() : item[key];
+        if (!isBlank(itemValue)) signer[key] = itemValue;
+      });
+      if (signer.auth_type === undefined) signer.auth_type = "email_link";
+      return signer;
+    });
+
+  // A submission's signer email settings: send_email (Emails to Signers:
+  // docspring, the default, or self), signing_order, and, only when DocSpring
+  // emails the signers, the email options that have a value. The API refuses
+  // email options when it emails nobody, and blank ones.
+  const emailSettings = (values) => {
+    const mode = (optionalText(values.sendEmail) || "docspring").toLowerCase();
+    if (mode !== "docspring" && mode !== "self") {
+      throw new Error(`Emails to Signers must be docspring or self, not "${values.sendEmail}".`);
+    }
+    const settings = { send_email: mode === "docspring" };
+    const signingOrder = optionalText(values.signingOrder);
+    put(settings, "signing_order", signingOrder && signingOrder.toLowerCase());
+    if (mode === "self") return settings;
+
+    put(settings, "email_subject", optionalText(values.emailSubject));
+    put(settings, "email_message", optionalText(values.emailMessage));
+    put(settings, "cc", addressList(values.cc));
+    const intervalDays = toInteger(values.reminderIntervalDays, "Days Between Reminders");
+    const maxCount = toInteger(values.reminderMaxCount, "Most Reminders per Person");
+    // The API needs both: one alone gets its error, which names the other.
+    if (intervalDays !== undefined || maxCount !== undefined) {
+      settings.reminders = put(put({}, "interval_days", intervalDays), "max_count", maxCount);
+    }
+    put(settings, "reply_to", optionalText(values.replyTo));
+    put(settings, "notification_emails", addressList(values.notificationEmails));
+    if (toBoolean(values.notifyWhenSigned, "Notify When Each Person Signs") === true) {
+      settings.notify_when_signed = true;
+    }
+    return settings;
+  };
   // ---- end of DocSpring plugin helpers ----
 
   // Move Template: POST /templates/{id}/move. A blank folder (or "root")

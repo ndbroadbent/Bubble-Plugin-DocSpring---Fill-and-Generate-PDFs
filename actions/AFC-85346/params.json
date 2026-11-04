@@ -64,7 +64,7 @@
         },
         "AEt": {
             "caption": "Signer Email",
-            "doc": "Their email address.",
+            "doc": "Their email address. Required when DocSpring emails the signers.",
             "editor": "DynamicValue",
             "name": "signerEmail",
             "optional": true,
@@ -92,7 +92,7 @@
         "AEw": {
             "caption": "Auth Type",
             "default_val": "email_link",
-            "doc": "How your app checked who the person is before showing them the signature request.",
+            "doc": "How the person is identified before they see the form. email_link: they get their link by email, from DocSpring or from you (DocSpring's emails always use it). The others are for people you send the link to yourself, or who sign in your app.",
             "editor": "Dropdown",
             "name": "authType",
             "options": "email_link,password,oauth,phone_number,ldap,saml",
@@ -125,74 +125,116 @@
         },
         "AFA": {
             "caption": "More Signers (JSON)",
-            "doc": "Optional, advanced. A JSON list of more signers, added after the signer above, such as [{\"name\": \"Jane\", \"email\": \"jane@example.com\", \"fields\": [\"signature_2\"], \"auth_type\": \"email_link\"}].",
+            "doc": "Optional, advanced. A JSON list of more signers, added after the signer above, such as [{\"name\": \"Jane\", \"email\": \"jane@example.com\", \"fields\": [\"signature_2\"], \"signing_step\": 2}]. auth_type is email_link when left out. An item with \"send_email\": false isn't emailed by DocSpring, and gets a signing link here.",
             "editor": "DynamicValue",
             "name": "signatureRequests",
             "optional": true,
-            "rank": 14,
+            "rank": 15,
             "value": "text"
         },
         "AFB": {
             "caption": "Signing Link Type",
             "default_val": "api",
-            "doc": "Make a signing link for each signer: api (opens for 24 hours, for your app to show now), email (7 days, to send), or none.",
+            "doc": "When you send the links (Emails to Signers: self), a signing link for each signer: api (opens for 24 hours, for your app to show now), email (7 days, to send), or none (make them later with Create Signing Link). DocSpring's emails have their own links, so none are made for the people it emails.",
             "editor": "Dropdown",
             "name": "signingLinkType",
             "options": "api,email,none",
-            "rank": 15
+            "rank": 18
         },
         "ALW": {
-            "caption": "sendEmail",
+            "caption": "Emails to Signers",
+            "default_val": "docspring",
+            "doc": "docspring: DocSpring emails each signer a link to sign, any reminders, and the signed PDF once everyone has signed. Each signer then needs an email address and the email_link Auth Type. A test submission can only email members of your DocSpring team. self: you send the signing links (see Signing Link Type), or people sign in your app. DocSpring doesn't email the signers of a form library template: choose self for one.",
+            "editor": "Dropdown",
             "name": "sendEmail",
+            "options": "docspring,self",
             "rank": 16
         },
         "ALX": {
-            "caption": "signingOrder",
+            "caption": "Signing Order",
+            "doc": "Optional. parallel (the default): everyone can sign at once. sequential: people sign one step at a time, in the order of their Signing Step, or of the signers. DocSpring emails each step when the one before it is done. When you send the links, send each step's once the step before it has signed, and make a new one with Create Signing Link if it has expired.",
+            "editor": "Dropdown",
             "name": "signingOrder",
+            "options": "parallel,sequential",
             "rank": 17
         },
         "ALY": {
-            "caption": "signerSigningStep",
+            "caption": "Signer Signing Step",
+            "doc": "Optional, with Signing Order sequential: when this person signs. Everyone in step 1 signs first, then step 2, and so on, and people in the same step sign in any order. Give every signer a step, or none to have them sign in the order of the signers.",
+            "editor": "DynamicValue",
             "name": "signerSigningStep",
-            "rank": 18
+            "optional": true,
+            "rank": 14,
+            "value": "number"
         },
         "ALZ": {
-            "caption": "emailSubject",
+            "caption": "Email Subject",
+            "doc": "Optional, with DocSpring's emails: the subject of the emails that ask people to sign, such as Please sign the lease. Blank: \"<your name> sent you <document> to sign\".",
+            "editor": "DynamicValue",
             "name": "emailSubject",
-            "rank": 19
+            "optional": true,
+            "rank": 19,
+            "value": "text"
         },
         "ALa": {
-            "caption": "emailMessage",
+            "caption": "Email Message",
+            "doc": "Optional, with DocSpring's emails: a message for the signers, shown above the signing button. Links and web addresses are shown as plain text.",
+            "editor": "DynamicValue",
             "name": "emailMessage",
-            "rank": 20
+            "optional": true,
+            "rank": 20,
+            "value": "text"
         },
         "ALb": {
-            "caption": "cc",
+            "caption": "CC",
+            "doc": "Optional, with DocSpring's emails: up to 10 email addresses, separated by commas, that get the signed PDF. They don't sign.",
+            "editor": "DynamicValue",
             "name": "cc",
-            "rank": 21
+            "optional": true,
+            "rank": 21,
+            "value": "text"
         },
         "ALc": {
-            "caption": "reminderIntervalDays",
+            "caption": "Days Between Reminders",
+            "doc": "Optional, with DocSpring's emails: remind people who haven't signed every 1 to 30 days. Set Most Reminders per Person too, or leave both blank for no reminders.",
+            "editor": "DynamicValue",
             "name": "reminderIntervalDays",
-            "rank": 22
+            "optional": true,
+            "rank": 22,
+            "value": "number"
         },
         "ALd": {
-            "caption": "reminderMaxCount",
+            "caption": "Most Reminders per Person",
+            "doc": "Optional, with DocSpring's emails: from 1 to 10. Set Days Between Reminders too.",
+            "editor": "DynamicValue",
             "name": "reminderMaxCount",
-            "rank": 23
+            "optional": true,
+            "rank": 23,
+            "value": "number"
         },
         "ALe": {
-            "caption": "replyTo",
+            "caption": "Reply-To Address",
+            "doc": "Optional, with DocSpring's emails: where replies to the emails go: a member of your DocSpring team, or an address at one of your verified email domains. Blank: the template's reply-to address (the account owner when it has none).",
+            "editor": "DynamicValue",
             "name": "replyTo",
-            "rank": 24
+            "optional": true,
+            "rank": 24,
+            "value": "text"
         },
         "ALf": {
-            "caption": "notificationEmails",
+            "caption": "Notification Emails",
+            "doc": "Optional, with DocSpring's emails: up to 10 addresses, separated by commas, that DocSpring tells when the document is completed or declined, or an email bounces or can't be sent: members of your DocSpring team or addresses at your verified email domains. Blank: the template's notification addresses (the account owner when it has none).",
+            "editor": "DynamicValue",
             "name": "notificationEmails",
-            "rank": 25
+            "optional": true,
+            "rank": 25,
+            "value": "text"
         },
         "ALg": {
-            "caption": "notifyWhenSigned",
+            "caption": "Notify When Each Person Signs",
+            "default_val": false,
+            "doc": "With DocSpring's emails: also email the notification addresses each time someone signs.",
+            "editor": "Checkbox",
             "name": "notifyWhenSigned",
             "rank": 26
         }
