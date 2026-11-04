@@ -102,6 +102,30 @@
             "name": "pageImages",
             "rank": 14,
             "value": "file"
+        },
+        "ALw": {
+            "caption": "Word Document",
+            "name": "wordFile",
+            "rank": 15,
+            "value": "file"
+        },
+        "ALx": {
+            "caption": "Permanent Word Document",
+            "name": "permanentWordFile",
+            "rank": 16,
+            "value": "file"
+        },
+        "ALy": {
+            "caption": "OpenDocument File",
+            "name": "openDocumentFile",
+            "rank": 17,
+            "value": "file"
+        },
+        "ALz": {
+            "caption": "Permanent OpenDocument File",
+            "name": "permanentOpenDocumentFile",
+            "rank": 18,
+            "value": "file"
         }
     },
     "type": "server_side"

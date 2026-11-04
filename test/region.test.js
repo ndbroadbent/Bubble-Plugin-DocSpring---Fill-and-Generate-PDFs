@@ -70,7 +70,7 @@ test("requests use HTTP Basic auth, JSON and the plugin's User-Agent", async () 
     responses: [{ method: "GET", uri: "https://api.docspring.com/api/v2/submissions/sub_123", status: 200, body: submission() }]
   });
   assert.deepEqual(calls[0].auth, { user: "token_id", pass: "token_secret" });
-  assert.equal(calls[0].headers["User-Agent"], "docspring-bubble/2.0.0");
+  assert.equal(calls[0].headers["User-Agent"], "docspring-bubble/2.1.0");
   assert.equal(calls[0].json, true);
   assert.equal(calls[0].simple, false);
 });

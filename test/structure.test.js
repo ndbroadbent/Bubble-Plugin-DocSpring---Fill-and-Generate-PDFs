@@ -12,11 +12,12 @@ const EXISTING = {
     fields: {
       AAQ: "templateId", AAR: "data", AAS: "parseAsBoolean", AAg: "test", AAj: "metadata",
       ALO: "version", ALP: "makePageImages", ALQ: "password", ALR: "expiresIn", ALS: "fieldOverrides",
-      ALV: "editable"
+      ALV: "editable", ALr: "outputFormats"
     },
     returns: {
       AAT: "id", AAU: "state", AAV: "file", AAW: "success", AAX: "errorMessage",
-      AAh: "permanentFile", AAl: "response", ABq: "regionInfo", ALT: "pageImages"
+      AAh: "permanentFile", AAl: "response", ABq: "regionInfo", ALT: "pageImages",
+      ALs: "wordFile", ALt: "permanentWordFile", ALu: "openDocumentFile", ALv: "permanentOpenDocumentFile"
     }
   },
   "AAY-850nj": {
@@ -24,7 +25,8 @@ const EXISTING = {
     returns: {
       AAb: "success", AAc: "id", AAd: "state", AAe: "file", AAf: "errorMessage", AAi: "permanentFile",
       AAn: "processedAt", AAo: "pdfHash", AAp: "templateId", AAq: "isTest", AAr: "expiresAt",
-      AAs: "password", ABr: "regionInfo", ABs: "response", ALU: "pageImages"
+      AAs: "password", ABr: "regionInfo", ABs: "response", ALU: "pageImages",
+      ALw: "wordFile", ALx: "permanentWordFile", ALy: "openDocumentFile", ALz: "permanentOpenDocumentFile"
     }
   }
 };

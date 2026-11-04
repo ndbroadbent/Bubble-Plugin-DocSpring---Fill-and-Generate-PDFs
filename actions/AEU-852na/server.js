@@ -3,7 +3,7 @@ async function(properties, context) {
   // Bubble actions can't share modules, so every action's server.js starts with
   // this same block. Keep it identical in every action (test/structure.test.js
   // checks; test/support/sync-helpers.js copies it from Create PDF Submission).
-  const PLUGIN_VERSION = "2.0.0";
+  const PLUGIN_VERSION = "2.1.0";
   const PREVIOUS_PLUGIN_VERSION = "1.7.0";
   const USER_AGENT = "docspring-bubble/" + PLUGIN_VERSION;
   // Polling waits 1, 2, 4, then 8 seconds between requests. An action waits
@@ -494,11 +494,79 @@ async function(properties, context) {
     return value === undefined ? null : value;
   });
 
-  const pdfOf = (record) => (record && record.files && record.files.pdf) || {};
+  // One of a record's generated files (pdf, docx, odt), or {} when it has
+  // none.
+  const fileOf = (record, format) => (record && record.files && record.files[format]) || {};
+
+  const pdfOf = (record) => fileOf(record, "pdf");
 
   const pageImagesOf = (record) => {
     const png = record && record.files && record.files.png;
     return png && Array.isArray(png.pages) ? png.pages.map((page) => page.download_url || null) : [];
+  };
+
+  // Each format's file and permanent file results.
+  const FILE_RESULTS = [
+    ["pdf", "file", "permanentFile"],
+    ["docx", "wordFile", "permanentWordFile"],
+    ["odt", "openDocumentFile", "permanentOpenDocumentFile"]
+  ];
+
+  // A submission's file links: file and permanentFile (the PDF), wordFile and
+  // openDocumentFile (and their permanent links), null when it has none.
+  const fileResults = (record) => {
+    const results = {};
+    FILE_RESULTS.forEach(([format, name, permanentName]) => {
+      results[name] = fileOf(record, format).download_url || null;
+      results[permanentName] = fileOf(record, format).permanent_url || null;
+    });
+    return results;
+  };
+
+  // The same links for a list of submissions, one per submission (files,
+  // permanentFiles, wordFiles and so on).
+  const fileListResults = (records) => {
+    const results = {};
+    FILE_RESULTS.forEach(([format, name, permanentName]) => {
+      results[name + "s"] = pluck(records, (record) => fileOf(record, format).download_url);
+      results[permanentName + "s"] = pluck(records, (record) => fileOf(record, format).permanent_url);
+    });
+    return results;
+  };
+
+  // Whether any of a record's files is still being made.
+  const anyFilePending = (record) => {
+    const files = (record && record.files) || {};
+    return Object.keys(files).some((format) => Boolean(files[format]) && files[format].state === "pending");
+  };
+
+  const FILE_NAMES = { pdf: "PDF", docx: "Word document", odt: "OpenDocument file", png: "page images" };
+
+  // "Its Word document couldn't be made: ..." for each of formats (default:
+  // every file) the record has in the error state.
+  const fileErrors = (record, formats) => {
+    const files = (record && record.files) || {};
+    return (formats || Object.keys(files))
+      .filter((format) => Boolean(files[format]) && files[format].state === "error")
+      .map((format) =>
+        `Its ${FILE_NAMES[format] || format} couldn't be made: ${files[format].error_message || "no error message"}`
+      );
+  };
+
+  // Output Formats text ("pdf, docx") as a list, lowercased, each once, plus
+  // png for Make Page Images (with pdf when nothing else is listed).
+  // undefined when it's blank: the template's own formats.
+  const outputFormats = (value, makePageImages) => {
+    const formats = [];
+    toList(value).forEach((format) => {
+      const name = format.toLowerCase();
+      if (!formats.includes(name)) formats.push(name);
+    });
+    if (makePageImages) {
+      if (!formats.length) formats.push("pdf");
+      if (!formats.includes("png")) formats.push("png");
+    }
+    return formats.length ? formats : undefined;
   };
 
   // Email addresses from a list or text (commas or new lines), each once:

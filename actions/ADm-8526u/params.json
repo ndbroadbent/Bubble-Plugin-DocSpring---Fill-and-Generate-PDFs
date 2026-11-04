@@ -13,10 +13,19 @@
         "ADX": {
             "caption": "Wait",
             "default_val": true,
-            "doc": "Wait up to 45 seconds for the page images. Turn it off to return straight away.",
+            "doc": "Wait up to 45 seconds for the files. Turn it off to return straight away.",
             "editor": "Checkbox",
             "name": "wait",
-            "rank": 1
+            "rank": 2
+        },
+        "AMJ": {
+            "caption": "Formats",
+            "doc": "Optional. The files to add, separated by commas: png (an image of each page of the PDF, up to 100 pages), and for a Word template's submission pdf (its PDF), docx (its Word document) or odt (an OpenDocument file). Blank: png. A format the submission already has is left as it is.",
+            "editor": "DynamicValue",
+            "name": "formats",
+            "optional": true,
+            "rank": 1,
+            "value": "text"
         }
     },
     "return_value": {
@@ -62,6 +71,42 @@
             "name": "response",
             "rank": 6,
             "value": "text"
+        },
+        "AMK": {
+            "caption": "PDF File",
+            "name": "file",
+            "rank": 7,
+            "value": "file"
+        },
+        "AML": {
+            "caption": "Permanent PDF File",
+            "name": "permanentFile",
+            "rank": 8,
+            "value": "file"
+        },
+        "AMM": {
+            "caption": "Word Document",
+            "name": "wordFile",
+            "rank": 9,
+            "value": "file"
+        },
+        "AMN": {
+            "caption": "Permanent Word Document",
+            "name": "permanentWordFile",
+            "rank": 10,
+            "value": "file"
+        },
+        "AMO": {
+            "caption": "OpenDocument File",
+            "name": "openDocumentFile",
+            "rank": 11,
+            "value": "file"
+        },
+        "AMP": {
+            "caption": "Permanent OpenDocument File",
+            "name": "permanentOpenDocumentFile",
+            "rank": 12,
+            "value": "file"
         }
     },
     "type": "server_side"

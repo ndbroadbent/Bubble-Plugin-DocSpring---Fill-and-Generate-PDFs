@@ -77,6 +77,34 @@
             "name": "response",
             "rank": 8,
             "value": "text"
+        },
+        "AMF": {
+            "caption": "Word Documents",
+            "is_list": true,
+            "name": "wordFiles",
+            "rank": 9,
+            "value": "file"
+        },
+        "AMG": {
+            "caption": "Permanent Word Documents",
+            "is_list": true,
+            "name": "permanentWordFiles",
+            "rank": 10,
+            "value": "file"
+        },
+        "AMH": {
+            "caption": "OpenDocument Files",
+            "is_list": true,
+            "name": "openDocumentFiles",
+            "rank": 11,
+            "value": "file"
+        },
+        "AMI": {
+            "caption": "Permanent OpenDocument Files",
+            "is_list": true,
+            "name": "permanentOpenDocumentFiles",
+            "rank": 12,
+            "value": "file"
         }
     },
     "type": "server_side"

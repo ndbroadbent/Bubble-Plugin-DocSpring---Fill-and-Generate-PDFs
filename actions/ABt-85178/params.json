@@ -60,7 +60,16 @@
             "doc": "Wait up to 45 seconds for every PDF. Turn it off to return straight away.",
             "editor": "Checkbox",
             "name": "wait",
-            "rank": 6
+            "rank": 7
+        },
+        "AMA": {
+            "caption": "Output Formats",
+            "doc": "Optional. What to make, separated by commas: pdf, docx (a Word template's Word document), odt (an OpenDocument file, the format LibreOffice uses, from a Word template) and png (an image of each page of the PDF, which adds pdf). Blank: what the template makes, the PDF or what a Word template is set to make. Make Page Images adds png. Each submission can set its own output_formats.",
+            "editor": "DynamicValue",
+            "name": "outputFormats",
+            "optional": true,
+            "rank": 6,
+            "value": "text"
         }
     },
     "return_value": {
@@ -121,6 +130,34 @@
             "name": "response",
             "rank": 8,
             "value": "text"
+        },
+        "AMB": {
+            "caption": "Word Documents",
+            "is_list": true,
+            "name": "wordFiles",
+            "rank": 9,
+            "value": "file"
+        },
+        "AMC": {
+            "caption": "Permanent Word Documents",
+            "is_list": true,
+            "name": "permanentWordFiles",
+            "rank": 10,
+            "value": "file"
+        },
+        "AMD": {
+            "caption": "OpenDocument Files",
+            "is_list": true,
+            "name": "openDocumentFiles",
+            "rank": 11,
+            "value": "file"
+        },
+        "AME": {
+            "caption": "Permanent OpenDocument Files",
+            "is_list": true,
+            "name": "permanentOpenDocumentFiles",
+            "rank": 12,
+            "value": "file"
         }
     },
     "type": "server_side"

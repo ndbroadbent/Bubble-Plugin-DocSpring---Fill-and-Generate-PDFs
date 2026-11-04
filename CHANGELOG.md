@@ -11,6 +11,12 @@
 - Check Data checks its signature requests with the same settings.
 - More Signers (JSON) and Check Data's Signature Requests (JSON) leave out blank values, trim email addresses, and
   default `auth_type` to `email_link`, as for the signer the fields describe.
+- Create PDF Submission and Generate PDFs in a Batch take Output Formats (pdf, docx, odt, png), and they, Get PDF
+  Submission and Get Submission Batch return a Word template's Word document and OpenDocument file (and their
+  permanent links).
+- Generate Submission Files takes Formats: page images (png, the default), or a Word template's PDF, Word document or
+  OpenDocument file. It returns their links and waits for every file it makes.
+- Create PDF Submission waits for every file it makes, and its Error Message lists any file that couldn't be made.
 
 ## 2.0.0
 

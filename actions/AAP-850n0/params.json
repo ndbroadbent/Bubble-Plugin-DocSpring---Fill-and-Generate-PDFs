@@ -96,6 +96,15 @@
             "optional": true,
             "rank": 10,
             "value": "boolean"
+        },
+        "ALr": {
+            "caption": "Output Formats",
+            "doc": "Optional. What to make, separated by commas: pdf, docx (a Word template's Word document), odt (an OpenDocument file, the format LibreOffice uses, from a Word template) and png (an image of each page of the PDF, which adds pdf). Blank: what the template makes, the PDF or what a Word template is set to make. Make Page Images adds png. A PDF Password can't be used with docx or odt.",
+            "editor": "DynamicValue",
+            "name": "outputFormats",
+            "optional": true,
+            "rank": 11,
+            "value": "text"
         }
     },
     "return_value": {
@@ -152,6 +161,30 @@
             "is_list": true,
             "name": "pageImages",
             "rank": 8,
+            "value": "file"
+        },
+        "ALs": {
+            "caption": "Word Document",
+            "name": "wordFile",
+            "rank": 9,
+            "value": "file"
+        },
+        "ALt": {
+            "caption": "Permanent Word Document",
+            "name": "permanentWordFile",
+            "rank": 10,
+            "value": "file"
+        },
+        "ALu": {
+            "caption": "OpenDocument File",
+            "name": "openDocumentFile",
+            "rank": 11,
+            "value": "file"
+        },
+        "ALv": {
+            "caption": "Permanent OpenDocument File",
+            "name": "permanentOpenDocumentFile",
+            "rank": 12,
             "value": "file"
         }
     },
