@@ -140,6 +140,61 @@
             "name": "signingLinkType",
             "options": "api,email,none",
             "rank": 15
+        },
+        "ALW": {
+            "caption": "sendEmail",
+            "name": "sendEmail",
+            "rank": 16
+        },
+        "ALX": {
+            "caption": "signingOrder",
+            "name": "signingOrder",
+            "rank": 17
+        },
+        "ALY": {
+            "caption": "signerSigningStep",
+            "name": "signerSigningStep",
+            "rank": 18
+        },
+        "ALZ": {
+            "caption": "emailSubject",
+            "name": "emailSubject",
+            "rank": 19
+        },
+        "ALa": {
+            "caption": "emailMessage",
+            "name": "emailMessage",
+            "rank": 20
+        },
+        "ALb": {
+            "caption": "cc",
+            "name": "cc",
+            "rank": 21
+        },
+        "ALc": {
+            "caption": "reminderIntervalDays",
+            "name": "reminderIntervalDays",
+            "rank": 22
+        },
+        "ALd": {
+            "caption": "reminderMaxCount",
+            "name": "reminderMaxCount",
+            "rank": 23
+        },
+        "ALe": {
+            "caption": "replyTo",
+            "name": "replyTo",
+            "rank": 24
+        },
+        "ALf": {
+            "caption": "notificationEmails",
+            "name": "notificationEmails",
+            "rank": 25
+        },
+        "ALg": {
+            "caption": "notifyWhenSigned",
+            "name": "notifyWhenSigned",
+            "rank": 26
         }
     },
     "return_value": {

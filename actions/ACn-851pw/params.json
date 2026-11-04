@@ -77,6 +77,22 @@
             "name": "response",
             "rank": 8,
             "value": "text"
+        },
+        "AMF": {
+            "caption": "",
+            "name": "wordFiles"
+        },
+        "AMG": {
+            "caption": "",
+            "name": "permanentWordFiles"
+        },
+        "AMH": {
+            "caption": "",
+            "name": "openDocumentFiles"
+        },
+        "AMI": {
+            "caption": "",
+            "name": "permanentOpenDocumentFiles"
         }
     },
     "type": "server_side"

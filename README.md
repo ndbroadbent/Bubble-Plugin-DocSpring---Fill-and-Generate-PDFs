@@ -15,6 +15,10 @@ directions, so keep its structure and never change an ID (`AAQ`, `AAP-850n0` and
   enough empty fields and return values, or empty rows on an existing action), click "Synchronize with GitHub",
   then fill them in here and sync again. `test/support/actions.json` maps each action's name to its folder for the
   tests.
+- To bring commits from `master` into the editor, click "Synchronize with GitHub" (Versions and license tab), then
+  **Reload** in the dialog that says the new version has been fetched. Closing the dialog without Reload leaves the
+  editor unchanged, but Bubble still records the commit as synced, so the next sync says it's already synced. To
+  retry, push another commit (an empty one works) and sync again.
 - Bubble actions can't share modules, so every `server.js` starts with the same helper block (region, auth,
   requests, errors). Change it in `actions/AAP-850n0/server.js`, then copy it to every action with
   `node test/support/sync-helpers.js --write`.

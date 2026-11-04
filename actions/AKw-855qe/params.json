@@ -4,7 +4,7 @@
     "fields": {
         "AKg": {
             "caption": "URL",
-            "doc": "Where DocSpring sends each event, such as one of your app's backend workflow URLs (\u2026/api/1.1/wf/docspring_event).",
+            "doc": "Where DocSpring sends each event, such as one of your app's backend workflow URLs (…/api/1.1/wf/docspring_event).",
             "editor": "DynamicValue",
             "name": "url",
             "rank": 0,
