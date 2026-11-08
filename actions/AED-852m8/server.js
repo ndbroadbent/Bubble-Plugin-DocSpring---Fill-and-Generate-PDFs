@@ -307,15 +307,27 @@ async function(properties, context) {
       .map((record) => `${record[0]}: ${record[1]}`)
       .filter((line) => !(lines || []).includes(line));
 
+  // API v2 builds most error messages from the first three details ("Invalid
+  // request: /name is required; /size must be an integer (and 2 more)"). A
+  // detail the message already has gets no line of its own, unless it adds a
+  // submission ID (a batch's).
+  const detailInMessage = (detail, message) => {
+    if (detail.submission_id || typeof message !== "string") return false;
+    if (typeof detail.message !== "string" || !detail.message) return false;
+    const where = detail.pointer === "" ? "the request body" : detail.pointer || detail.parameter || "";
+    return message.includes(`${where} ${detail.message}`.trim());
+  };
+
   // The lines after an API v2 error's message: its details, the IDs of the
   // records it saved or is about (with the caller's records), and the request
   // ID, last.
   const errorDetailLines = (error, records) => {
     const lines = [];
     (Array.isArray(error.details) ? error.details : []).forEach((detail) => {
-      if (!detail) return;
+      if (!detail || detailInMessage(detail, error.message)) return;
       const where = detail.pointer || detail.parameter;
-      lines.push(where ? `${where}: ${detail.message}` : String(detail.message));
+      const line = where ? `${where}: ${detail.message}` : String(detail.message);
+      lines.push(detail.submission_id ? `${line} (Submission: ${detail.submission_id})` : line);
     });
     RECORD_IDS.forEach((entry) => {
       if (error[entry[0]]) lines.push(`${entry[1]}: ${error[entry[0]]}`);

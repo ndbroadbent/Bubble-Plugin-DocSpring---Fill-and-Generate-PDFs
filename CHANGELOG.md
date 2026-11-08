@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- An error lists each problem once: the details the message already names no longer get a line of their own as well.
+- A batch's error names the submission each problem belongs to, as `(Submission: sub_...)` after its line.
+
 ## 2.1.0
 
 - Create Signature Request: Emails to Signers chooses whether DocSpring emails each signer their link (docspring, the

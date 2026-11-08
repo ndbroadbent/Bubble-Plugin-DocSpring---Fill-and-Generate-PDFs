@@ -151,7 +151,7 @@ test("a 422 invalid_data returns the formatted error and the recorded submission
     result.errorMessage,
     [
       "DocSpring API error 422 invalid_data: The data doesn't match the template's fields: /data/last_name is required",
-      "/data/last_name: is required",
+      // The message already names /data/last_name, so it gets no line of its own.
       "/data/dob: must be a date (YYYY-MM-DD)",
       "Submission: sub_456",
       "Request ID: req_123"
@@ -161,6 +161,50 @@ test("a 422 invalid_data returns the formatted error and the recorded submission
   assert.equal(result.state, "invalid_data");
   assert.deepEqual(JSON.parse(result.response), body);
   assert.ok(result.regionInfo);
+});
+
+test("a 422 leaves out the details its message already lists, as API v2's summary writes them", async () => {
+  const message =
+    "Invalid request: /data/a is required; wait must be a boolean; the request body isn't valid JSON (and 2 more)";
+  const body = v2Error("invalid_request", message, {
+    details: [
+      { code: "required", message: "is required", pointer: "/data/a" },
+      { code: "type", message: "must be a boolean", parameter: "wait" },
+      { code: "invalid", message: "isn't valid JSON", pointer: "" },
+      { code: "required", message: "is required", pointer: "/data/d" },
+      { code: "required", message: "is required", pointer: "/data/e", submission_id: "sub_5" }
+    ]
+  });
+  const { result } = await runAction(ACTION, { templateId: "tpl_123" }, {
+    responses: [{ method: "POST", uri: CREATE_URI, status: 422, body: body }]
+  });
+  assert.equal(
+    result.errorMessage,
+    [
+      `DocSpring API error 422 invalid_request: ${message}`,
+      "/data/d: is required",
+      "/data/e: is required (Submission: sub_5)",
+      "Request ID: req_123"
+    ].join("\n")
+  );
+});
+
+test("a listed detail keeps its line when it adds a batch's submission ID", async () => {
+  const message = "No PDFs were generated: 1 of 2 submissions is invalid: /submissions/1/data/a is required";
+  const body = v2Error("invalid_data", message, {
+    details: [{ code: "required", message: "is required", pointer: "/submissions/1/data/a", submission_id: "sub_2" }]
+  });
+  const { result } = await runAction(ACTION, { templateId: "tpl_123" }, {
+    responses: [{ method: "POST", uri: CREATE_URI, status: 422, body: body }]
+  });
+  assert.equal(
+    result.errorMessage,
+    [
+      `DocSpring API error 422 invalid_data: ${message}`,
+      "/submissions/1/data/a: is required (Submission: sub_2)",
+      "Request ID: req_123"
+    ].join("\n")
+  );
 });
 
 test("a 422 about the request names the parameter", async () => {
