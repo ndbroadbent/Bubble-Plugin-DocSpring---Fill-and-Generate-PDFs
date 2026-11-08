@@ -3,7 +3,7 @@ async function(properties, context) {
   // Bubble actions can't share modules, so every action's server.js starts with
   // this same block. Keep it identical in every action (test/structure.test.js
   // checks; test/support/sync-helpers.js copies it from Create PDF Submission).
-  const PLUGIN_VERSION = "2.1.0";
+  const PLUGIN_VERSION = "2.1.1";
   const PREVIOUS_PLUGIN_VERSION = "1.7.0";
   const USER_AGENT = "docspring-bubble/" + PLUGIN_VERSION;
   // Polling waits 1, 2, 4, then 8 seconds between requests. An action waits
