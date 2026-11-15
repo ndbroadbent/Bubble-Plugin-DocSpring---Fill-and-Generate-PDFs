@@ -23,6 +23,10 @@ directions, so keep its structure and never change an ID (`AAQ`, `AAP-850n0` and
   them as an "Automatic commit from Bubble" and merges it into `master`. That commit has only the plugin's own files,
   so it deletes `test/` and `CHANGELOG.md`: restore them from the commit before it
   (`git checkout <commit> -- test CHANGELOG.md`) and commit them with your changes.
+- If a sync fails (an error dialog instead of **Reload**), the editor still has its old version, and the next sync
+  pushes that version as an "Automatic commit from Bubble" that undoes everything since the last good sync. After
+  every sync, check `git diff <your commit> origin/master -- actions meta_data.json` is empty; if it isn't, restore
+  your tree in a new commit (`git read-tree -u --reset <your commit>`), push, and sync again.
 - If `master` changed `test/` or `CHANGELOG.md` since the last sync, Bubble can't merge that commit: it pushes it to a
   `conflict_<date>` branch and says there was a conflict. Merge that branch into `master` keeping `master`'s `test/`
   and `CHANGELOG.md` (`git merge --no-commit origin/conflict_...`, then `git checkout HEAD -- test CHANGELOG.md`),
