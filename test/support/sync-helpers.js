@@ -1,4 +1,4 @@
-// Copies the helper block from Create PDF Submission's server.js into every
+// Copies the helper block from Create Submission's server.js into every
 // other action's server.js. After changing the helpers there, run:
 //   node test/support/sync-helpers.js --write
 // (node --test also loads this file, so it only writes with --write.)

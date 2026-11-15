@@ -4,7 +4,7 @@
     "fields": {
         "ACX": {
             "caption": "Batch ID",
-            "doc": "Starts with 'sbb_'. Returned by Generate PDFs in a Batch.",
+            "doc": "Starts with 'sbb_'. Returned by Create Submission Batch.",
             "editor": "DynamicValue",
             "name": "batchId",
             "rank": 0,

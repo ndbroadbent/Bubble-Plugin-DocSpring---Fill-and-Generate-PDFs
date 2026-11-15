@@ -12,7 +12,7 @@ const EXISTING = {
     fields: {
       AAQ: "templateId", AAR: "data", AAS: "parseAsBoolean", AAg: "test", AAj: "metadata",
       ALO: "version", ALP: "makePageImages", ALQ: "password", ALR: "expiresIn", ALS: "fieldOverrides",
-      ALV: "editable", ALr: "outputFormats"
+      ALV: "editable", ALr: "outputFormats", AMQ: "dataJson"
     },
     returns: {
       AAT: "id", AAU: "state", AAV: "file", AAW: "success", AAX: "errorMessage",
@@ -48,7 +48,7 @@ test("every action has server.js, client.js and params.json", () => {
 
 test("every server.js has the same helper block", () => {
   const reference = helperBlock(readServerJs("AAP-850n0"));
-  assert.ok(reference, "Create PDF Submission has no helper block");
+  assert.ok(reference, "Create Submission has no helper block");
   actionDirs().forEach((dir) => {
     const block = helperBlock(readServerJs(dir));
     assert.ok(block, `${dir}/server.js has no helper block`);

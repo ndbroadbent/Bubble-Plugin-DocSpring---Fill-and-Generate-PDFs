@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.2.0
+
+- Data (JSON) on Create Submission, Check Data and Create Signature Request sends data that isn't text, such as a
+  table's rows as a list: `{"line_items": [{"date": "2026-11-07"}]}`. Bubble sends the Data list's values as text, so
+  a list sent there arrived as one string and DocSpring refused it. Data (JSON) is merged with the Data list, and a key
+  in both takes the JSON's value.
+- Actions are named for submissions, which can make a Word document or an OpenDocument file as well as a PDF: Create
+  PDF Submission is now Create Submission, Get PDF Submission is Get Submission, and Generate PDFs in a Batch is Create
+  Submission Batch. Workflows that use them keep working: only the names changed.
+- Messages say "The submission wasn't ready in time" and "The submission couldn't be processed", and point to Get
+  Submission.
+
 ## 2.1.1
 
 - The marketplace listing has a new description.

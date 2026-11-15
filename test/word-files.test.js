@@ -20,7 +20,7 @@ const WORD_RESULTS = {
 };
 const pick = (result, names) => Object.fromEntries(names.map((name) => [name, result[name]]));
 
-test("Create PDF Submission sends Output Formats and returns the Word document and OpenDocument file", async () => {
+test("Create Submission sends Output Formats and returns the Word document and OpenDocument file", async () => {
   const done = wordSubmission({ docx: file("docx"), odt: file("odt") });
   const { result, calls } = await runAction("AAP-850n0", {
     templateId: "tpl_123",
@@ -53,7 +53,7 @@ test("Make Page Images adds png to Output Formats", async () => {
   assert.equal("output_formats" in none.calls[0].json, false);
 });
 
-test("Create PDF Submission waits for a file that's still being made, and reports one that failed", async () => {
+test("Create Submission waits for a file that's still being made, and reports one that failed", async () => {
   const making = wordSubmission({ pdf: file("pdf"), odt: file("odt", "pending") });
   const failed = wordSubmission({
     pdf: file("pdf"),
@@ -75,7 +75,7 @@ test("Create PDF Submission waits for a file that's still being made, and report
   );
 });
 
-test("Get PDF Submission returns the Word document and OpenDocument file", async () => {
+test("Get Submission returns the Word document and OpenDocument file", async () => {
   const { result } = await runAction("AAY-850nj", { submissionId: "sub_123" }, {
     responses: [{ method: "GET", status: 200, body: wordSubmission({ docx: file("docx"), odt: file("odt") }) }]
   });
@@ -92,9 +92,9 @@ const batch = (submissions) => ({
   submissions: submissions
 });
 
-test("Generate PDFs in a Batch sends Output Formats and returns the files of each submission", async () => {
+test("Create Submission Batch sends Output Formats and returns the files of each submission", async () => {
   const done = batch([wordSubmission({ docx: file("docx") }), submission({ id: "sub_456" })]);
-  const { result, calls } = await runAction("generate-pdfs-in-a-batch", {
+  const { result, calls } = await runAction("create-submission-batch", {
     submissions: '[{"data": {}}, {"data": {}, "output_formats": ["pdf"]}]',
     templateId: "tpl_123",
     outputFormats: "docx",
@@ -160,5 +160,5 @@ test("Generate Submission Files says when the files weren't ready in time", asyn
   });
   assert.equal(result.success, false);
   assert.equal(result.id, "sub_123");
-  assert.equal(result.errorMessage, "The files weren't ready in time. Get them later with Get PDF Submission (sub_123).");
+  assert.equal(result.errorMessage, "The files weren't ready in time. Get them later with Get Submission (sub_123).");
 });

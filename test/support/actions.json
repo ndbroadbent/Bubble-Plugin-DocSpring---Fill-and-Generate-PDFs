@@ -12,7 +12,7 @@
     "expire-submission": "AED-852m8",
     "find-submissions": "ADV-8525c",
     "find-templates": "AGB-853m4",
-    "generate-pdfs-in-a-batch": "ABt-85178",
+    "create-submission-batch": "ABt-85178",
     "generate-submission-files": "ADm-8526u",
     "get-combined-pdf": "AEl-852pr",
     "get-signature-request": "AFk-8536p",

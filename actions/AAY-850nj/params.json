@@ -1,10 +1,10 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Get PDF Submission",
+    "display": "DocSpring - Get Submission",
     "fields": {
         "AAa": {
             "caption": "Submission ID",
-            "doc": "Starts with 'sub_' prefix. This is returned from the \"Create PDF Submission\" action.",
+            "doc": "Starts with 'sub_' prefix. This is returned from the \"Create Submission\" action.",
             "editor": "DynamicValue",
             "name": "submissionId",
             "rank": 0,

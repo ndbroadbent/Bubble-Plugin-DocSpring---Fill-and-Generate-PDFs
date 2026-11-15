@@ -17,8 +17,8 @@ const batch = (overrides) =>
     overrides || {}
   );
 
-test("Generate PDFs in a Batch posts the batch with wait=false and polls until it has finished", async () => {
-  const { result, calls } = await runAction("generate-pdfs-in-a-batch", {
+test("Create Submission Batch posts the batch with wait=false and polls until it has finished", async () => {
+  const { result, calls } = await runAction("create-submission-batch", {
     submissions: '[{"data": {"name": "Jane"}}, {"data": {"name": "Joe"}, "template_id": "tpl_456"}]',
     templateId: "tpl_123",
     version: "draft",
@@ -45,8 +45,8 @@ test("Generate PDFs in a Batch posts the batch with wait=false and polls until i
   assert.deepEqual(result.files, ["https://downloads.example.com/sub_123.pdf", "https://downloads.example.com/sub_123.pdf"]);
 });
 
-test("Generate PDFs in a Batch stops on a 429 it can't wait for, naming the batch", async () => {
-  const { result, sleeps } = await runAction("generate-pdfs-in-a-batch", { submissions: '[{"data": {}}]', templateId: "tpl_123", wait: true }, {
+test("Create Submission Batch stops on a 429 it can't wait for, naming the batch", async () => {
+  const { result, sleeps } = await runAction("create-submission-batch", { submissions: '[{"data": {}}]', templateId: "tpl_123", wait: true }, {
     responses: [
       { method: "POST", status: 201, body: batch({ state: "pending", processed_at: null, pending_count: 2 }) },
       { method: "GET", uri: `${US}/submissions/batches/sbb_123`, status: 429, headers: { "retry-after": "50" }, body: v2Error("rate_limited", "Slow down") }
@@ -61,13 +61,13 @@ test("Generate PDFs in a Batch stops on a 429 it can't wait for, naming the batc
   );
 });
 
-test("Generate PDFs in a Batch reports a failed batch, and needs a JSON list", async () => {
+test("Create Submission Batch reports a failed batch, and needs a JSON list", async () => {
   const failed = batch({
     state: "error",
     error_count: 1,
     submissions: [submission(), submission({ id: "sub_456", state: "error", error_message: "Boom", files: {} })]
   });
-  const { result } = await runAction("generate-pdfs-in-a-batch", { submissions: [{ data: {} }], wait: false }, {
+  const { result } = await runAction("create-submission-batch", { submissions: [{ data: {} }], wait: false }, {
     responses: [{ method: "POST", uri: `${US}/submissions/batches?wait=false`, status: 201, body: failed }]
   });
   assert.equal(result.success, false);
@@ -75,8 +75,8 @@ test("Generate PDFs in a Batch reports a failed batch, and needs a JSON list", a
     result.errorMessage,
     "1 of 2 PDFs in the batch couldn't be generated (state: error).\nSubmission batch: sbb_123\nFirst failure: sub_456 (state: error): Boom"
   );
-  await assert.rejects(runAction("generate-pdfs-in-a-batch", { submissions: '{"data": {}}' }), /must be a JSON array/);
-  await assert.rejects(runAction("generate-pdfs-in-a-batch", { submissions: "" }), /Submissions \(JSON\) is required/);
+  await assert.rejects(runAction("create-submission-batch", { submissions: '{"data": {}}' }), /must be a JSON array/);
+  await assert.rejects(runAction("create-submission-batch", { submissions: "" }), /Submissions \(JSON\) is required/);
 });
 
 test("Get Submission Batch", async () => {

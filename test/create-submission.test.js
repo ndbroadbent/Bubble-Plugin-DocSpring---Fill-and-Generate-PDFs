@@ -1,4 +1,4 @@
-// Create PDF Submission (actions/AAP-850n0) on API v2.
+// Create Submission (actions/AAP-850n0) on API v2.
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const { runAction, submission, v2Error, US } = require("./support/harness");
@@ -228,7 +228,7 @@ test("a 201 with state error is a failure naming the state, message and submissi
   });
   assert.equal(result.success, false);
   assert.equal(result.state, "error");
-  assert.equal(result.errorMessage, "The PDF couldn't be generated (state: error): Liquid syntax error\nSubmission: sub_123");
+  assert.equal(result.errorMessage, "The submission couldn't be processed (state: error): Liquid syntax error\nSubmission: sub_123");
   assert.equal(result.file, null);
 });
 
@@ -240,11 +240,11 @@ test("a submission that fails while polling is a failure", async () => {
     ]
   });
   assert.equal(result.success, false);
-  assert.equal(result.errorMessage, "The PDF couldn't be generated (state: image_download_failed): Couldn't download logo\nSubmission: sub_123");
+  assert.equal(result.errorMessage, "The submission couldn't be processed (state: image_download_failed): Couldn't download logo\nSubmission: sub_123");
 });
 
 const NOT_READY =
-  "The PDF wasn't ready in time. Get it later with Get PDF Submission (sub_123), or create a webhook for the submission.processed event.";
+  "The submission wasn't ready in time. Get it later with Get Submission (sub_123), or create a webhook for the submission.processed event.";
 const rateLimited = (seconds) => ({
   method: "GET",
   uri: GET_URI,
@@ -255,7 +255,7 @@ const rateLimited = (seconds) => ({
 const pendingPolls = (count) => Array.from({ length: count }, () => ({ method: "GET", uri: GET_URI, status: 200, body: pending() }));
 const create = { method: "POST", uri: CREATE_URI, status: 201, body: pending() };
 
-test("polls 1, 2, 4, then 8 seconds apart, and gives up after 45 seconds with a message saying how to get the PDF later", async () => {
+test("polls 1, 2, 4, then 8 seconds apart, and gives up after 45 seconds with a message saying how to get the submission later", async () => {
   const responses = [create].concat(pendingPolls(8));
   const { result, sleeps } = await runAction(ACTION, { templateId: "tpl_123" }, { responses: responses });
   assert.deepEqual(sleeps, [1000, 2000, 4000, 8000, 8000, 8000, 8000, 6000]);

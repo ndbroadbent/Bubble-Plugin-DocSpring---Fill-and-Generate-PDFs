@@ -1,4 +1,4 @@
-// Get PDF Submission (actions/AAY-850nj) on API v2.
+// Get Submission (actions/AAY-850nj) on API v2.
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const { runAction, submission, v2Error, US } = require("./support/harness");
