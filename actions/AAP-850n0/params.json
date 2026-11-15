@@ -1,6 +1,6 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Create Submission",
+    "display": "DocSpring - Create PDF Submission",
     "fields": {
         "AAQ": {
             "caption": "Template ID",
@@ -12,7 +12,7 @@
         },
         "AAR": {
             "caption": "Data",
-            "doc": "These are the variables which can be forwarded to DocSpring to be filled in your template. Example: Adding a text field into your template with the name 'firstName' and setting the value of 'firstName' in this action to 'John' will result in 'John' being added to your submission. Use '/' for nested fields, such as 'address/city'. Every value here is sent as text: send lists (such as a table's rows) and other values that aren't text in Data (JSON). Date fields take dates as YYYY-MM-DD.",
+            "doc": "These are the variables which can be forwarded to DocSpring to be filled in your template. Example: Adding a text field into your template with the name 'firstName' and setting the value of 'firstName' in this action to 'John' will result in 'John' being added to your submission. Use '/' for nested fields and lists, such as 'address/city' or 'items/0/name'. Date fields take dates as YYYY-MM-DD.",
             "editor": "key_value_list",
             "name": "data",
             "rank": 1,
@@ -24,7 +24,7 @@
             "doc": "If enabled, any fields with the exact value of \"true\" or \"false\" will be parsed as booleans (true and false) instead of as text.",
             "editor": "Checkbox",
             "name": "parseAsBoolean",
-            "rank": 3
+            "rank": 2
         },
         "AAg": {
             "caption": "Test Mode",
@@ -33,7 +33,7 @@
             "editor": "DynamicValue",
             "name": "test",
             "optional": true,
-            "rank": 4,
+            "rank": 3,
             "value": "boolean"
         },
         "AAj": {
@@ -41,7 +41,7 @@
             "doc": "Send some metadata for the PDF submission. Metadata cannot be used to fill out fields, but it will be sent with any webhooks, and you can see it in the web interface when you view a submission.",
             "editor": "key_value_list",
             "name": "metadata",
-            "rank": 5,
+            "rank": 4,
             "value": "text"
         },
         "ALO": {
@@ -50,7 +50,7 @@
             "editor": "DynamicValue",
             "name": "version",
             "optional": true,
-            "rank": 6,
+            "rank": 5,
             "value": "text"
         },
         "ALP": {
@@ -59,7 +59,7 @@
             "doc": "Also make a PNG image of each page of the PDF (up to 100 pages).",
             "editor": "Checkbox",
             "name": "makePageImages",
-            "rank": 7
+            "rank": 6
         },
         "ALQ": {
             "caption": "PDF Password",
@@ -67,7 +67,7 @@
             "editor": "DynamicValue",
             "name": "password",
             "optional": true,
-            "rank": 8,
+            "rank": 7,
             "value": "text"
         },
         "ALR": {
@@ -76,7 +76,7 @@
             "editor": "DynamicValue",
             "name": "expiresIn",
             "optional": true,
-            "rank": 9,
+            "rank": 8,
             "value": "number"
         },
         "ALS": {
@@ -85,7 +85,7 @@
             "editor": "DynamicValue",
             "name": "fieldOverrides",
             "optional": true,
-            "rank": 10,
+            "rank": 9,
             "value": "text"
         },
         "ALV": {
@@ -94,7 +94,7 @@
             "editor": "DynamicValue",
             "name": "editable",
             "optional": true,
-            "rank": 11,
+            "rank": 10,
             "value": "boolean"
         },
         "ALr": {
@@ -103,17 +103,13 @@
             "editor": "DynamicValue",
             "name": "outputFormats",
             "optional": true,
-            "rank": 12,
+            "rank": 11,
             "value": "text"
         },
         "AMQ": {
-            "caption": "Data (JSON)",
-            "doc": "Optional. Data that isn't text, as a JSON object, such as {\"line_items\": [{\"date\": \"2026-11-07\", \"time\": \"19:00\"}]} for a table's rows. Build a list with :format as text (one row's JSON per item, a comma as the delimiter, and [ and ] around it), and use :formatted as JSON-safe for text values. It's merged with Data: a key in both takes this value.",
-            "editor": "DynamicValue",
+            "caption": "dataJson",
             "name": "dataJson",
-            "optional": true,
-            "rank": 2,
-            "value": "text"
+            "rank": 12
         }
     },
     "return_value": {
