@@ -237,6 +237,11 @@
             "editor": "Checkbox",
             "name": "notifyWhenSigned",
             "rank": 26
+        },
+        "AMS": {
+            "caption": "dataJson",
+            "name": "dataJson",
+            "rank": 27
         }
     },
     "return_value": {

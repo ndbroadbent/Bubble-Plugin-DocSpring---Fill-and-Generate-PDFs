@@ -105,6 +105,11 @@
             "optional": true,
             "rank": 11,
             "value": "text"
+        },
+        "AMQ": {
+            "caption": "dataJson",
+            "name": "dataJson",
+            "rank": 12
         }
     },
     "return_value": {

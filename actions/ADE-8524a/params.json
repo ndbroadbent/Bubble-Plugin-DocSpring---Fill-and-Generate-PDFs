@@ -141,6 +141,11 @@
             "editor": "Checkbox",
             "name": "notifyWhenSigned",
             "rank": 15
+        },
+        "AMR": {
+            "caption": "dataJson",
+            "name": "dataJson",
+            "rank": 16
         }
     },
     "return_value": {
