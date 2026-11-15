@@ -39,6 +39,8 @@ directions, so keep its structure and never change an ID (`AAQ`, `AAP-850n0` and
   field beside its Data list (sc-7286: a customer's table rows arrived as one string and the API refused them).
 - Name submission actions for submissions, not PDFs: a Word template's submission makes a Word document or an
   OpenDocument file too.
+- Never put `json` in a file name unless the file is JSON: Bubble's sync parses every such file as JSON and stops
+  with an error ("This file cannot be parsed as JSON").
 
 ### Tests
 
