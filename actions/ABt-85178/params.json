@@ -1,6 +1,6 @@
 {
     "category": "plugins",
-    "display": "DocSpring - Create Submission Batch",
+    "display": "DocSpring - Generate PDFs in a Batch",
     "fields": {
         "ABu": {
             "caption": "Submissions (JSON)",

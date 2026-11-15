@@ -2,8 +2,8 @@ async function(properties, context) {
   // ---- DocSpring plugin helpers ----
   // Bubble actions can't share modules, so every action's server.js starts with
   // this same block. Keep it identical in every action (test/structure.test.js
-  // checks; test/support/sync-helpers.js copies it from Create Submission).
-  const PLUGIN_VERSION = "2.2.0";
+  // checks; test/support/sync-helpers.js copies it from Create PDF Submission).
+  const PLUGIN_VERSION = "2.1.1";
   const PREVIOUS_PLUGIN_VERSION = "1.7.0";
   const USER_AGENT = "docspring-bubble/" + PLUGIN_VERSION;
   // Polling waits 1, 2, 4, then 8 seconds between requests. An action waits
@@ -24,7 +24,7 @@ async function(properties, context) {
     "sync.api-au.docspring.com": "AU"
   };
   const RECORD_IDS = [
-    ["submission_id", "Submission", "The submission", "Get Submission", "submission.processed"],
+    ["submission_id", "Submission", "The PDF", "Get PDF Submission", "submission.processed"],
     ["submission_batch_id", "Submission batch", "The batch", "Get Submission Batch", "submission_batch.processed"],
     ["combined_pdf_id", "Combined PDF", "The combined PDF", "Get Combined PDF", "combined_pdf.processed"],
     ["template_id", "Template", "The template's PDF", "Get Template", null]
@@ -267,14 +267,6 @@ async function(properties, context) {
     });
     return data;
   };
-
-  // Submission data from Data and Data (JSON). Bubble sends Data's values as
-  // text, so lists and objects come in Data (JSON). A key in both takes the
-  // JSON's value.
-  const submissionData = (items, parseAsBoolean, dataJson) => Object.assign(
-    buildData(items, parseAsBoolean),
-    parseJsonInput(dataJson, "Data (JSON)", "object")
-  );
 
   // Sets body[name] unless the value is blank or an empty list.
   const put = (body, name, value) => {
@@ -645,7 +637,7 @@ async function(properties, context) {
   };
   // ---- end of DocSpring plugin helpers ----
 
-  // Create Submission (API v2 "Generate PDF"). Creates the submission on
+  // Create PDF Submission (API v2 "Generate PDF"). Creates the submission on
   // the standard host with wait=false, then polls GET /submissions/{id} for up
   // to 45 seconds (see pollUntil), so it fits in Bubble's time limit.
   const serializedRegionInfo = JSON.stringify(regionInfo);
@@ -658,7 +650,7 @@ async function(properties, context) {
     return withRegion(fail(templateIdProblem, null));
   }
   const templateId = pathId(properties.templateId, "Template ID");
-  const body = { data: submissionData(properties.data, properties.parseAsBoolean, properties.dataJson) };
+  const body = { data: buildData(properties.data, properties.parseAsBoolean) };
   if (toBoolean(properties.test, "Test Mode") === true) {
     body.test = true;
   }
@@ -706,7 +698,7 @@ async function(properties, context) {
     submission = polled.body;
     if (!polled.done) {
       return withRegion(fail(
-        notReadyMessage("The submission", "Get Submission", submission.id, "submission.processed"),
+        notReadyMessage("The PDF", "Get PDF Submission", submission.id, "submission.processed"),
         submission,
         { id: submission.id, state: submission.state }
       ));
@@ -716,7 +708,7 @@ async function(properties, context) {
   let errorMessage = null;
   if (submission.state !== "processed") {
     errorMessage = stateFailureMessage(
-      "The submission couldn't be processed",
+      "The PDF couldn't be generated",
       submission.state,
       submission.error_message,
       "Submission",
