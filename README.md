@@ -32,6 +32,14 @@ directions, so keep its structure and never change an ID (`AAQ`, `AAP-850n0` and
   requests, errors). Change it in `actions/AAP-850n0/server.js`, then copy it to every action with
   `node test/support/sync-helpers.js --write`.
 
+### Rules for actions
+
+- An action that sends submission data accepts everything the API accepts: lists, nested objects, booleans and
+  numbers, as well as text. Bubble's key/value lists send every value as text, so each such action has a Data (JSON)
+  field beside its Data list (sc-7286: a customer's table rows arrived as one string and the API refused them).
+- Name submission actions for submissions, not PDFs: a Word template's submission makes a Word document or an
+  OpenDocument file too.
+
 ### Tests
 
 ```sh
